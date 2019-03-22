@@ -1,0 +1,38 @@
+spring:
+  profiles:
+    active: prod
+
+  datasource:
+    url: jdbc:h2:mem:itbooksdb;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    hibernate.ddl-auto: update
+    properties.hibernate.dialect: org.hibernate.dialect.H2Dialect
+
+
+  thymeleaf:
+    check-template-location: true
+    prefix: classpath:/WEB-INF/templates/
+    suffix: .html
+    servlet.content-type: text/html
+    cache: false
+    mode: HTML
+
+  servlet:
+    context-path: /
+
+---
+
+spring:
+  profiles: test
+
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    hibernate.ddl-auto: update
+    properties.hibernate.dialect: org.hibernate.dialect.H2Dialect

@@ -59,7 +59,7 @@ public class ItbooksJpaTest {
         assertNotNull(descript2.getId());
         assertEquals(count, 1);
 
-        val book1 = new Book(null, "Sping Boot 2", 537, "Dorian Yates", "Appress", BookRate.GOOD, tagList, descript2, "<html/>");
+        val book1 = new Book(null, "Sping Boot 2", 537, "Dorian Yates", "Appress", BookRate.GOOD, 2015, true, tagList, descript2, "<html/>");
         val book2 = bookService.save(book1);
         log.info("book: {} {}", book2.getId(), book2.getTitle());
         count = bookService.count();

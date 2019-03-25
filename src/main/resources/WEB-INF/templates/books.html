@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Spring Boot Thymeleaf Hello World Example</title>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Pages</th>
+        </tr>
+        <tr th:each="book:${books}">
+            <td th:utext="${book.title}"/>
+            <td th:utext="${book.author}"/>
+            <td th:utext="${book.pages}"/>
+        </tr>
+    </table>
+</body>
+</html>

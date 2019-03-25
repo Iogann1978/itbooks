@@ -20,6 +20,8 @@ public class Book {
     private String author;
     private String publisher;
     private BookRate rate;
+    private int year;
+    private boolean studied;
     @OneToMany
     private List<Tag> tags;
     @OneToOne

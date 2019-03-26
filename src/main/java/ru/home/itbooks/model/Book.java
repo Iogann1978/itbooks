@@ -1,6 +1,7 @@
 package ru.home.itbooks.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {
@@ -21,7 +23,7 @@ public class Book {
     private String publisher;
     private BookRate rate;
     private int year;
-    private boolean studied;
+    private BookState state;
     @OneToMany
     private List<Tag> tags;
     @OneToOne

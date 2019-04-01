@@ -19,7 +19,8 @@ public class Book {
     private Long id;
     private String title;
     private int pages;
-    private String author;
+    @OneToMany
+    private List<Author> authors;
     private String publisher;
     private BookRate rate;
     private int year;

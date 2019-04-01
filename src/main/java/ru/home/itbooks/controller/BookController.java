@@ -7,10 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ru.home.itbooks.model.Author;
 import ru.home.itbooks.model.Book;
+import ru.home.itbooks.model.BookRate;
+import ru.home.itbooks.model.BookState;
 import ru.home.itbooks.service.BookService;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Controller
@@ -21,24 +26,37 @@ public class BookController {
     private BookService service;
 
     @GetMapping(params = {"action", "id"})
-    public ModelAndView getBook(@RequestParam String action, @RequestParam long id) {
-        val model = new ModelAndView();
+    public String getBook(Model model, @RequestParam String action, @RequestParam long id) {
         //val book = service.findById(id);
-        val book = Optional.of(new Book());
-        if("edit".equals(action)) {
-            book.get().setTitle("Editing book");
-            book.get().setAuthor("Editor");
-        } else {
-            book.get().setTitle("Another book");
-            book.get().setAuthor("Unknown");
+        val a = new ArrayList<Author>() {
+            {
+                add(new Author(null, "Brian","Göetz"));
+                add(new Author(null, "Tim","Peierls"));
+                add(new Author(null, "Joshua","Blochn"));
+                add(new Author(null, "Joseph","Bowbeer"));
+                add(new Author(null, "David","Holmes"));
+                add(new Author(null, "Doug","Lea"));
+            }
+        };
+        val b = Book.builder()
+                .title("Java Concurrency In Practice")
+                .authors(a)
+                .publisher("Addison Wesley Professional")
+                .year(2006)
+                .state(BookState.PLANNED)
+                .rate(BookRate.GOOD)
+                .build();
+        val book = Optional.of(b);
+        if(!book.isPresent()) {
+            model.addAttribute("error", "Книга не найдена!");
+            return "error.html";
         }
-        if(book.isPresent()) {
-            model.addObject("book", book.get());
+        model.addAttribute("book", book.get());
+        if("view".equals(action)) {
+            return "book.html";
         } else {
-            model.addObject("book", "Книга не найдена!");
+            return "addbook.html";
         }
-        model.setViewName("book.html");
-        return model;
     }
 
     @RolesAllowed("USER,ADMIN")

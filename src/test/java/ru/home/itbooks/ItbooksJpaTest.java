@@ -57,10 +57,16 @@ public class ItbooksJpaTest {
         assertEquals(count, 1);
 
         //val book1 = new Book(null, "Sping Boot 2", 537, "Dorian Yates", "Appress", BookRate.GOOD, 2015, BookState.PLANNED, tagList, descript2, "<html/>");
+        val a = new ArrayList<Author>() {
+            {
+                add(new Author(null,"Dorian", "Yates"));
+                add(new Author(null,"Kai", "Greene"));
+            }
+        };
         val book1 = Book.builder()
                 .title("Sping Boot 2")
                 .pages(537)
-                .author("Dorian Yates")
+                .authors(a)
                 .publisher("Appress")
                 .rate(BookRate.GOOD)
                 .year(2015)

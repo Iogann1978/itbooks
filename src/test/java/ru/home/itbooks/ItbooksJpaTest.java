@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.home.itbooks.model.*;
+import ru.home.itbooks.service.AuthorService;
 import ru.home.itbooks.service.BookService;
 import ru.home.itbooks.service.DescriptService;
 import ru.home.itbooks.service.TagService;
@@ -28,6 +29,8 @@ public class ItbooksJpaTest {
     private TagService tagService;
     @Autowired
     private DescriptService descriptService;
+    @Autowired
+    private AuthorService authorService;
 
     @Test
     public void testBooks() {
@@ -56,27 +59,38 @@ public class ItbooksJpaTest {
         assertNotNull(descript2.getId());
         assertEquals(count, 1);
 
-        //val book1 = new Book(null, "Sping Boot 2", 537, "Dorian Yates", "Appress", BookRate.GOOD, 2015, BookState.PLANNED, tagList, descript2, "<html/>");
-        val a = new ArrayList<Author>() {
+        val authors1 = new ArrayList<Author>() {
             {
                 add(new Author(null,"Dorian", "Yates"));
                 add(new Author(null,"Kai", "Greene"));
             }
         };
+        val authors2 = authorService.saveAll(authors1);
+        count = authorService.count();
+        assertNotNull(authors2);
+        assertEquals(authors1.size(),count);
+        val authorList = new ArrayList<Author>();
+        authors2.forEach(a -> {
+            assertNotNull(a);
+            assertNotNull(a.getId());
+            authorList.add(a);
+            log.info("author: {} {} {}", a.getId(), a.getFirstName(), a.getLastName());
+        });
+
         val book1 = Book.builder()
                 .title("Sping Boot 2")
                 .pages(537)
-                .authors(a)
+                .authors(authorList)
                 .publisher("Appress")
                 .rate(BookRate.GOOD)
                 .year(2015)
                 .state(BookState.PLANNED)
                 .tags(tagList)
                 .descript(descript2)
-                .contents("<html/>")
+                .contents("<html/>".getBytes())
                 .build();
         val book2 = bookService.save(book1);
-        log.info("book: {} {}", book2.getId(), book2.getTitle());
+        log.info("book: {} {} {}", book2.getId(), book2.getTitle(), new String(book2.getContents()));
         count = bookService.count();
         assertNotNull(book2);
         assertNotNull(book2.getId());

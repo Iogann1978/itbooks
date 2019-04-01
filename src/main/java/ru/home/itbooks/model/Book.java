@@ -29,5 +29,7 @@ public class Book {
     private List<Tag> tags;
     @OneToOne
     private Descript descript;
-    private String contents;
+    @Lob
+    @Column(length=100000)
+    private byte[] contents;
 }

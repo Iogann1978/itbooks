@@ -5,6 +5,12 @@
     <meta charset="utf-8" />
 </head>
 <body>
+    <table>
+        <tr><a href="../book/list">На главную</a></tr>
+        <tr><a th:href="@{'../book/edit?id=' + ${book.id}}">Изменить</a></tr>
+        <tr><a href="../del_book.html">Удалить</a></tr>
+    </table>
+
     <table border="1">
         <tr><th colspan="2">Название книги</th></tr>
         <tr><td colspan="2" th:text="${book.title}">title</td></tr>

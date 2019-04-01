@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book page</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+<table>
+    <tr><a href="../book/list">На главную</a></tr>
+</table>
+
+<form th:action="@{../book/save}" method="POST">
+    <table border="1" width="100%">
+        <tr><th colspan="2">Название книги</th></tr>
+        <tr><td colspan="2"><input type="text" id="title" name="title" autofocus="autofocus" width="100%"/></td></tr>
+        <tr>
+            <th>Авторы книги:</th>
+            <td><input type="text" id="authors" name="authors" /></td>
+        </tr>
+        <tr><th>Издательство</th><th>Год издания</th></tr>
+        <tr>
+            <td><input type="text" id="publisher" name="publisher" /></td>
+            <td><input type="text" id="year" name="year" /></td>
+        </tr>
+        <tr><th>Оценка</th><th>Состояние прочтения</th></tr>
+        <tr>
+            <td>
+                <select>
+                    <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>
+                </select>
+            </td>
+            <td>
+                <select>
+                    <option th:each="state : ${states}" th:value="${state}" th:text="${state}">state</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

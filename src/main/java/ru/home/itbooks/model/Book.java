@@ -19,17 +19,22 @@ public class Book {
     private Long id;
     private String title;
     private int pages;
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "BOOK_AUTHOR", joinColumns = {@JoinColumn(name = "BOOK_ID")}, inverseJoinColumns = {@JoinColumn(name = "AUTHOR_ID")})
     private List<Author> authors;
-    private String publisher;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Publisher publisher;
     private BookRate rate;
     private int year;
     private BookState state;
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "BOOK_TAG", joinColumns = {@JoinColumn(name = "BOOK_ID")}, inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
     private List<Tag> tags;
     @OneToOne
     private Descript descript;
     @Lob
     @Column(length=100000)
     private byte[] contents;
+    @OneToOne
+    private BookFile file;
 }

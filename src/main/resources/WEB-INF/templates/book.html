@@ -6,12 +6,14 @@
 </head>
 <body>
     <table>
-        <tr><a href="../book/list">На главную</a></tr>
-        <tr><a th:href="@{'../book/edit?id=' + ${book.id}}">Изменить</a></tr>
-        <tr><a href="../del_book.html">Удалить</a></tr>
+        <tr>
+            <td><a href="../book/list">На главную</a></td>
+            <td><a th:href="@{'../book/edit?id=' + ${book.id}}">Изменить</a></td>
+            <td><a href="../del_book.html">Удалить</a></td>
+        </tr>
     </table>
 
-    <table border="1">
+    <table border="1" width="100%">
         <tr><th colspan="2">Название книги</th></tr>
         <tr><td colspan="2" th:text="${book.title}">title</td></tr>
         <tr>
@@ -30,5 +32,8 @@
         <tr><th>Оценка</th><th>Состояние прочтения</th></tr>
         <tr><td th:text="${book.rate}"></td><td th:text="${book.state}"></td></tr>
     </table>
+    <form th:action="@{../book/descript}" th:object="${book.descript.text}" method="POST">
+        <input type="submit" value="Описание книги" />
+    </form>
 </body>
 </html>

@@ -6,14 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.home.itbooks.model.Author;
-import ru.home.itbooks.model.Book;
-import ru.home.itbooks.model.BookRate;
-import ru.home.itbooks.model.BookState;
+import ru.home.itbooks.model.*;
 import ru.home.itbooks.service.BookService;
 
 import javax.annotation.security.RolesAllowed;
+import javax.swing.text.html.Option;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @RequestMapping(value = "/book")
@@ -21,12 +23,14 @@ import java.util.*;
 public class BookController {
     @Autowired
     private BookService service;
-    private static final Map<String, String> htmls = new HashMap() {
+    private static final Map<String, String> htmls = new HashMap<String, String>() {
         {
             put("view", "book.html");
             put("edit", "edit_book.html");
             put("del", "del_book.html");
             put("add", "add_book.html");
+            put("descript", "descript.html");
+            put("error", "error.html");
         }
     };
 
@@ -36,27 +40,29 @@ public class BookController {
         //val book = service.findById(id);
         val a = new ArrayList<Author>() {
             {
-                add(new Author(null, "Brian","Göetz"));
-                add(new Author(null, "Tim","Peierls"));
-                add(new Author(null, "Joshua","Blochn"));
-                add(new Author(null, "Joseph","Bowbeer"));
-                add(new Author(null, "David","Holmes"));
-                add(new Author(null, "Doug","Lea"));
+                add(new Author(null, "Brian", "Göetz", null));
+                add(new Author(null, "Tim", "Peierls", null));
+                add(new Author(null, "Joshua","Blochn", null));
+                add(new Author(null, "Joseph","Bowbeer", null));
+                add(new Author(null, "David","Holmes", null));
+                add(new Author(null, "Doug","Lea", null));
             }
         };
+        val d = new Descript(null, "<html><body><h1>Descript</h1><hr/></body></html>".getBytes());
         val b = Book.builder()
                 .id(id)
                 .title("Java Concurrency In Practice")
                 .authors(a)
-                .publisher("Addison Wesley Professional")
+                .publisher(new Publisher(null, "Addison Wesley Professional", null))
                 .year(2006)
                 .state(BookState.PLANNED)
                 .rate(BookRate.GOOD)
+                .descript(d)
                 .build();
         val book = Optional.of(b);
         if(!book.isPresent()) {
             model.addAttribute("error", "Книга не найдена!");
-            return "error.html";
+            return htmls.get("error");
         }
         model.addAttribute("book", book.get());
         return htmls.get("view");
@@ -69,7 +75,7 @@ public class BookController {
         model.asMap().forEach((k, v) -> log.info("key: {}, value: {}", k, v));
         val b = Book.builder()
                 .title("Java Concurrency In Practice")
-                .publisher("Addison Wesley Professional")
+                .publisher(new Publisher(null, "Addison Wesley Professional", null))
                 .year(2006)
                 .state(BookState.PLANNED)
                 .rate(BookRate.GOOD)
@@ -77,12 +83,28 @@ public class BookController {
         val book = Optional.of(b);
         if(!book.isPresent()) {
             model.addAttribute("error", "Книга не найдена!");
-            return "error.html";
+            return htmls.get("error");
         }
         model.addAttribute("book", book.get());
         model.addAttribute("rates", BookRate.values());
         model.addAttribute("states", BookState.values());
         return htmls.get("edit");
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @PostMapping(value = "/descript")
+    public byte[] getBookDescript(@ModelAttribute byte[] descript) {
+        /*
+        String filename = "classpath:templates/" + htmls.get("descript");
+        try(val fos = new FileOutputStream(filename)) {
+            fos.write(descript);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            //return htmls.get("error");
+        }
+        */
+        return descript;
     }
 
     @RolesAllowed("USER,ADMIN")

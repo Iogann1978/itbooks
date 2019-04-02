@@ -9,12 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.home.itbooks.model.*;
-import ru.home.itbooks.service.AuthorService;
-import ru.home.itbooks.service.BookService;
-import ru.home.itbooks.service.DescriptService;
-import ru.home.itbooks.service.TagService;
+import ru.home.itbooks.service.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -31,12 +29,24 @@ public class ItbooksJpaTest {
     private DescriptService descriptService;
     @Autowired
     private AuthorService authorService;
+    @Autowired
+    private PublisherService publisherService;
 
     @Test
     public void testBooks() {
+        val book1 = Book.builder()
+                .title("Sping Boot 2")
+                .pages(537)
+                .rate(BookRate.GOOD)
+                .year(2015)
+                .state(BookState.PLANNED)
+                .contents("<xml/>".getBytes())
+                .build();
+        val bookList = Arrays.asList(book1);
+
         val tags1 = new ArrayList<Tag>() {
             {
-                add(new Tag(null, "Java"));
+                add(new Tag(null, "Java", bookList));
             }
         };
         val tags2 = tagService.saveAll(tags1);
@@ -51,7 +61,7 @@ public class ItbooksJpaTest {
             log.info("tag: {} {}", t.getId(), t.getTag());
         });
 
-        val descript1 = new Descript(null, "Descript");
+        val descript1 = new Descript(null, "<html/>".getBytes());
         val descript2 = descriptService.save(descript1);
         log.info("descript: {} {}", descript2.getId(), descript2.getText());
         count = descriptService.count();
@@ -61,8 +71,8 @@ public class ItbooksJpaTest {
 
         val authors1 = new ArrayList<Author>() {
             {
-                add(new Author(null,"Dorian", "Yates"));
-                add(new Author(null,"Kai", "Greene"));
+                add(new Author(null,"Dorian", "Yates", bookList));
+                add(new Author(null,"Kai", "Greene", bookList));
             }
         };
         val authors2 = authorService.saveAll(authors1);
@@ -77,18 +87,14 @@ public class ItbooksJpaTest {
             log.info("author: {} {} {}", a.getId(), a.getFirstName(), a.getLastName());
         });
 
-        val book1 = Book.builder()
-                .title("Sping Boot 2")
-                .pages(537)
-                .authors(authorList)
-                .publisher("Appress")
-                .rate(BookRate.GOOD)
-                .year(2015)
-                .state(BookState.PLANNED)
-                .tags(tagList)
-                .descript(descript2)
-                .contents("<html/>".getBytes())
-                .build();
+        val publusher1 = new Publisher(null, "Addison Wesley Professional", bookList);
+        val publisher2 = publisherService.save(publusher1);
+        assertNotNull(publisher2);
+        assertNotNull(publisher2.getId());
+
+        book1.setAuthors(authorList);
+        book1.setTags(tagList);
+        book1.setPublisher(publisher2);
         val book2 = bookService.save(book1);
         log.info("book: {} {} {}", book2.getId(), book2.getTitle(), new String(book2.getContents()));
         count = bookService.count();

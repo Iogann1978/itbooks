@@ -10,12 +10,12 @@ import ru.home.itbooks.model.*;
 import ru.home.itbooks.service.BookService;
 
 import javax.annotation.security.RolesAllowed;
-import javax.swing.text.html.Option;
 import java.io.*;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Controller
 @RequestMapping(value = "/book")
@@ -35,31 +35,9 @@ public class BookController {
     };
 
     @RolesAllowed("USER,ADMIN")
-    @GetMapping(params = {"id"})
-    public String getBook(Model model, @RequestParam long id) {
-        //val book = service.findById(id);
-        val a = new ArrayList<Author>() {
-            {
-                add(new Author(null, "Brian", "Göetz", null));
-                add(new Author(null, "Tim", "Peierls", null));
-                add(new Author(null, "Joshua","Blochn", null));
-                add(new Author(null, "Joseph","Bowbeer", null));
-                add(new Author(null, "David","Holmes", null));
-                add(new Author(null, "Doug","Lea", null));
-            }
-        };
-        val d = new Descript(null, "<html><body><h1>Descript</h1><hr/></body></html>".getBytes());
-        val b = Book.builder()
-                .id(id)
-                .title("Java Concurrency In Practice")
-                .authors(a)
-                .publisher(new Publisher(null, "Addison Wesley Professional", null))
-                .year(2006)
-                .state(BookState.PLANNED)
-                .rate(BookRate.GOOD)
-                .descript(d)
-                .build();
-        val book = Optional.of(b);
+    @GetMapping("/{id}")
+    public String getBook(Model model, @PathVariable Long id) {
+        val book = service.findById(id);
         if(!book.isPresent()) {
             model.addAttribute("error", "Книга не найдена!");
             return htmls.get("error");
@@ -69,18 +47,10 @@ public class BookController {
     }
 
     @RolesAllowed("USER,ADMIN")
-    @GetMapping(value = "/edit", params = {"id"})
-    public String editBook(Model model, @RequestParam long id) {
-        //val book = service.findById(id);
+    @GetMapping("/edit/{id}")
+    public String editBook(Model model, @PathVariable Long id) {
+        val book = service.findById(id);
         model.asMap().forEach((k, v) -> log.info("key: {}, value: {}", k, v));
-        val b = Book.builder()
-                .title("Java Concurrency In Practice")
-                .publisher(new Publisher(null, "Addison Wesley Professional", null))
-                .year(2006)
-                .state(BookState.PLANNED)
-                .rate(BookRate.GOOD)
-                .build();
-        val book = Optional.of(b);
         if(!book.isPresent()) {
             model.addAttribute("error", "Книга не найдена!");
             return htmls.get("error");
@@ -93,31 +63,19 @@ public class BookController {
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/descript/{id}")
-    public String getBookDescript(Model model, @PathVariable Long id) {
-        //val book = service.findById(id);
-        val d = new Descript(null, "<html><body><h1>Descript</h1><hr/></body></html>".getBytes());
-        val b = Book.builder()
-                .id(id)
-                .title("Java Concurrency In Practice")
-                .publisher(new Publisher(null, "Addison Wesley Professional", null))
-                .year(2006)
-                .state(BookState.PLANNED)
-                .rate(BookRate.GOOD)
-                .descript(d)
-                .build();
-        val book = Optional.of(b);
-
+    public String getBookDescript(@PathVariable Long id) {
+        val book = service.findById(id);
         val url = getClass().getClassLoader().getResource("WEB-INF/templates/descript.html");
-        File file = null;
+        Path path = null;
         try {
-            file = new File(url.toURI().getPath());
+            path = Paths.get(url.toURI());
         } catch (URISyntaxException e) {
             log.error(e.getMessage());
             e.printStackTrace();
         }
-        if(book.isPresent() && file != null && file.exists()) {
-            try (val fos = new FileOutputStream(file)) {
-                fos.write(book.get().getDescript().getText());
+        if(book.isPresent() && path != null) {
+            try {
+                Files.write(path, book.get().getDescript().getText());
             } catch (IOException e) {
                 log.error(e.getMessage());
                 e.printStackTrace();

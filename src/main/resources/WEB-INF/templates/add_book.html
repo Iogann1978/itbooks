@@ -6,13 +6,15 @@
 <body>
 <h1>Adding book</h1>
 <form action="#" th:action="@{/book/add}" th:object="${book}" method="post">
-    <label for="title">Title</label>:
+    <label for="title">Название</label>:
     <input type="text" id="title" th:field="*{title}" autofocus="autofocus" /> <br/>
-    <label for="author">Author</label>:
-    <input type="text" id="author" th:field="*{author}" /> <br/>
-    <label for="pages">Pages</label>:
+    <label for="pages">Страниц</label>:
     <input type="text" id="pages" th:field="*{pages}" /> <br/>
-    <input type="submit" value="Log in" />
+    <label for="rate">Оценка</label>:
+    <select id="rate">
+        <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>
+    </select>
+    <input type="submit" value="Добавить" />
 </form>
 </body>
 </html>

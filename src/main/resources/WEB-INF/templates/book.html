@@ -32,7 +32,7 @@
         <tr><th>Оценка</th><th>Состояние прочтения</th></tr>
         <tr><td th:text="${book.rate}"></td><td th:text="${book.state}"></td></tr>
     </table>
-    <form th:action="@{../book/descript}" th:object="${book.descript.text}" method="POST">
+    <form action="#" th:action="@{'../book/descript/' + ${book.id}}" th:object="${id}" method="GET">
         <input type="submit" value="Описание книги" />
     </form>
 </body>

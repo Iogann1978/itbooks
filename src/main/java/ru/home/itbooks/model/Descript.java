@@ -17,5 +17,9 @@ public class Descript {
     @Lob
     @Column(length=100000)
     private byte[] text;
+
+    public String getHtml() {
+        return text == null ? null : new String(text);
+    }
 }
 

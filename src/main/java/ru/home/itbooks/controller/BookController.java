@@ -11,9 +11,9 @@ import ru.home.itbooks.service.BookService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.swing.text.html.Option;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -92,19 +92,40 @@ public class BookController {
     }
 
     @RolesAllowed("USER,ADMIN")
-    @PostMapping(value = "/descript")
-    public byte[] getBookDescript(@ModelAttribute byte[] descript) {
-        /*
-        String filename = "classpath:templates/" + htmls.get("descript");
-        try(val fos = new FileOutputStream(filename)) {
-            fos.write(descript);
-        } catch (IOException e) {
+    @GetMapping("/descript/{id}")
+    public String getBookDescript(Model model, @PathVariable Long id) {
+        //val book = service.findById(id);
+        val d = new Descript(null, "<html><body><h1>Descript</h1><hr/></body></html>".getBytes());
+        val b = Book.builder()
+                .id(id)
+                .title("Java Concurrency In Practice")
+                .publisher(new Publisher(null, "Addison Wesley Professional", null))
+                .year(2006)
+                .state(BookState.PLANNED)
+                .rate(BookRate.GOOD)
+                .descript(d)
+                .build();
+        val book = Optional.of(b);
+
+        val url = getClass().getClassLoader().getResource("WEB-INF/templates/descript.html");
+        File file = null;
+        try {
+            file = new File(url.toURI().getPath());
+        } catch (URISyntaxException e) {
             log.error(e.getMessage());
             e.printStackTrace();
-            //return htmls.get("error");
         }
-        */
-        return descript;
+        if(book.isPresent() && file != null && file.exists()) {
+            try (val fos = new FileOutputStream(file)) {
+                fos.write(book.get().getDescript().getText());
+            } catch (IOException e) {
+                log.error(e.getMessage());
+                e.printStackTrace();
+                return htmls.get("error");
+            }
+        }
+
+        return htmls.get("descript");
     }
 
     @RolesAllowed("USER,ADMIN")

@@ -103,6 +103,7 @@ public class BookController {
     public String formAddBook(Model model) {
         val book = new Book();
         model.addAttribute("book", book);
+        model.addAttribute("rates", BookRate.values());
         return "add_book.html";
     }
 
@@ -111,7 +112,6 @@ public class BookController {
     public String addBook(Model model, @ModelAttribute("book") Book book) {
         val nbook = service.save(book);
         model.addAttribute("book", nbook);
-        model.addAttribute("rates", BookRate.values());
         return "redirect:list";
     }
 

@@ -101,17 +101,28 @@ public class BookController {
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/add")
     public String formAddBook(Model model) {
-        val book = new Book();
-        model.addAttribute("book", book);
+        val bookForm = new BookForm();
+        model.addAttribute("bookForm", bookForm);
         model.addAttribute("rates", BookRate.values());
+        model.addAttribute("states", BookState.values());
+        model.addAttribute("tags", Arrays.asList(new Tag(1L, "Один", null), new Tag(2L, "Два", null), new Tag(3L, "Три", null)));
         return "add_book.html";
     }
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/add")
-    public String addBook(Model model, @ModelAttribute("book") Book book) {
-        val nbook = service.save(book);
-        model.addAttribute("book", nbook);
+    public String addBook(@ModelAttribute("bookForm") BookForm bookForm) {
+        val book = Book.builder()
+                .title(bookForm.getTitle())
+                .authors(null)
+                .tags(null)
+                .year(bookForm.getYear())
+                .pages(bookForm.getPages())
+                .publisher(bookForm.getPublisher())
+                .rate(bookForm.getRate())
+                .state(bookForm.getState())
+                .build();
+        service.save(book);
         return "redirect:list";
     }
 

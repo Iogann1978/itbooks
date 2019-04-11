@@ -4,16 +4,28 @@
     <title>Adding book</title>
 </head>
 <body>
-<h1>Adding book</h1>
-<form action="#" th:action="@{/book/add}" th:object="${book}" method="post">
+<h1>Добавление книги</h1>
+<form action="#" th:action="@{/book/add}" th:object="${bookForm}" method="post">
     <label for="title">Название</label>:
     <input type="text" id="title" th:field="*{title}" autofocus="autofocus" /> <br/>
     <label for="pages">Страниц</label>:
-    <input type="text" id="pages" th:field="*{pages}" /> <br/>
+    <input type="number" id="pages" th:field="*{pages}" /> <br/>
+    <label for="fileHtml">Имя файла</label>:
+    <input type="file" id="fileHtml" th:field="*{fileHtml}" /> <br/>
+    <label for="fileXml">Имя файла</label>:
+    <input type="file" id="fileXml" th:field="*{fileXml}" /> <br/>
     <label for="rate">Оценка</label>:
-    <select id="rate">
+    <select id="rate" th:field="*{rate}">
         <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>
-    </select>
+    </select> <br/>
+    <label for="state">Оценка</label>:
+    <select id="state" th:field="*{state}">
+        <option th:each="state : ${states}" th:value="${state}" th:text="${state}">state</option>
+    </select> <br/>
+    <label for="tags">Тэги</label>:
+    <select id="tags" multiple th:field="*{tags}">
+        <option th:each="tag : ${tags}" th:value="${tag}" th:text="${tag.tag}">state</option>
+    </select> <br/>
     <input type="submit" value="Добавить" />
 </form>
 </body>

@@ -1,6 +1,7 @@
 package ru.home.itbooks.service;
 
 import lombok.val;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.repository.BookRepository;
@@ -10,6 +11,11 @@ import java.util.Optional;
 
 @Service
 public class BookService extends AbstractService<Book, BookRepository> {
+    @Autowired
+    public BookService(BookRepository repository) {
+        super(repository);
+    }
+
     public Optional<Book> findById(long id) {
         val a = new ArrayList<Author>() {
             {

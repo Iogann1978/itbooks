@@ -5,8 +5,11 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public abstract class AbstractService<T1, T2 extends CrudRepository<T1, Long>> {
-    @Autowired
     private T2 repository;
+
+    public AbstractService(T2 repository) {
+        this.repository = repository;
+    }
 
     public Optional<T1> findById(Long id) {
         return repository.findById(id);

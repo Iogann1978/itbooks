@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.service.BookService;
+import ru.home.itbooks.service.PublisherService;
+import ru.home.itbooks.service.TagService;
 
 import javax.annotation.security.RolesAllowed;
 import java.io.*;
@@ -21,8 +23,9 @@ import java.util.*;
 @RequestMapping(value = "/book")
 @Slf4j
 public class BookController {
-    @Autowired
-    private BookService service;
+    private BookService bookService;
+    private TagService tagService;
+    private PublisherService publisherService;
     private static final Map<String, String> htmls = new HashMap<String, String>() {
         {
             put("view", "book.html");
@@ -34,10 +37,17 @@ public class BookController {
         }
     };
 
+    @Autowired
+    public BookController(BookService bookService, TagService tagService, PublisherService publisherService) {
+        this.bookService = bookService;
+        this.tagService = tagService;
+        this.publisherService = publisherService;
+    }
+
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/{id}")
     public String getBook(Model model, @PathVariable Long id) {
-        val book = service.findById(id);
+        val book = bookService.findById(id);
         if(!book.isPresent()) {
             model.addAttribute("error", "Книга не найдена!");
             return htmls.get("error");
@@ -49,7 +59,7 @@ public class BookController {
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/edit/{id}")
     public String editBook(Model model, @PathVariable Long id) {
-        val book = service.findById(id);
+        val book = bookService.findById(id);
         model.asMap().forEach((k, v) -> log.info("key: {}, value: {}", k, v));
         if(!book.isPresent()) {
             model.addAttribute("error", "Книга не найдена!");
@@ -64,7 +74,7 @@ public class BookController {
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/descript/{id}")
     public String getBookDescript(@PathVariable Long id) {
-        val book = service.findById(id);
+        val book = bookService.findById(id);
         val url = getClass().getClassLoader().getResource("WEB-INF/templates/descript.html");
         Path path = null;
         try {
@@ -89,10 +99,10 @@ public class BookController {
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/list")
     public String getBooks(Model model) {
-        val count = service.count();
+        val count = bookService.count();
         model.addAttribute("count", count);
         if(count > 0) {
-            val books = service.findAll();
+            val books = bookService.findAll();
             model.addAttribute("books", books);
         }
         return "books.html";
@@ -105,7 +115,8 @@ public class BookController {
         model.addAttribute("bookForm", bookForm);
         model.addAttribute("rates", BookRate.values());
         model.addAttribute("states", BookState.values());
-        model.addAttribute("tags", Arrays.asList(new Tag(1L, "Один", null), new Tag(2L, "Два", null), new Tag(3L, "Три", null)));
+        model.addAttribute("tags", tagService.findAll());
+        model.addAttribute("publishers", publisherService.findAll());
         return "add_book.html";
     }
 
@@ -122,14 +133,14 @@ public class BookController {
                 .rate(bookForm.getRate())
                 .state(bookForm.getState())
                 .build();
-        service.save(book);
+        bookService.save(book);
         return "redirect:list";
     }
 
     @RolesAllowed("ADMIN")
     @DeleteMapping("/del")
     public String delBook(Model model, @ModelAttribute("id") Long id) {
-        service.deleteById(id);
+        bookService.deleteById(id);
         return "books.html";
     }
 }

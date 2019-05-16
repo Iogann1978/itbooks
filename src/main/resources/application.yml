@@ -23,6 +23,9 @@ spring:
   servlet:
     context-path: /
 
+server:
+  port: 8081
+
 ---
 
 spring:

@@ -1,24 +1,24 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Books list</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-</head>
+    <head>
+        <title>Books list</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
 
-<body>
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Pages</th>
-        </tr>
-        <tr th:each="book:${books}">
-            <td th:utext="${book.title}"/>
-            <td th:utext="${book.author}"/>
-            <td th:utext="${book.pages}"/>
-            <td><a id="choose" role="button" th:href="@{/book(id=${book.id})}">Login</a><td/>
-        </tr>
-    </table>
-</body>
+    <body>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Pages</th>
+            </tr>
+            <tr th:each="book:${books}">
+                <td th:utext="${book.title}"/>
+                <td th:utext="${book.author}"/>
+                <td th:utext="${book.pages}"/>
+                <td><a id="choose" role="button" th:href="@{/book(id=${book.id})}">Login</a><td/>
+            </tr>
+        </table>
+    </body>
 </html>

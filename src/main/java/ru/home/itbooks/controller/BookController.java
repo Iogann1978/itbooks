@@ -6,17 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.service.BookService;
 import ru.home.itbooks.service.PublisherService;
 import ru.home.itbooks.service.TagService;
 
 import javax.annotation.security.RolesAllowed;
-import java.io.*;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Controller
@@ -73,28 +69,11 @@ public class BookController {
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/descript/{id}")
-    public String getBookDescript(@PathVariable Long id) {
+    public ModelAndView getBookDescript(@PathVariable Long id) {
         val book = bookService.findById(id);
-        val url = getClass().getClassLoader().getResource("WEB-INF/templates/descript.html");
-        Path path = null;
-        try {
-            path = Paths.get(url.toURI());
-        } catch (URISyntaxException e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
-        }
-        if(book.isPresent() && path != null) {
-            try {
-                //Files.write(path, book.get().getDescript().getText());
-                Files.write(path, "<html><body>Test description</body></html>".getBytes());
-            } catch (IOException e) {
-                log.error(e.getMessage());
-                e.printStackTrace();
-                return htmls.get("error");
-            }
-        }
-
-        return htmls.get("descript");
+        val view = new BytesView();
+        book.ifPresent(b -> view.setHtml(b.getDescript().getText()));
+        return new ModelAndView(view);
     }
 
     @RolesAllowed("USER,ADMIN")

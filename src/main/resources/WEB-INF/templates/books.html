@@ -15,9 +15,9 @@
             </tr>
             <tr th:each="book:${books}">
                 <td th:utext="${book.title}"/>
-                <td th:utext="${book.author}"/>
+                <td th:utext="${book.authors}"/>
                 <td th:utext="${book.pages}"/>
-                <td><a id="choose" role="button" th:href="@{/book(id=${book.id})}">Login</a><td/>
+                <td><a id="choose" role="button" th:href="@{'/book/' + ${book.id}}">Книга</a><td/>
             </tr>
         </table>
     </body>

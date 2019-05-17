@@ -12,7 +12,7 @@
             <input type="number" id="pages" th:field="*{pages}" /> <br/>
             <label for="publisher">Издатель:</label>
             <select id="publisher" th:field="*{publisher}">
-                <option th:each="publisher : ${publishers}" th:value="${publisher}" th:text="${publisher.name}">publisher</option>
+                <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
             </select> <br/>
             <label for="fileHtml">Имя файла html</label>:
             <input type="file" id="fileHtml" th:field="*{fileHtml}" /> <br/>
@@ -28,7 +28,7 @@
             </select> <br/>
             <label for="tags">Тэги:</label>
             <select id="tags" multiple th:field="*{tags}" size="2">
-                <option th:each="tag : ${tags}" th:value="${tag}" th:text="${tag.tag}">state</option>
+                <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}">state</option>
             </select> <br/>
             <input type="submit" value="Добавить" />
         </form>

@@ -85,7 +85,8 @@ public class BookController {
         }
         if(book.isPresent() && path != null) {
             try {
-                Files.write(path, book.get().getDescript().getText());
+                //Files.write(path, book.get().getDescript().getText());
+                Files.write(path, "<html><body>Test description</body></html>".getBytes());
             } catch (IOException e) {
                 log.error(e.getMessage());
                 e.printStackTrace();

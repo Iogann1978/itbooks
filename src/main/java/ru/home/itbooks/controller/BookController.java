@@ -25,10 +25,10 @@ public class BookController {
     private static final Map<String, String> htmls = new HashMap<String, String>() {
         {
             put("view", "book.html");
+            put("books", "books.html");
             put("edit", "edit_book.html");
             put("del", "del_book.html");
             put("add", "add_book.html");
-            put("descript", "descript.html");
             put("error", "error.html");
         }
     };
@@ -44,35 +44,37 @@ public class BookController {
     @GetMapping("/{id}")
     public String getBook(Model model, @PathVariable Long id) {
         val book = bookService.findById(id);
-        if(!book.isPresent()) {
+        val result = book.map(b -> {
+            model.addAttribute("book", b);
+            return htmls.get("view");
+        }).orElseGet(() -> {
             model.addAttribute("error", "Книга не найдена!");
             return htmls.get("error");
-        }
-        model.addAttribute("book", book.get());
-        return htmls.get("view");
+        });
+        return result;
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/edit/{id}")
     public String editBook(Model model, @PathVariable Long id) {
         val book = bookService.findById(id);
-        model.asMap().forEach((k, v) -> log.info("key: {}, value: {}", k, v));
-        if(!book.isPresent()) {
+        val result = book.map(b -> {
+            model.addAttribute("book", book.get());
+            model.addAttribute("rates", BookRate.values());
+            model.addAttribute("states", BookState.values());
+            return htmls.get("edit");
+        }).orElseGet(() -> {
             model.addAttribute("error", "Книга не найдена!");
             return htmls.get("error");
-        }
-        model.addAttribute("book", book.get());
-        model.addAttribute("rates", BookRate.values());
-        model.addAttribute("states", BookState.values());
-        return htmls.get("edit");
+        });
+        return result;
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/descript/{id}")
     public ModelAndView getBookDescript(@PathVariable Long id) {
         val book = bookService.findById(id);
-        val view = new BytesView();
-        book.ifPresent(b -> view.setHtml(b.getDescript().getText()));
+        val view = new BytesView(book.map(b -> b.getDescript()).map(d -> d.getText()).orElse(null));
         return new ModelAndView(view);
     }
 
@@ -85,7 +87,7 @@ public class BookController {
             val books = bookService.findAll();
             model.addAttribute("books", books);
         }
-        return "books.html";
+        return htmls.get("books");
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -97,7 +99,7 @@ public class BookController {
         model.addAttribute("states", BookState.values());
         model.addAttribute("tags", tagService.findAll());
         model.addAttribute("publishers", publisherService.findAll());
-        return "add_book.html";
+        return htmls.get("add");
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -121,6 +123,6 @@ public class BookController {
     @DeleteMapping("/del")
     public String delBook(Model model, @ModelAttribute("id") Long id) {
         bookService.deleteById(id);
-        return "books.html";
+        return htmls.get("books");
     }
 }

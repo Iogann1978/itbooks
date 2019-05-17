@@ -24,4 +24,9 @@ public class BytesView implements View {
             out.write(html);
         }
     }
+
+    @Override
+    public String getContentType() {
+        return "text/html";
+    }
 }

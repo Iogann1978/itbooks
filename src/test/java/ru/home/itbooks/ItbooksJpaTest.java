@@ -14,6 +14,7 @@ import ru.home.itbooks.service.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
@@ -43,9 +44,13 @@ public class ItbooksJpaTest {
                 .state(BookState.PLANNED)
                 .contents("<xml/>".getBytes())
                 .build();
-        val bookList = Arrays.asList(book1);
+        val bookList = new HashSet<Book>() {
+            {
+                add(book1);
+            }
+        };
 
-        val tags1 = new ArrayList<Tag>() {
+        val tags1 = new HashSet<Tag>() {
             {
                 add(new Tag(null, "Java", bookList));
             }
@@ -54,7 +59,7 @@ public class ItbooksJpaTest {
         long count = tagService.count();
         assertTrue(tags2 != null);
         assertEquals(tags1.size(), count);
-        val tagList = new ArrayList<Tag>();
+        val tagList = new HashSet<Tag>();
         tags2.forEach(t -> {
             assertNotNull(t);
             assertNotNull(t.getId());
@@ -72,20 +77,20 @@ public class ItbooksJpaTest {
 
         val authors1 = new ArrayList<Author>() {
             {
-                add(new Author(null,"Dorian", "Yates", bookList));
-                add(new Author(null,"Kai", "Greene", bookList));
+                add(new Author(null,"Dorian Yates", bookList));
+                add(new Author(null,"Kai Greene", bookList));
             }
         };
         val authors2 = authorService.saveAll(authors1);
         count = authorService.count();
         assertNotNull(authors2);
         assertEquals(authors1.size(),count);
-        val authorList = new ArrayList<Author>();
+        val authorList = new HashSet<Author>();
         authors2.forEach(a -> {
             assertNotNull(a);
             assertNotNull(a.getId());
             authorList.add(a);
-            log.info("author: {} {} {}", a.getId(), a.getFirstName(), a.getLastName());
+            log.info("author: {} {} {}", a.getId(), a.getName());
         });
 
         val publusher1 = new Publisher(null, "Addison Wesley Professional", bookList);

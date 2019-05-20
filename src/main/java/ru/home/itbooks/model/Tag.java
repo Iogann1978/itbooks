@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -17,5 +17,5 @@ public class Tag {
     private Long id;
     private String tag;
     @ManyToMany(mappedBy = "tags")
-    private List<Book> books;
+    private Set<Book> books;
 }

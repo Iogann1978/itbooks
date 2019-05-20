@@ -6,7 +6,7 @@
     </head>
     <body>
         <h1>Добавление книги</h1>
-        <form action="#" th:action="@{/book/add}" th:object="${bookForm}" method="POST">
+        <form action="#" th:action="@{/book/add}" th:object="${bookForm}" method="POST" enctype="multipart/form-data">
             <label for="title">Название:</label>
             <input type="text" id="title" th:field="*{title}" autofocus="autofocus" /> <br/>
             <label for="pages">Страниц:</label>
@@ -15,10 +15,12 @@
             <select id="publisher" th:field="*{publisher}">
                 <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
             </select> <br/>
-            <label for="fileHtml">Имя файла html</label>:
-            <input type="file" id="fileHtml" th:field="*{fileHtml}" /> <br/>
-            <label for="fileXml">Имя файла xml</label>:
-            <input type="file" id="fileXml" th:field="*{fileXml}" /> <br/>
+            <label for="authors">Авторы:</label>
+            <input type="text" id="authors" th:field="*{authors}" /> <br/>
+            <label for="fileHtml">Имя html-файла с описанием</label>:
+            <input type="file" id="fileHtml" name="fileHtml" accept="text/html" /> <br/>
+            <label for="fileXml">Имя xml-файла с оглавлением</label>:
+            <input type="file" id="fileXml" name="fileXml" accept="text/xml" /> <br/>
             <label for="rate">Оценка:</label>
             <select id="rate" th:field="*{rate}">
                 <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>

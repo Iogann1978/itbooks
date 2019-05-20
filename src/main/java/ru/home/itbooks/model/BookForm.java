@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -19,7 +20,7 @@ public class BookForm {
     private BookRate rate;
     private int year;
     private BookState state;
-    private List<Tag> tags;
-    private String fileHtml;
-    private String fileXml;
+    private Set<Tag> tags;
+    private MultipartFile fileHtml;
+    private MultipartFile fileXml;
 }

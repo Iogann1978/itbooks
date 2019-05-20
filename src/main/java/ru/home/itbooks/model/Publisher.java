@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -19,5 +19,5 @@ public class Publisher {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
-    private List<Book> books;
+    private Set<Book> books;
 }

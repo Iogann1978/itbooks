@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.service.BookService;
@@ -105,17 +106,7 @@ public class BookController {
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/add")
     public String addBook(@ModelAttribute("bookForm") BookForm bookForm) {
-        val book = Book.builder()
-                .title(bookForm.getTitle())
-                .authors(null)
-                .tags(null)
-                .year(bookForm.getYear())
-                .pages(bookForm.getPages())
-                .publisher(bookForm.getPublisher())
-                .rate(bookForm.getRate())
-                .state(bookForm.getState())
-                .build();
-        bookService.save(book);
+        bookService.save(bookForm);
         return "redirect:list";
     }
 

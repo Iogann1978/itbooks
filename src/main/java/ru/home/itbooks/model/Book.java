@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -21,7 +22,7 @@ public class Book {
     private int pages;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "BOOK_AUTHOR", joinColumns = {@JoinColumn(name = "BOOK_ID")}, inverseJoinColumns = {@JoinColumn(name = "AUTHOR_ID")})
-    private List<Author> authors;
+    private Set<Author> authors;
     @ManyToOne(cascade = CascadeType.ALL)
     private Publisher publisher;
     private BookRate rate;
@@ -29,7 +30,7 @@ public class Book {
     private BookState state;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "BOOK_TAG", joinColumns = {@JoinColumn(name = "BOOK_ID")}, inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
-    private List<Tag> tags;
+    private Set<Tag> tags;
     @OneToOne
     private Descript descript;
     @Lob
@@ -37,4 +38,11 @@ public class Book {
     private byte[] contents;
     @OneToOne
     private BookFile file;
+
+    public void addAuthor(Author author) {
+        if(authors == null) {
+            authors = new HashSet<>();
+        }
+        authors.add(author);
+    }
 }

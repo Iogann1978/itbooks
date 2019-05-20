@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.Publisher;
 import ru.home.itbooks.repository.PublisherRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PublisherService extends AbstractService<Publisher, PublisherRepository> {
@@ -17,11 +15,11 @@ public class PublisherService extends AbstractService<Publisher, PublisherReposi
     }
 
     public Iterable<Publisher> findAll() {
-        List<Publisher> publishers = new ArrayList<Publisher>() {
+        Set<Publisher> publishers = new HashSet<Publisher>() {
             {
-                add(new Publisher(0L, "Publisher 1", Collections.EMPTY_LIST));
-                add(new Publisher(1L, "Publisher 2", Collections.EMPTY_LIST));
-                add(new Publisher(3L, "Publisher 3", Collections.EMPTY_LIST));
+                add(new Publisher(0L, "Publisher 1", Collections.EMPTY_SET));
+                add(new Publisher(1L, "Publisher 2", Collections.EMPTY_SET));
+                add(new Publisher(3L, "Publisher 3", Collections.EMPTY_SET));
             }
         };
         return publishers;

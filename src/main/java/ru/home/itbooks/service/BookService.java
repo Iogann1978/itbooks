@@ -52,6 +52,7 @@ public class BookService extends AbstractService<Book, BookRepository> {
     public Book save(BookForm bookForm) {
         val book = Book.builder()
                 .title(bookForm.getTitle())
+                .authors(new HashSet<>())
                 .tags(bookForm.getTags())
                 .year(bookForm.getYear())
                 .pages(bookForm.getPages())
@@ -78,14 +79,17 @@ public class BookService extends AbstractService<Book, BookRepository> {
                 e.printStackTrace();
             }
         }
-        if(bookForm.getAuthors() !=null && !bookForm.getAuthors().isEmpty()) {
+        if(bookForm.getAuthors() != null && !bookForm.getAuthors().isEmpty()) {
             val authors = bookForm.getAuthors().split(";");
             for(val author : authors) {
-                val auth_new = authorService.findByName(author).orElse(Author.builder().name(author).build());
-                authorService.save(auth_new);
-                book.addAuthor(auth_new);
+                val auth = authorService.findByName(author).orElse(Author.builder().name(author).build());
+                auth.addBook(book);
+                val auth_save = authorService.save(auth);
+                book.addAuthor(auth_save);
             }
         }
-        return save(book);
+        val book_save = save(book);
+        log.info("book: {}", findById(book_save.getId()));
+        return book_save;
     }
 }

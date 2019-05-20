@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -20,7 +21,7 @@ public class BookForm {
     private BookRate rate;
     private int year;
     private BookState state;
-    private Set<Tag> tags;
+    private Set<Tag> tags = new HashSet<>();
     private MultipartFile fileHtml;
     private MultipartFile fileXml;
 }

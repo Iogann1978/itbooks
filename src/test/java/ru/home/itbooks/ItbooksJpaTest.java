@@ -90,7 +90,7 @@ public class ItbooksJpaTest {
             assertNotNull(a);
             assertNotNull(a.getId());
             authorList.add(a);
-            log.info("author: {} {} {}", a.getId(), a.getName());
+            log.info("author: {} {}", a.getId(), a.getName());
         });
 
         val publusher1 = new Publisher(null, "Addison Wesley Professional", bookList);
@@ -98,9 +98,9 @@ public class ItbooksJpaTest {
         assertNotNull(publisher2);
         assertNotNull(publisher2.getId());
 
-        book1.setAuthors(authorList);
-        book1.setTags(tagList);
-        book1.setPublisher(publisher2);
+        //book1.setAuthors(authorList);
+        //book1.setTags(tagList);
+        //book1.setPublisher(publisher2);
         val book2 = bookService.save(book1);
         log.info("book: {} {} {}", book2.getId(), book2.getTitle(), new String(book2.getContents()));
         count = bookService.count();

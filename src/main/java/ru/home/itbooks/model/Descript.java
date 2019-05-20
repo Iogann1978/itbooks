@@ -15,7 +15,7 @@ public class Descript {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Lob
-    @Column(length=100000)
+    @Column(length = 100000)
     private byte[] text;
 
     public String getHtml() {

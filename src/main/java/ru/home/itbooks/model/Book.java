@@ -20,29 +20,27 @@ public class Book {
     private Long id;
     private String title;
     private int pages;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "BOOK_AUTHOR", joinColumns = {@JoinColumn(name = "BOOK_ID")}, inverseJoinColumns = {@JoinColumn(name = "AUTHOR_ID")})
-    private Set<Author> authors;
+    private Set<Author> authors = new HashSet<>();
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "BOOK_ID")
     private Publisher publisher;
     private BookRate rate;
     private int year;
     private BookState state;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "BOOK_TAG", joinColumns = {@JoinColumn(name = "BOOK_ID")}, inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
-    private Set<Tag> tags;
+    private Set<Tag> tags = new HashSet<>();
     @OneToOne
     private Descript descript;
     @Lob
-    @Column(length=100000)
+    @Column(length = 100000)
     private byte[] contents;
     @OneToOne
     private BookFile file;
 
     public void addAuthor(Author author) {
-        if(authors == null) {
-            authors = new HashSet<>();
-        }
         authors.add(author);
     }
 }

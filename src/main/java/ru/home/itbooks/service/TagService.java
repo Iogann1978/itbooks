@@ -14,10 +14,6 @@ public class TagService extends AbstractService<Tag, TagRepository> {
         super(repository);
     }
 
-    public Optional<Tag> findByTag(String tag) {
-        return repository.findByTag(tag);
-    }
-
     public Iterable<Tag> findAll() {
         Set<Tag> tags = new HashSet<Tag>() {
             {

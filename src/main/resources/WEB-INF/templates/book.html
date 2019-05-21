@@ -8,7 +8,7 @@
         <table>
             <tr>
                 <td><a href="../book/list">На главную</a></td>
-                <td><a th:href="@{../book/edit(id=${book.id})}">Изменить</a></td>
+                <td><a th:href="@{'/book/edit/' + ${book.id}}">Изменить</a></td>
                 <td><a href="../del_book.html">Удалить</a></td>
             </tr>
         </table>

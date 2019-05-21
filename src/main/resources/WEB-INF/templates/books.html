@@ -7,11 +7,13 @@
     </head>
 
     <body>
-        <table>
+        <table border="1" width="100%">
             <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Pages</th>
+                <th>Название</th>
+                <th>Авторы</th>
+                <th>Издание</th>
+                <th>Страниц</th>
+                <th>Просмотр</th>
             </tr>
             <tr th:each="book:${books}">
                 <td th:utext="${book.title}"/>
@@ -20,6 +22,7 @@
                         <span th:text="${author.name}">Имя автора</span>
                     </i>
                 </td>
+                <td th:utext="${book.publisher.name}"/>
                 <td th:utext="${book.pages}"/>
                 <td><a id="choose" role="button" th:href="@{'/book/' + ${book.id}}">Книга</a><td/>
             </tr>

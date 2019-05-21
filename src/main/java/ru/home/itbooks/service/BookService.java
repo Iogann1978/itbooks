@@ -17,16 +17,19 @@ public class BookService extends AbstractService<Book, BookRepository> {
     private DescriptService descriptService;
     private AuthorService authorService;
     private TagService tagService;
+    private PublisherService publisherService;
 
     @Autowired
     public BookService(BookRepository repository,
                        DescriptService descriptService,
                        AuthorService authorService,
-                       TagService tagService) {
+                       TagService tagService,
+                       PublisherService publisherService) {
         super(repository);
         this.descriptService = descriptService;
         this.authorService = authorService;
         this.tagService = tagService;
+        this.publisherService = publisherService;
     }
 
     public Optional<Book> findById(long id) {
@@ -60,7 +63,6 @@ public class BookService extends AbstractService<Book, BookRepository> {
                 .authors(new HashSet<>())
                 .year(bookForm.getYear())
                 .pages(bookForm.getPages())
-                .publisher(bookForm.getPublisher())
                 .rate(bookForm.getRate())
                 .state(bookForm.getState())
                 .build();
@@ -95,11 +97,18 @@ public class BookService extends AbstractService<Book, BookRepository> {
         if(bookForm.getTags() != null && !bookForm.getTags().isEmpty()) {
             val tags = bookForm.getTags().split(",");
             for(val tag : tags) {
-                val tg = tagService.findByTag(tag).orElse(Tag.builder().tag(tag).build());
+                val tg = tagService.findById(Long.parseLong(tag)).orElse(Tag.builder().tag(tag).build());
                 tg.addBook(book);
                 val tg_save = tagService.save(tg);
                 book.addTag(tg_save);
             }
+        }
+        if(bookForm.getPublisher() != null && !bookForm.getPublisher().isEmpty()) {
+            val pub = publisherService.findById(Long.parseLong(bookForm.getPublisher()))
+                    .orElse(Publisher.builder().name(bookForm.getPublisher()).build());
+            pub.addBook(book);
+            val pub_save = publisherService.save(pub);
+            book.setPublisher(pub_save);
         }
         val book_save = save(book);
         return book_save;

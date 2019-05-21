@@ -23,6 +23,9 @@ public class Author {
     private Set<Book> books = new HashSet<>();
 
     public void addBook(Book book) {
+        if(books == null) {
+            books = new HashSet<>();
+        }
         books.add(book);
     }
 }

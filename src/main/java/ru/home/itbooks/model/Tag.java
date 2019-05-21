@@ -1,12 +1,7 @@
 package ru.home.itbooks.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -16,6 +11,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,4 +21,11 @@ public class Tag {
     @JsonBackReference
     @EqualsAndHashCode.Exclude
     private Set<Book> books = new HashSet<>();
+
+    public void addBook(Book book) {
+        if(books == null) {
+            books = new HashSet<>();
+        }
+        books.add(book);
+    }
 }

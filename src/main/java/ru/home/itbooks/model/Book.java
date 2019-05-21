@@ -43,6 +43,16 @@ public class Book {
     private BookFile file;
 
     public void addAuthor(Author author) {
+        if(authors == null) {
+            authors = new HashSet<>();
+        }
         authors.add(author);
+    }
+
+    public void addTag(Tag tag) {
+        if(tags == null) {
+            tags = new HashSet<>();
+        }
+        tags.add(tag);
     }
 }

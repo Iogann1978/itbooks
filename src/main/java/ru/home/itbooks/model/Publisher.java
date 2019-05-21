@@ -19,4 +19,11 @@ public class Publisher {
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     private Set<Book> books = new HashSet<>();
+
+    public void addBook(Book book) {
+        if(books == null) {
+            books = new HashSet<>();
+        }
+        books.add(book);
+    }
 }

@@ -30,6 +30,13 @@
             <tr><td th:text="${book.publisher}"></td><td th:text="${book.year}"></td></tr>
             <tr><th>Оценка</th><th>Состояние прочтения</th></tr>
             <tr><td th:text="${book.rate}"></td><td th:text="${book.state}"></td></tr>
+            <tr><th colspan="2">Тэги</th></tr>
+            <tr><td colspan="2">
+                <span th:each="tag:${book.tags}">
+                    <span th:text="${tag.tag}">Тэг</span>
+                    <span>;</span>
+                </span>
+            </td></tr>
         </table>
         <form action="#" th:action="@{'/book/descript/' + ${book.id}}" th:object="${id}" method="GET">
             <input type="submit" value="Описание книги" />

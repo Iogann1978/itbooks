@@ -21,7 +21,7 @@ public class BookForm {
     private BookRate rate;
     private int year;
     private BookState state;
-    private Set<Tag> tags = new HashSet<>();
+    private String tags;
     private MultipartFile fileHtml;
     private MultipartFile fileXml;
 }

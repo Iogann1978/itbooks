@@ -19,7 +19,7 @@ public class PublisherService extends AbstractService<Publisher, PublisherReposi
             {
                 add(new Publisher(0L, "Publisher 1", Collections.EMPTY_SET));
                 add(new Publisher(1L, "Publisher 2", Collections.EMPTY_SET));
-                add(new Publisher(3L, "Publisher 3", Collections.EMPTY_SET));
+                add(new Publisher(2L, "Publisher 3", Collections.EMPTY_SET));
             }
         };
         return publishers;

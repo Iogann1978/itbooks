@@ -16,12 +16,17 @@ import java.util.Optional;
 public class BookService extends AbstractService<Book, BookRepository> {
     private DescriptService descriptService;
     private AuthorService authorService;
+    private TagService tagService;
 
     @Autowired
-    public BookService(BookRepository repository, DescriptService descriptService, AuthorService authorService) {
+    public BookService(BookRepository repository,
+                       DescriptService descriptService,
+                       AuthorService authorService,
+                       TagService tagService) {
         super(repository);
         this.descriptService = descriptService;
         this.authorService = authorService;
+        this.tagService = tagService;
     }
 
     public Optional<Book> findById(long id) {
@@ -53,7 +58,6 @@ public class BookService extends AbstractService<Book, BookRepository> {
         val book = Book.builder()
                 .title(bookForm.getTitle())
                 .authors(new HashSet<>())
-                .tags(bookForm.getTags())
                 .year(bookForm.getYear())
                 .pages(bookForm.getPages())
                 .publisher(bookForm.getPublisher())
@@ -82,10 +86,19 @@ public class BookService extends AbstractService<Book, BookRepository> {
         if(bookForm.getAuthors() != null && !bookForm.getAuthors().isEmpty()) {
             val authors = bookForm.getAuthors().split(";");
             for(val author : authors) {
-                val auth = authorService.findByName(author).orElse(Author.builder().name(author).books(new HashSet<>()).build());
+                val auth = authorService.findByName(author).orElse(Author.builder().name(author).build());
                 auth.addBook(book);
                 val auth_save = authorService.save(auth);
                 book.addAuthor(auth_save);
+            }
+        }
+        if(bookForm.getTags() != null && !bookForm.getTags().isEmpty()) {
+            val tags = bookForm.getTags().split(",");
+            for(val tag : tags) {
+                val tg = tagService.findByTag(tag).orElse(Tag.builder().tag(tag).build());
+                tg.addBook(book);
+                val tg_save = tagService.save(tg);
+                book.addTag(tg_save);
             }
         }
         val book_save = save(book);

@@ -14,12 +14,16 @@ public class TagService extends AbstractService<Tag, TagRepository> {
         super(repository);
     }
 
+    public Optional<Tag> findByTag(String tag) {
+        return repository.findByTag(tag);
+    }
+
     public Iterable<Tag> findAll() {
         Set<Tag> tags = new HashSet<Tag>() {
             {
-                add(new Tag(0L, "Tag 1", Collections.EMPTY_SET));
-                add(new Tag(1L, "Tag 2", Collections.EMPTY_SET));
-                add(new Tag(3L, "Tag 3", Collections.EMPTY_SET));
+                add(new Tag(3L, "Tag 1", Collections.EMPTY_SET));
+                add(new Tag(4L, "Tag 2", Collections.EMPTY_SET));
+                add(new Tag(5L, "Tag 3", Collections.EMPTY_SET));
             }
         };
         return tags;

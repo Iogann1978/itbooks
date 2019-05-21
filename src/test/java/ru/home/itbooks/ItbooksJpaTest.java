@@ -6,14 +6,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.service.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
 import static org.junit.Assert.*;
@@ -55,6 +53,7 @@ public class ItbooksJpaTest {
                 add(new Tag(null, "Java", bookList));
             }
         };
+
         val tags2 = tagService.saveAll(tags1);
         long count = tagService.count();
         assertTrue(tags2 != null);
@@ -98,9 +97,9 @@ public class ItbooksJpaTest {
         assertNotNull(publisher2);
         assertNotNull(publisher2.getId());
 
-        //book1.setAuthors(authorList);
-        //book1.setTags(tagList);
-        //book1.setPublisher(publisher2);
+        book1.setAuthors(authorList);
+        book1.setTags(tagList);
+        book1.setPublisher(publisher2);
         val book2 = bookService.save(book1);
         log.info("book: {} {} {}", book2.getId(), book2.getTitle(), new String(book2.getContents()));
         count = bookService.count();

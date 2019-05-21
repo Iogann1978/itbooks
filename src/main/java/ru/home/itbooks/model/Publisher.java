@@ -1,9 +1,6 @@
 package ru.home.itbooks.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,5 +17,6 @@ public class Publisher {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
     private Set<Book> books = new HashSet<>();
 }

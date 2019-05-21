@@ -1,10 +1,15 @@
 package ru.home.itbooks.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,5 +22,7 @@ public class Tag {
     private Long id;
     private String tag;
     @ManyToMany(mappedBy = "tags")
-    private Set<Book> books;
+    @JsonBackReference
+    @EqualsAndHashCode.Exclude
+    private Set<Book> books = new HashSet<>();
 }

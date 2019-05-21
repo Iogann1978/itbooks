@@ -82,14 +82,13 @@ public class BookService extends AbstractService<Book, BookRepository> {
         if(bookForm.getAuthors() != null && !bookForm.getAuthors().isEmpty()) {
             val authors = bookForm.getAuthors().split(";");
             for(val author : authors) {
-                val auth = authorService.findByName(author).orElse(Author.builder().name(author).build());
+                val auth = authorService.findByName(author).orElse(Author.builder().name(author).books(new HashSet<>()).build());
                 auth.addBook(book);
                 val auth_save = authorService.save(auth);
                 book.addAuthor(auth_save);
             }
         }
         val book_save = save(book);
-        log.info("book: {}", findById(book_save.getId()));
         return book_save;
     }
 }

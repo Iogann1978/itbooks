@@ -15,7 +15,11 @@
             </tr>
             <tr th:each="book:${books}">
                 <td th:utext="${book.title}"/>
-                <td th:utext="${book.authors}"/>
+                <td>
+                    <i th:each="author:${book.authors}">
+                        <span th:text="${author.name}">Имя автора</span>
+                    </i>
+                </td>
                 <td th:utext="${book.pages}"/>
                 <td><a id="choose" role="button" th:href="@{'/book/' + ${book.id}}">Книга</a><td/>
             </tr>

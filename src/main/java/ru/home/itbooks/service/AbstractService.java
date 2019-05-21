@@ -1,9 +1,9 @@
 package ru.home.itbooks.service;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
-public abstract class AbstractService<T1, T2 extends CrudRepository<T1, Long>> {
+public abstract class AbstractService<T1, T2 extends JpaRepository<T1, Long>> {
     protected T2 repository;
 
     public AbstractService(T2 repository) {
@@ -34,8 +34,7 @@ public abstract class AbstractService<T1, T2 extends CrudRepository<T1, Long>> {
         return repository.save(entity);
     }
 
-    public Iterable<T1>  saveAll(Iterable<T1> entities) {
+    public Iterable<T1> saveAll(Iterable<T1> entities) {
         return repository.saveAll(entities);
     }
-
 }

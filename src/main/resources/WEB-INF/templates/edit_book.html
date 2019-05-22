@@ -9,28 +9,32 @@
             <tr><a href="../book/list">На главную</a></tr>
         </table>
 
-        <form th:action="@{../book/save}" method="POST">
+        <form th:action="@{../book/save}" th:object="${bookForm}" method="POST">
             <table border="1" width="100%">
                 <tr><th colspan="2">Название книги</th></tr>
-                <tr><td colspan="2"><input type="text" id="title" name="title" autofocus="autofocus" width="100%"/></td></tr>
+                <tr><td colspan="2"><input type="text" id="title" name="title" autofocus="autofocus" width="100%" th:value="*{title}" /></td></tr>
                 <tr>
                     <th>Авторы книги:</th>
-                    <td><input type="text" id="authors" name="authors" /></td>
+                    <td><input type="text" id="authors" name="authors" th:value="*{authors}" /></td>
                 </tr>
                 <tr><th>Издательство</th><th>Год издания</th></tr>
                 <tr>
-                    <td><input type="text" id="publisher" name="publisher" /></td>
-                    <td><input type="text" id="year" name="year" /></td>
+                    <td>
+                        <select id="publisher" th:field="*{publisher}">
+                            <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
+                        </select> <br/>
+                    </td>
+                    <td><input type="number" id="year" name="year" th:value="*{year}" /></td>
                 </tr>
                 <tr><th>Оценка</th><th>Состояние прочтения</th></tr>
                 <tr>
                     <td>
-                        <select>
+                        <select th:field="*{rate}">
                             <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>
                         </select>
                     </td>
                     <td>
-                        <select>
+                        <select th:field="*{state}">
                             <option th:each="state : ${states}" th:value="${state}" th:text="${state}">state</option>
                         </select>
                     </td>

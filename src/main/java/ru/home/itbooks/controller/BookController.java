@@ -66,9 +66,19 @@ public class BookController {
     public String editBook(Model model, @PathVariable Long id) {
         val book = bookService.findById(id);
         val result = book.map(b -> {
-            model.addAttribute("book", book.get());
+            val bookForm = BookForm.builder()
+                    .title(b.getTitle())
+                    .authors(String.join(";", b.getAuthors().stream().map(a -> a.getName()).toArray(String[]::new)))
+                    .publisher(b.getPublisher().getId())
+                    .pages(b.getPages())
+                    .year(b.getYear())
+                    .rate(b.getRate())
+                    .state(b.getState())
+                    .build();
+            model.addAttribute("bookForm", bookForm);
             model.addAttribute("rates", BookRate.values());
             model.addAttribute("states", BookState.values());
+            model.addAttribute("publishers", publisherService.findAll());
             return htmls.get("edit");
         }).orElseGet(() -> {
             model.addAttribute("error", "Книга не найдена!");

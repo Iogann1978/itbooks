@@ -17,7 +17,7 @@ public class BookForm {
     private String title;
     private int pages;
     private String authors;
-    private String publisher;
+    private Long publisher;
     private BookRate rate;
     private int year;
     private BookState state;

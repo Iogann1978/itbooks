@@ -140,8 +140,8 @@ public class BookService extends AbstractService<Book, BookRepository> {
                 book_save.addTag(tg_save);
             }
         }
-        if(bookForm.getPublisher() != null && !bookForm.getPublisher().isEmpty()) {
-            val pub = publisherService.findById(Long.parseLong(bookForm.getPublisher()))
+        if(bookForm.getPublisher() != null) {
+            val pub = publisherService.findById(bookForm.getPublisher())
                     .orElseThrow(() -> new Exception(String.format("Издатель %s не найден!", bookForm.getPublisher())));
             pub.addBook(book_save);
             val pub_save = publisherService.save(pub);

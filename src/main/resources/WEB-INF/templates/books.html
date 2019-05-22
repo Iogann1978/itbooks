@@ -13,6 +13,7 @@
                 <th>Авторы</th>
                 <th>Издание</th>
                 <th>Страниц</th>
+                <th>Год</th>
                 <th>Просмотр</th>
             </tr>
             <tr th:each="book:${books}">
@@ -25,6 +26,7 @@
                 </td>
                 <td th:utext="${book.publisher.name}"/>
                 <td th:utext="${book.pages}"/>
+                <td th:utext="${book.year}"/>
                 <td><a id="choose" role="button" th:href="@{'/book/' + ${book.id}}">Книга</a></td>
             </tr>
         </table>

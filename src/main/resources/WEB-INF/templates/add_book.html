@@ -11,6 +11,8 @@
             <input type="text" id="title" th:field="*{title}" autofocus="autofocus" /> <br/>
             <label for="pages">Страниц:</label>
             <input type="number" id="pages" th:field="*{pages}" /> <br/>
+            <label for="year">Год издания:</label>
+            <input type="number" id="year" th:field="*{year}" /> <br/>
             <label for="publisher">Издатель:</label>
             <select id="publisher" th:field="*{publisher}">
                 <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>

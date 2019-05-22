@@ -7,7 +7,7 @@
     <body>
         <table>
             <tr>
-                <td><a href="../book/list">На главную</a></td>
+                <td><a href="/book/list">На главную</a></td>
                 <td><a th:href="@{'/book/edit/' + ${book.id}}">Изменить</a></td>
                 <td><a href="../del_book.html">Удалить</a></td>
             </tr>
@@ -37,9 +37,12 @@
                     <span>;</span>
                 </span>
             </td></tr>
+            <tr>
+                <td colspan="2">
+                    <a th:href="@{'/book/descript/' + ${book.id}}">Описание</a>
+                    <a th:href="@{'/book/contents/' + ${book.id}}">Содержание</a>
+                </td>
+            </tr>
         </table>
-        <form action="#" th:action="@{'/book/descript/' + ${book.id}}" th:object="${id}" method="GET">
-            <input type="submit" value="Описание книги" />
-        </form>
     </body>
 </html>

@@ -3,16 +3,20 @@ package ru.home.itbooks.controller;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.service.BookService;
+import ru.home.itbooks.service.ContentsService;
 import ru.home.itbooks.service.PublisherService;
 import ru.home.itbooks.service.TagService;
 
 import javax.annotation.security.RolesAllowed;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
 import java.util.*;
 
 @Controller
@@ -34,7 +38,10 @@ public class BookController {
     };
 
     @Autowired
-    public BookController(BookService bookService, TagService tagService, PublisherService publisherService) {
+    public BookController(BookService bookService,
+                          TagService tagService,
+                          PublisherService publisherService,
+                          ResourceLoader resourceLoader) {
         this.bookService = bookService;
         this.tagService = tagService;
         this.publisherService = publisherService;
@@ -76,6 +83,17 @@ public class BookController {
         val book = bookService.findById(id);
         val view = new BytesView(book.map(b -> b.getDescript()).map(d -> d.getText()).orElse(null));
         return new ModelAndView(view);
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @GetMapping("/contents/{id}")
+    public ModelAndView getBookContents(@PathVariable Long id) {
+        val view = new ModelAndView("contents");;
+        bookService.findById(id).ifPresent(b -> {
+            val bais = new ByteArrayInputStream(b.getContents());
+            view.addObject("xmlSource", new StreamSource(bais));
+        });
+        return view;
     }
 
     @RolesAllowed("USER,ADMIN")

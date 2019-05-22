@@ -10,6 +10,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.xslt.XsltView;
+import org.springframework.web.servlet.view.xslt.XsltViewResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -43,5 +45,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
         templateResolver.setPrefix("classpath:/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
         return templateResolver;
+    }
+
+    @Bean
+    public ViewResolver xsltViewResolver() {
+        val viewResolver = new XsltViewResolver();
+        viewResolver.setOrder(1);
+        viewResolver.setSourceKey("xmlSource");
+        viewResolver.setPrefix("classpath:/WEB-INF/xsl/");
+        viewResolver.setSuffix(".xslt");
+        viewResolver.setViewClass(XsltView.class);
+        viewResolver.setViewNames(new String[] {"contents"});
+        return viewResolver;
     }
 }

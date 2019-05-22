@@ -16,8 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -51,7 +50,7 @@ public class ItbooksXmlTests {
         });
         list3.addAll(new ArrayList<ContentItem>() {
             {
-                add(new ContentItem("Chapter 3.1", "2.3", 21, null));
+                add(new ContentItem("Chapter 3.1", "3.1", 21, null));
             }
         });
 

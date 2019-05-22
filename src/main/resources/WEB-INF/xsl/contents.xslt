@@ -4,23 +4,33 @@
 
     <xsl:template match="/">
         <html>
+            <head>
+                <meta charsey="utf-8" />
+            </head>
             <body>
-                <div align="center">
-                    <xsl:apply-templates />
-                </div>
+                <xsl:apply-templates select="contents" />
             </body>
         </html>
     </xsl:template>
 
     <xsl:template match="contents">
-        <ol>
+        <ul>
             <xsl:for-each select="item">
-                <li>
-                    <xsl:value-of select="title" />
-                    <xsl:value-of select="@num" />
-                    <xsl:value-of select="@page" />
-                </li>
+                <xsl:apply-templates select="." />
             </xsl:for-each>
-        </ol>
+        </ul>
+    </xsl:template>
+
+    <xsl:template match="item">
+        <li>
+            <span><xsl:value-of select="title" /></span>
+            <span><xsl:value-of select="@num" /></span>
+            <span><xsl:value-of select="@page" /></span>
+            <xsl:for-each select="item">
+                <ul>
+                    <xsl:apply-templates select="." />
+                </ul>
+            </xsl:for-each>
+        </li>
     </xsl:template>
 </xsl:stylesheet>

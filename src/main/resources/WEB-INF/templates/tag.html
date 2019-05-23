@@ -7,15 +7,18 @@
 <body>
 <table>
     <tr>
-        <td><a href="/book/list">Список тэгов</a></td>
+        <td><a href="/book/list">Список книг</a></td>
+        <td><a href="/tag/list">Список тэгов</a></td>
         <td><a th:href="@{'/tag/edit/' + ${tag.id}}">Изменить</a></td>
         <td><a href="../del_tag.html">Удалить</a></td>
     </tr>
 </table>
 
 <table border="1" width="100%">
-    <tr><th colspan="2">Название</th></tr>
-    <tr><td colspan="2" th:text="${tag.tag}">Тэг</td></tr>
+    <tr>
+        <th>Название</th>
+        <td colspan="2" th:text="${tag.tag}">Тэг</td>
+    </tr>
     <tr>
         <th>Книги:</th>
         <td>

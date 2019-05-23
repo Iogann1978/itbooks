@@ -48,17 +48,16 @@ public class TagController {
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/add")
-    public String formAddBook(Model model) {
+    public String addTag(Model model) {
         val tagForm = new TagForm();
         model.addAttribute("tagForm", tagForm);
         return htmls.get("add");
     }
 
     @RolesAllowed("USER,ADMIN")
-    @PostMapping("/add")
-    public String addBook(@ModelAttribute("tagForm") TagForm tagForm) {
-        val tag = Tag.builder().tag(tagForm.getName()).build();
-        tagService.save(tag);
+    @PostMapping("/save")
+    public String saveTag(@ModelAttribute("tagForm") TagForm tagForm) {
+        tagService.save(tagForm);
         return "redirect:list";
     }
 }

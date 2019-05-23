@@ -2,11 +2,15 @@ package ru.home.itbooks.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.BookForm;
@@ -67,6 +71,7 @@ public class BookController {
         val book = bookService.findById(id);
         val result = book.map(b -> {
             val bookForm = BookForm.builder()
+                    .id(b.getId())
                     .title(b.getTitle())
                     .authors(String.join(";", b.getAuthors().stream().map(a -> a.getName()).toArray(String[]::new)))
                     .publisher(b.getPublisher().getId())
@@ -74,7 +79,11 @@ public class BookController {
                     .year(b.getYear())
                     .rate(b.getRate())
                     .state(b.getState())
+                    .fileHtml(new MockMultipartFile("fileXml", b.getContents()))
                     .build();
+            if(b.getDescript() != null) {
+                bookForm.setFileHtml(new MockMultipartFile("fileHtml", b.getDescript().getText()));
+            }
             model.addAttribute("bookForm", bookForm);
             model.addAttribute("rates", BookRate.values());
             model.addAttribute("states", BookState.values());
@@ -120,7 +129,7 @@ public class BookController {
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/add")
-    public String formAddBook(Model model) {
+    public String addBook(Model model) {
         val bookForm = new BookForm();
         model.addAttribute("bookForm", bookForm);
         model.addAttribute("rates", BookRate.values());
@@ -131,8 +140,8 @@ public class BookController {
     }
 
     @RolesAllowed("USER,ADMIN")
-    @PostMapping("/add")
-    public String addBook(@ModelAttribute("bookForm") BookForm bookForm) {
+    @PostMapping("/save")
+    public String saveBook(@ModelAttribute("bookForm") BookForm bookForm) {
         bookService.save(bookForm);
         return "redirect:list";
     }

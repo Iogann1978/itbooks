@@ -6,7 +6,7 @@
     </head>
     <body>
         <h1>Добавление книги</h1>
-        <form action="#" th:action="@{/book/add}" th:object="${bookForm}" method="POST" enctype="multipart/form-data">
+        <form action="#" th:action="@{/book/save}" th:object="${bookForm}" method="POST" enctype="multipart/form-data">
             <label for="title">Название:</label>
             <input type="text" id="title" th:field="*{title}" autofocus="autofocus" /> <br/>
             <label for="pages">Страниц:</label>
@@ -22,7 +22,7 @@
             <label for="fileHtml">Имя html-файла с описанием</label>:
             <input type="file" id="fileHtml" name="fileHtml" accept="text/html" /> <br/>
             <label for="fileXml">Имя xml-файла с оглавлением</label>:
-            <input type="file" id="fileXml" name="fileXml" accept="text/xml" /> <br/>
+            <input type="file" id="fileXml" name="fileXml" accept="application/xml" /> <br/>
             <label for="rate">Оценка:</label>
             <select id="rate" th:field="*{rate}">
                 <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>

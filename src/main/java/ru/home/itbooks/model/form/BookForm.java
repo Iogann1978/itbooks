@@ -8,14 +8,12 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.home.itbooks.model.BookRate;
 import ru.home.itbooks.model.BookState;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookForm {
+    private Long id;
     private String title;
     private int pages;
     private String authors;

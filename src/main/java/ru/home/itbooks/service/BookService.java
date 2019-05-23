@@ -95,6 +95,7 @@ public class BookService extends AbstractService<Book, BookRepository> {
     @SneakyThrows
     public Book save(BookForm bookForm) {
         val book = Book.builder()
+                .id(bookForm.getId())
                 .title(bookForm.getTitle())
                 .year(bookForm.getYear())
                 .pages(bookForm.getPages())
@@ -146,7 +147,7 @@ public class BookService extends AbstractService<Book, BookRepository> {
                     .orElseThrow(() -> new Exception(String.format("Издатель %s не найден!", bookForm.getPublisher())));
             pub.addBook(book_save);
             val pub_save = publisherService.save(pub);
-            book.setPublisher(pub_save);
+            book_save.setPublisher(pub_save);
         }
         return save(book_save);
     }

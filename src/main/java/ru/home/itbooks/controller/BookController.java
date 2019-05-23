@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.service.BookService;
-import ru.home.itbooks.service.ContentsService;
 import ru.home.itbooks.service.PublisherService;
 import ru.home.itbooks.service.TagService;
 

@@ -5,11 +5,7 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import ru.home.itbooks.model.Tag;
+import org.springframework.web.bind.annotation.*;
 import ru.home.itbooks.model.form.TagForm;
 import ru.home.itbooks.service.TagService;
 
@@ -26,6 +22,8 @@ public class TagController {
         {
             put("tags", "tags.html");
             put("add", "add_tag.html");
+            put("edit", "edit_tag.html");
+            put("error", "error.html");
         }
     };
 
@@ -44,6 +42,24 @@ public class TagController {
             model.addAttribute("tags", tags);
         }
         return htmls.get("tags");
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @GetMapping("/edit/{id}")
+    public String editBook(Model model, @PathVariable Long id) {
+        val tag = tagService.findById(id);
+        val result = tag.map(t -> {
+            val tagForm = TagForm.builder()
+                    .id(t.getId())
+                    .name(t.getTag())
+                    .build();
+            model.addAttribute("tagForm", tagForm);
+            return htmls.get("edit");
+        }).orElseGet(() -> {
+            model.addAttribute("error", "Книга не найдена!");
+            return htmls.get("error");
+        });
+        return result;
     }
 
     @RolesAllowed("USER,ADMIN")

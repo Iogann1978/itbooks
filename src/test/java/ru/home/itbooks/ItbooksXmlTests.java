@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.home.itbooks.model.ContentItem;
-import ru.home.itbooks.model.Contents;
+import ru.home.itbooks.model.xml.ContentItem;
+import ru.home.itbooks.model.xml.Contents;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

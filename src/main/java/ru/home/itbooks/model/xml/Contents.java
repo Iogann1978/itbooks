@@ -1,4 +1,4 @@
-package ru.home.itbooks.model;
+package ru.home.itbooks.model.xml;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

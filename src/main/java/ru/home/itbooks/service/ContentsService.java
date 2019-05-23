@@ -2,7 +2,7 @@ package ru.home.itbooks.service;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import ru.home.itbooks.model.Contents;
+import ru.home.itbooks.model.xml.Contents;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

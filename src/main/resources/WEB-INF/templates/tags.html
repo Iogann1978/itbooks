@@ -1,26 +1,26 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Список тэгов</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-</head>
+    <head>
+        <title>Список тэгов</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
 
-<body>
-<table border="1" width="100%">
-    <tr>
-        <th>Тэг</th>
-        <th>Действие</th>
-    </tr>
-    <tr th:each="tag:${tags}">
-        <td th:utext="${tag.tag}"/>
-        <td>
-            <a id="view" role="button" th:href="@{'/tag/' + ${tag.id}}">Просмотр</a>
-            <a id="add" role="button" th:href="@{'/tag/add/' + ${tag.id}}">Добавить</a>
-            <a id="edit" role="button" th:href="@{'/tag/edit/' + ${tag.id}}">Изменить</a>
-            <a id="del" role="button" th:href="@{'/tag/del/' + ${tag.id}}">Удалить</a>
-        </td>
-    </tr>
-</table>
-</body>
+    <body>
+        <table border="1" width="100%">
+            <tr>
+                <th>Тэг</th>
+                <th>Действие</th>
+            </tr>
+            <tr th:each="tag:${tags}">
+                <td th:utext="${tag.tag}"/>
+                <td>
+                    <a id="view" role="button" th:href="@{'/tag/' + ${tag.id}}">Просмотр</a>
+                    <a id="add" role="button" th:href="@{'/tag/add/' + ${tag.id}}">Добавить</a>
+                    <a id="edit" role="button" th:href="@{'/tag/edit/' + ${tag.id}}">Изменить</a>
+                    <a id="del" role="button" th:href="@{'/tag/del/' + ${tag.id}}">Удалить</a>
+                </td>
+            </tr>
+        </table>
+    </body>
 </html>

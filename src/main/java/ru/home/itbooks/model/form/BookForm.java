@@ -1,10 +1,12 @@
-package ru.home.itbooks.model;
+package ru.home.itbooks.model.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import ru.home.itbooks.model.BookRate;
+import ru.home.itbooks.model.BookState;
 
 import java.util.HashSet;
 import java.util.Set;

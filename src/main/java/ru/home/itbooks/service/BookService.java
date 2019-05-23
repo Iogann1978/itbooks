@@ -6,6 +6,7 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.*;
+import ru.home.itbooks.model.form.BookForm;
 import ru.home.itbooks.repository.BookRepository;
 
 import javax.annotation.PostConstruct;

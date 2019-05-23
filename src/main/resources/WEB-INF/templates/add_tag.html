@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавление тэга</title>
+    <meta charset=utf-8>
+</head>
+    <body>
+        <h1>Добавление тэга</h1>
+        <form action="#" th:action="@{/tag/add}" th:object="${tagForm}" method="POST">
+            <label for="tag">Название:</label>
+            <input type="text" id="tag" th:field="*{name}" autofocus="autofocus" /> <br/>
+            <input type="submit" value="Добавить" />
+        </form>
+    </body>
+</html>

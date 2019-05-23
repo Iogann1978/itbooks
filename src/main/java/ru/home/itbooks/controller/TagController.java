@@ -20,6 +20,7 @@ public class TagController {
     private TagService tagService;
     private static final Map<String, String> htmls = new HashMap<String, String>() {
         {
+            put("view", "tag.html");
             put("tags", "tags.html");
             put("add", "add_tag.html");
             put("edit", "edit_tag.html");
@@ -30,6 +31,20 @@ public class TagController {
     @Autowired
     public TagController(TagService tagService) {
         this.tagService = tagService;
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @GetMapping("/{id}")
+    public String getBook(Model model, @PathVariable Long id) {
+        val tag = tagService.findById(id);
+        val result = tag.map(t -> {
+            model.addAttribute("tag", t);
+            return htmls.get("view");
+        }).orElseGet(() -> {
+            model.addAttribute("error", "Тэг не найден!");
+            return htmls.get("error");
+        });
+        return result;
     }
 
     @RolesAllowed("USER,ADMIN")

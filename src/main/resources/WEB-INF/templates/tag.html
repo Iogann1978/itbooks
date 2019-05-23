@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Тэг</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+<table>
+    <tr>
+        <td><a href="/book/list">Список тэгов</a></td>
+        <td><a th:href="@{'/tag/edit/' + ${tag.id}}">Изменить</a></td>
+        <td><a href="../del_tag.html">Удалить</a></td>
+    </tr>
+</table>
+
+<table border="1" width="100%">
+    <tr><th colspan="2">Название</th></tr>
+    <tr><td colspan="2" th:text="${tag.tag}">Тэг</td></tr>
+    <tr>
+        <th>Книги:</th>
+        <td>
+            <ol>
+                <li th:each="book:${tag.books}">
+                    <span th:text="${book.title}">Имя автора</span>
+                </li>
+            </ol>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

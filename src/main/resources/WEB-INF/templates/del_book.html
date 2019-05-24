@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Удаление книги</title>
+</head>
+<body>
+    <table>
+        <tr><a href="/book/list">На главную</a></tr>
+    </table>
+
+    <form action="#" th:action="@{/book/del}" th:object="${bookForm}" method="POST">
+        <table border="1" width="100%">
+            <tr>
+                <th>Название книги</th>
+                <td th:text="*{title}">title</td>
+            </tr>
+            <tr>
+                <th>Действие</th>
+                <td>
+                    <input type="submit" value="Удалить" />
+                    <input type="number" hidden="true" th:field="*{id}" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

@@ -2,15 +2,12 @@ package ru.home.itbooks.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.BookForm;
@@ -146,10 +143,28 @@ public class BookController {
         return "redirect:list";
     }
 
-    @RolesAllowed("ADMIN")
-    @DeleteMapping("/del")
-    public String delBook(Model model, @ModelAttribute("id") Long id) {
-        bookService.deleteById(id);
-        return htmls.get("books");
+    @RolesAllowed("USER,ADMIN")
+    @GetMapping("/del/{id}")
+    public String delBook(Model model, @PathVariable Long id) {
+        val book = bookService.findById(id);
+        val result = book.map(b -> {
+            val bookForm = BookForm.builder()
+                    .id(b.getId())
+                    .title(b.getTitle())
+                    .build();
+            model.addAttribute("bookForm", bookForm);
+            return htmls.get("del");
+        }).orElseGet(() -> {
+            model.addAttribute("error", "Книга не найдена!");
+            return htmls.get("error");
+        });
+        return result;
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @PostMapping("/del")
+    public String delBook(@ModelAttribute("bookForm") BookForm bookForm) {
+        bookService.deleteById(bookForm.getId());
+        return "redirect:list";
     }
 }

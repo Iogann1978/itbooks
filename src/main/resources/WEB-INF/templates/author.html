@@ -10,21 +10,21 @@
         <td><a href="/book/list">Список книг</a></td>
         <td><a href="/tag/list">Список тэгов</a></td>
         <td><a href="/author/list">Список авторов</a></td>
-        <td><a th:href="@{'/tag/edit/' + ${tag.id}}">Изменить</a></td>
-        <td><a th:href="@{'/tag/del/' + ${tag.id}}">Удалить</a></td>
+        <td><a th:href="@{'/author/edit/' + ${author.id}}">Изменить</a></td>
+        <td><a th:href="@{'/author/del/' + ${author.id}}">Удалить</a></td>
     </tr>
 </table>
 
 <table border="1" width="100%">
     <tr>
         <th>Название</th>
-        <td colspan="2" th:text="${tag.tag}">Тэг</td>
+        <td colspan="2" th:text="${author.name}">Тэг</td>
     </tr>
     <tr>
         <th>Книги:</th>
         <td>
             <ol>
-                <li th:each="book:${tag.books}">
+                <li th:each="book:${author.books}">
                     <span th:text="${book.title}">Книга</span>
                 </li>
             </ol>

@@ -104,10 +104,12 @@ public class BookController {
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/contents/{id}")
     public ModelAndView getBookContents(@PathVariable Long id) {
-        val view = new ModelAndView("contents");;
+        val view = new ModelAndView("contents");
         bookService.findById(id).ifPresent(b -> {
-            val bais = new ByteArrayInputStream(b.getContents());
-            view.addObject("xmlSource", new StreamSource(bais));
+            if(b.getContents() != null) {
+                val bais = new ByteArrayInputStream(b.getContents());
+                view.addObject("xmlSource", new StreamSource(bais));
+            }
         });
         return view;
     }

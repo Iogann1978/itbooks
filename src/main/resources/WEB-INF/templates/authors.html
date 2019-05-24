@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список авторов</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+<table>
+    <tr>
+        <td><a href="/author/list">Список книг</a></td>
+    </tr>
+</table>
+
+<table border="1" width="100%">
+    <tr>
+        <th>Тэг</th>
+        <th>Действие</th>
+    </tr>
+    <tr th:each="author:${authors}">
+        <td th:utext="${author.name}"/>
+        <td>
+            <a id="view" role="button" th:href="@{'/author/' + ${author.id}}">Просмотр</a>
+            <a id="edit" role="button" th:href="@{'/author/edit/' + ${author.id}}">Изменить</a>
+            <a id="del" role="button" th:href="@{'/author/del/' + ${author.id}}">Удалить</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

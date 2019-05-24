@@ -8,7 +8,10 @@
 
     <body>
         <table>
-            <tr><a href="/book/list">Список книг</a></tr>
+            <tr>
+                <td><a href="/book/list">Список книг</a></td>
+                <td><a href="/tag/add">Добавить тэг</a></td>
+            </tr>
         </table>
 
         <table border="1" width="100%">
@@ -20,7 +23,6 @@
                 <td th:utext="${tag.tag}"/>
                 <td>
                     <a id="view" role="button" th:href="@{'/tag/' + ${tag.id}}">Просмотр</a>
-                    <a id="add" role="button" th:href="@{'/tag/add/' + ${tag.id}}">Добавить</a>
                     <a id="edit" role="button" th:href="@{'/tag/edit/' + ${tag.id}}">Изменить</a>
                     <a id="del" role="button" th:href="@{'/tag/del/' + ${tag.id}}">Удалить</a>
                 </td>

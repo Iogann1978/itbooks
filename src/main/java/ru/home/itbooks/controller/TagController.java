@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.home.itbooks.model.form.BookForm;
 import ru.home.itbooks.model.form.TagForm;
 import ru.home.itbooks.service.TagService;
 
@@ -24,6 +25,7 @@ public class TagController {
             put("tags", "tags.html");
             put("add", "add_tag.html");
             put("edit", "edit_tag.html");
+            put("del", "del_tag.html");
             put("error", "error.html");
         }
     };
@@ -89,6 +91,32 @@ public class TagController {
     @PostMapping("/save")
     public String saveTag(@ModelAttribute("tagForm") TagForm tagForm) {
         tagService.save(tagForm);
+        return "redirect:list";
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @GetMapping("/del/{id}")
+    public String delTag(Model model, @PathVariable Long id) {
+        val tag = tagService.findById(id);
+        val result = tag.filter(t -> (t.getBooks() == null || t.getBooks().size() == 0))
+                .map(t -> {
+            val tagForm = TagForm.builder()
+                    .id(t.getId())
+                    .name(t.getTag())
+                    .build();
+            model.addAttribute("tagForm", tagForm);
+            return htmls.get("del");
+        }).orElseGet(() -> {
+            model.addAttribute("error", "Тэг не найден или на него ссылаются книги!");
+            return htmls.get("error");
+        });
+        return result;
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @PostMapping("/del")
+    public String delTag(@ModelAttribute("tagForm") TagForm tagForm) {
+        tagService.deleteById(tagForm.getId());
         return "redirect:list";
     }
 }

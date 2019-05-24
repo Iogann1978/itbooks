@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Удаление тэга</title>
+</head>
+<body>
+<table>
+    <tr><td><a href="/book/list">Список книг</a></td></tr>
+    <tr><td><a href="/tag/list">Список тэгов</a></td></tr>
+</table>
+
+<form action="#" th:action="@{/tag/del}" th:object="${tagForm}" method="POST">
+    <table border="1" width="100%">
+        <tr>
+            <th>Название тэга</th>
+            <td th:text="*{name}">name</td>
+        </tr>
+        <tr>
+            <th>Действие</th>
+            <td>
+                <input type="submit" value="Удалить" />
+                <input type="number" hidden="true" th:field="*{id}" />
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

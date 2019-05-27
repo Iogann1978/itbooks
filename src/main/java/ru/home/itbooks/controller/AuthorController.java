@@ -82,4 +82,30 @@ public class AuthorController {
         authorService.save(authorForm);
         return "redirect:list";
     }
+
+    @RolesAllowed("USER,ADMIN")
+    @GetMapping("/del/{id}")
+    public String delAuthor(Model model, @PathVariable Long id) {
+        val author = authorService.findById(id);
+        val result = author.filter(a -> (a.getBooks() == null || a.getBooks().size() == 0))
+                .map(a -> {
+                    val authorForm = AuthorForm.builder()
+                            .id(a.getId())
+                            .name(a.getName())
+                            .build();
+                    model.addAttribute("authorForm", authorForm);
+                    return htmls.get("del");
+                }).orElseGet(() -> {
+                    model.addAttribute("error", "Автор не найден или на него ссылаются книги!");
+                    return htmls.get("error");
+                });
+        return result;
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @PostMapping("/del")
+    public String delAuthor(@ModelAttribute("authorForm") AuthorForm authorForm) {
+        authorService.deleteById(authorForm.getId());
+        return "redirect:list";
+    }
 }

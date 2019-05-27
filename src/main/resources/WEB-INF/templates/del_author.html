@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Удаление тэга</title>
+    <title>Удаление автора</title>
 </head>
 <body>
 <table>
@@ -13,10 +13,10 @@
     </tr>
 </table>
 
-<form action="#" th:action="@{/tag/del}" th:object="${tagForm}" method="POST">
+<form action="#" th:action="@{/author/del}" th:object="${authorForm}" method="POST">
     <table border="1" width="100%">
         <tr>
-            <th>Название тэга</th>
+            <th>Имя автора</th>
             <td th:text="*{name}">name</td>
         </tr>
         <tr>

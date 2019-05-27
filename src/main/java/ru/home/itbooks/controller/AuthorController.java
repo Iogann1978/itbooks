@@ -23,6 +23,7 @@ public class AuthorController {
             put("view", "author.html");
             put("authors", "authors.html");
             put("edit", "edit_author.html");
+            put("del", "del_author.html");
             put("error", "error.html");
         }
     };

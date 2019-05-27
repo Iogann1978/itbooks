@@ -1,8 +1,10 @@
 package ru.home.itbooks.service;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.Author;
+import ru.home.itbooks.model.form.AuthorForm;
 import ru.home.itbooks.repository.AuthorRepository;
 
 import java.util.Optional;
@@ -16,5 +18,12 @@ public class AuthorService extends AbstractService<Author, AuthorRepository> {
 
     public Optional<Author> findByName(String name) {
         return repository.findAuthorByName(name);
+    }
+
+    public Author save(AuthorForm authorForm) {
+        val author = Author.builder()
+                .id(authorForm.getId())
+                .name(authorForm.getName()).build();
+        return repository.save(author);
     }
 }

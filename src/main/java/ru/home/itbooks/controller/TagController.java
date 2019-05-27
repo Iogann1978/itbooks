@@ -62,7 +62,7 @@ public class TagController {
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/edit/{id}")
-    public String editBook(Model model, @PathVariable Long id) {
+    public String editTag(Model model, @PathVariable Long id) {
         val tag = tagService.findById(id);
         val result = tag.map(t -> {
             val tagForm = TagForm.builder()

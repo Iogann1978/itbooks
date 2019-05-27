@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактирование автора</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+<table>
+    <tr><td><a href="/author/list">Список авторов</a></td></tr>
+</table>
+
+<form th:action="@{/author/save}" th:object="${authorForm}" method="POST">
+    <table border="1" width="100%">
+        <tr>
+            <th>Имя автора</th>
+            <td><input type="text" id="name" name="name" autofocus="autofocus" width="100%" th:value="*{name}" /></td>
+        </tr>
+        <tr>
+            <th>Действие</th>
+            <td>
+                <input type="submit" value="Изменить" />
+                <input type="number" hidden="true" th:field="*{id}" />
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

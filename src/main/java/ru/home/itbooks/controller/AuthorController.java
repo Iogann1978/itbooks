@@ -5,9 +5,8 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ru.home.itbooks.model.form.AuthorForm;
 import ru.home.itbooks.service.AuthorService;
 
 import javax.annotation.security.RolesAllowed;
@@ -23,6 +22,8 @@ public class AuthorController {
         {
             put("view", "author.html");
             put("authors", "authors.html");
+            put("edit", "edit_author.html");
+            put("error", "error.html");
         }
     };
 
@@ -55,5 +56,30 @@ public class AuthorController {
             model.addAttribute("authors", authors);
         }
         return htmls.get("authors");
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @GetMapping("/edit/{id}")
+    public String editAuthor(Model model, @PathVariable Long id) {
+        val author = authorService.findById(id);
+        val result = author.map(a -> {
+            val authorForm = AuthorForm.builder()
+                    .id(a.getId())
+                    .name(a.getName())
+                    .build();
+            model.addAttribute("authorForm", authorForm);
+            return htmls.get("edit");
+        }).orElseGet(() -> {
+            model.addAttribute("error", "Книга не найдена!");
+            return htmls.get("error");
+        });
+        return result;
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @PostMapping("/save")
+    public String saveAuthor(@ModelAttribute("authorForm") AuthorForm authorForm) {
+        authorService.save(authorForm);
+        return "redirect:list";
     }
 }

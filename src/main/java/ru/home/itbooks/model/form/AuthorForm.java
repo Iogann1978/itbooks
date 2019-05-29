@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthorForm {
+public class AuthorForm implements ItemForm {
     private Long id;
     private String name;
 }

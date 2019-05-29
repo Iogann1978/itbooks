@@ -21,7 +21,7 @@ public class AuthorController {
     private static final Map<String, String> htmls = new HashMap<String, String>() {
         {
             put("view", "author.html");
-            put("authors", "authors.html");
+            put("list", "authors.html");
             put("edit", "edit_author.html");
             put("del", "del_author.html");
             put("error", "error.html");
@@ -35,7 +35,7 @@ public class AuthorController {
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/{id}")
-    public String getBook(Model model, @PathVariable Long id) {
+    public String getAuthor(Model model, @PathVariable Long id) {
         val author = authorService.findById(id);
         val result = author.map(a -> {
             model.addAttribute("author", a);
@@ -49,14 +49,14 @@ public class AuthorController {
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/list")
-    public String getTags(Model model) {
+    public String getAuthors(Model model) {
         val count = authorService.count();
         model.addAttribute("count", count);
         if(count > 0) {
             val authors = authorService.findAll();
             model.addAttribute("authors", authors);
         }
-        return htmls.get("authors");
+        return htmls.get("list");
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -71,7 +71,7 @@ public class AuthorController {
             model.addAttribute("authorForm", authorForm);
             return htmls.get("edit");
         }).orElseGet(() -> {
-            model.addAttribute("error", "Книга не найдена!");
+            model.addAttribute("error", "Автор не найден!");
             return htmls.get("error");
         });
         return result;

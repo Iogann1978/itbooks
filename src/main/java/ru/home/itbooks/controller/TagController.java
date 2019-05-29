@@ -21,7 +21,7 @@ public class TagController {
     private static final Map<String, String> htmls = new HashMap<String, String>() {
         {
             put("view", "tag.html");
-            put("tags", "tags.html");
+            put("list", "tags.html");
             put("add", "add_tag.html");
             put("edit", "edit_tag.html");
             put("del", "del_tag.html");
@@ -36,7 +36,7 @@ public class TagController {
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/{id}")
-    public String getBook(Model model, @PathVariable Long id) {
+    public String getTag(Model model, @PathVariable Long id) {
         val tag = tagService.findById(id);
         val result = tag.map(t -> {
             model.addAttribute("tag", t);
@@ -57,7 +57,7 @@ public class TagController {
             val tags = tagService.findAll();
             model.addAttribute("tags", tags);
         }
-        return htmls.get("tags");
+        return htmls.get("list");
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -72,7 +72,7 @@ public class TagController {
             model.addAttribute("tagForm", tagForm);
             return htmls.get("edit");
         }).orElseGet(() -> {
-            model.addAttribute("error", "Книга не найдена!");
+            model.addAttribute("error", "Тэг не найден!");
             return htmls.get("error");
         });
         return result;

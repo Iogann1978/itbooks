@@ -12,7 +12,7 @@ import ru.home.itbooks.model.BookState;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookForm {
+public class BookForm implements ItemForm {
     private Long id;
     private String title;
     private int pages;

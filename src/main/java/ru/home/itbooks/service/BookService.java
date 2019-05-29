@@ -34,64 +34,6 @@ public class BookService extends AbstractService<Book, BookRepository> {
         this.publisherService = publisherService;
     }
 
-    @PostConstruct
-    public void init() {
-        val b = Book.builder()
-                .title("Java Concurrency In Practice")
-                .year(2006)
-                .state(BookState.PLANNED)
-                .rate(BookRate.GOOD)
-                .build();
-        val blist = new HashSet<Book>() {
-            {
-                add(b);
-            }
-        };
-
-        val pubs = new HashSet<Publisher>() {
-            {
-                add(new Publisher(null, "Publisher 1", blist));
-                add(new Publisher(null, "Publisher 2", blist));
-                add(new Publisher(null, "Publisher 3", blist));
-            }
-        };
-        val pubs_iter = publisherService.saveAll(pubs);
-
-        val a = new HashSet<Author>() {
-            {
-                add(new Author(null, "Brian Göetz", blist));
-                add(new Author(null, "Tim Peierls", blist));
-                add(new Author(null, "Joshua Blochn", blist));
-                add(new Author(null, "Joseph Bowbeer", blist));
-                add(new Author(null, "David Holmes", blist));
-                add(new Author(null, "Doug Lea", blist));
-            }
-        };
-        val a_iter = authorService.saveAll(a);
-        val a_save = new HashSet<Author>();
-        a_iter.forEach(ai -> a_save.add(ai));
-
-        val d = new Descript(null, "<html><body><h1>Descript</h1><hr/></body></html>".getBytes());
-        val d_save = descriptService.save(d);
-
-        Set<Tag> tags = new HashSet<Tag>() {
-            {
-                add(new Tag(null, "Tag 1", blist));
-                add(new Tag(null, "Tag 2", blist));
-                add(new Tag(null, "Tag 3", blist));
-            }
-        };
-        val tags_iter = tagService.saveAll(tags);
-        val tags_save = new HashSet<Tag>();
-        tags_iter.forEach(t -> tags_save.add(t));
-
-        b.setAuthors(a_save);
-        b.setTags(tags_save);
-        b.setPublisher(pubs_iter.iterator().next());
-        b.setDescript(d_save);
-        save(b);
-    }
-
     @SneakyThrows
     public Book save(BookForm bookForm) {
         val book = Book.builder()

@@ -30,7 +30,7 @@ public class BookController {
     private static final Map<String, String> htmls = new HashMap<String, String>() {
         {
             put("view", "book.html");
-            put("books", "books.html");
+            put("list", "books.html");
             put("edit", "edit_book.html");
             put("del", "del_book.html");
             put("add", "add_book.html");
@@ -123,7 +123,7 @@ public class BookController {
             val books = bookService.findAll();
             model.addAttribute("books", books);
         }
-        return htmls.get("books");
+        return htmls.get("list");
     }
 
     @RolesAllowed("USER,ADMIN")

@@ -71,6 +71,7 @@ public class BookController {
                     .id(b.getId())
                     .title(b.getTitle())
                     .authors(String.join(";", b.getAuthors().stream().map(a -> a.getName()).toArray(String[]::new)))
+                    .tags(String.join(";", b.getTags().stream().map(t -> t.getTag()).toArray(String[]::new)))
                     .publisher(b.getPublisher().getId())
                     .pages(b.getPages())
                     .year(b.getYear())
@@ -84,6 +85,7 @@ public class BookController {
             model.addAttribute("bookForm", bookForm);
             model.addAttribute("rates", BookRate.values());
             model.addAttribute("states", BookState.values());
+            model.addAttribute("tags", tagService.findAll());
             model.addAttribute("publishers", publisherService.findAll());
             return htmls.get("edit");
         }).orElseGet(() -> {
@@ -141,6 +143,7 @@ public class BookController {
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
     public String saveBook(@ModelAttribute("bookForm") BookForm bookForm) {
+        log.info("tags: {}", bookForm.getTags());
         bookService.save(bookForm);
         return "redirect:list";
     }

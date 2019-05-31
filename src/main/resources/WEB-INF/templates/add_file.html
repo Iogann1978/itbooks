@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавление файла</title>
+    <meta charset=utf-8>
+</head>
+<body>
+<h1>Добавление файла</h1>
+<form action="#" th:action="@{/file/save}" th:object="${fileForm}" method="POST" enctype="multipart/form-data">
+    <label for="file">Имя файла книги</label>:
+    <input type="file" id="file" name="file" />
+    <input type="submit" value="Добавить" />
+</form>
+</body>
+</html>

@@ -1,8 +1,12 @@
 package ru.home.itbooks.service;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.BookFile;
+import ru.home.itbooks.model.Tag;
+import ru.home.itbooks.model.form.BookFileForm;
+import ru.home.itbooks.model.form.TagForm;
 import ru.home.itbooks.repository.BookFileRepository;
 
 @Service
@@ -10,5 +14,14 @@ public class BookFileService extends AbstractService<BookFile, BookFileRepositor
     @Autowired
     public BookFileService(BookFileRepository repository) {
         super(repository);
+    }
+
+    public BookFile save(BookFileForm fileForm) {
+        val file = BookFile.builder()
+                .id(fileForm.getId())
+                .filename(fileForm.getFile().getOriginalFilename())
+                .size(fileForm.getFile().getSize())
+                .build();
+        return repository.save(file);
     }
 }

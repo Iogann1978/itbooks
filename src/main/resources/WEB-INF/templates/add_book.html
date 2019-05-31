@@ -8,17 +8,17 @@
         <h1>Добавление книги</h1>
         <form action="#" th:action="@{/book/save}" th:object="${bookForm}" method="POST" enctype="multipart/form-data">
             <label for="title">Название:</label>
-            <input type="text" id="title" style="width: 100%" th:field="*{title}" autofocus="autofocus" /> <br/>
+            <input type="text" id="title" style="width: 97%" th:field="*{title}" autofocus="autofocus" /> <br/>
             <label for="pages">Страниц:</label>
             <input type="number" id="pages" th:field="*{pages}" /> <br/>
             <label for="year">Год издания:</label>
             <input type="number" id="year" th:field="*{year}" /> <br/>
             <label for="publisher">Издатель:</label>
-            <select id="publisher" th:field="*{publisher}">
+            <select id="publisher" style="width: 50%" th:field="*{publisher}">
                 <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
             </select> <br/>
             <label for="authors">Авторы:</label>
-            <input type="text" id="authors" th:field="*{authors}" /> <br/>
+            <input type="text" id="authors" style="width: 97%" th:field="*{authors}" /> <br/>
             <label for="fileHtml">Имя html-файла с описанием</label>:
             <input type="file" id="fileHtml" name="fileHtml" accept="text/html" /> <br/>
             <label for="fileXml">Имя xml-файла с оглавлением</label>:

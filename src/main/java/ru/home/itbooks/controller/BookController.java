@@ -143,7 +143,6 @@ public class BookController {
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
     public String saveBook(@ModelAttribute("bookForm") BookForm bookForm) {
-        log.info("tags: {}", bookForm.getTags());
         bookService.save(bookForm);
         return "redirect:list";
     }

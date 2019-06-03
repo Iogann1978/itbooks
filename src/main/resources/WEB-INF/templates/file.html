@@ -28,7 +28,7 @@
     <tr>
         <th>Книга:</th>
         <td>
-            <span th:text="${file.book.title}">Книга</span>
+            <span th:if="${file.book != null}" th:text="${file.book.title}">Книга</span>
         </td>
     </tr>
 </table>

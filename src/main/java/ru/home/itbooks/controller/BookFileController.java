@@ -73,8 +73,7 @@ public class BookFileController {
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
-    public String saveFile(HttpServletRequest request, @ModelAttribute("fileForm") BookFileForm fileForm) {
-        request.getServletContext().getRealPath("file");
+    public String saveFile(@ModelAttribute("fileForm") BookFileForm fileForm) {
         fileService.save(fileForm);
         return "redirect:list";
     }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.BookForm;
+import ru.home.itbooks.service.BookFileService;
 import ru.home.itbooks.service.BookService;
 import ru.home.itbooks.service.PublisherService;
 import ru.home.itbooks.service.TagService;
@@ -27,6 +28,7 @@ public class BookController {
     private BookService bookService;
     private TagService tagService;
     private PublisherService publisherService;
+    private BookFileService bookFileService;
     private static final Map<String, String> htmls = new HashMap<String, String>() {
         {
             put("view", "book.html");
@@ -42,10 +44,11 @@ public class BookController {
     public BookController(BookService bookService,
                           TagService tagService,
                           PublisherService publisherService,
-                          ResourceLoader resourceLoader) {
+                          BookFileService bookFileService) {
         this.bookService = bookService;
         this.tagService = tagService;
         this.publisherService = publisherService;
+        this.bookFileService = bookFileService;
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -77,16 +80,20 @@ public class BookController {
                     .year(b.getYear())
                     .rate(b.getRate())
                     .state(b.getState())
-                    .fileHtml(new MockMultipartFile("fileXml", b.getContents()))
+                    .fileXml(new MockMultipartFile("fileXml", b.getContents()))
                     .build();
             if(b.getDescript() != null) {
                 bookForm.setFileHtml(new MockMultipartFile("fileHtml", b.getDescript().getText()));
+            }
+            if(b.getFile() != null) {
+                bookForm.setFile(b.getFile().getId());
             }
             model.addAttribute("bookForm", bookForm);
             model.addAttribute("rates", BookRate.values());
             model.addAttribute("states", BookState.values());
             model.addAttribute("tags", tagService.findAll());
             model.addAttribute("publishers", publisherService.findAll());
+            model.addAttribute("files", bookFileService.findAll());
             return htmls.get("edit");
         }).orElseGet(() -> {
             model.addAttribute("error", "Книга не найдена!");

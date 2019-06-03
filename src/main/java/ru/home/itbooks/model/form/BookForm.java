@@ -18,6 +18,7 @@ public class BookForm implements ItemForm {
     private int pages;
     private String authors;
     private Long publisher;
+    private Long file;
     private BookRate rate;
     private int year;
     private BookState state;

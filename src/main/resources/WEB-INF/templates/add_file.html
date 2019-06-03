@@ -6,10 +6,23 @@
 </head>
 <body>
 <h1>Добавление файла</h1>
-<form action="#" th:action="@{/file/save}" th:object="${fileForm}" method="POST" enctype="multipart/form-data">
-    <label for="file">Имя файла книги</label>:
-    <input type="file" id="file" name="file" />
+<form action="#" th:action="@{/file/save}" th:object="${fileForm}" method="POST">
+    <label for="filename">Имя файла книги</label>:
+    <input type="file" id="filename" name="filename" onchange="get_size()" /> <br/>
+    <label for="size">Размер файла книги</label>:
+    <input type="number" id="size" th:field="*{size}" /> <br/>
     <input type="submit" value="Добавить" />
 </form>
 </body>
+
+<script>
+    function get_size() {
+        var fi = document.getElementById('filename');
+        if (fi.files.length > 0) {
+                var fsize = fi.files.item(0).size;
+                document.getElementById("size").value = fsize;
+        }
+    }
+</script>
+
 </html>

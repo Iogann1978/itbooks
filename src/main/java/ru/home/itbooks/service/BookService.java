@@ -20,18 +20,21 @@ public class BookService extends AbstractService<Book, BookRepository> {
     private AuthorService authorService;
     private TagService tagService;
     private PublisherService publisherService;
+    private BookFileService bookFileService;
 
     @Autowired
     public BookService(BookRepository repository,
                        DescriptService descriptService,
                        AuthorService authorService,
                        TagService tagService,
-                       PublisherService publisherService) {
+                       PublisherService publisherService,
+                       BookFileService bookFileService) {
         super(repository);
         this.descriptService = descriptService;
         this.authorService = authorService;
         this.tagService = tagService;
         this.publisherService = publisherService;
+        this.bookFileService = bookFileService;
     }
 
     @SneakyThrows
@@ -90,6 +93,12 @@ public class BookService extends AbstractService<Book, BookRepository> {
             pub.addBook(book_save);
             val pub_save = publisherService.save(pub);
             book_save.setPublisher(pub_save);
+        }
+        if(bookForm.getFile() != null) {
+            val file = bookFileService.findById(bookForm.getFile())
+                    .orElseThrow(() -> new Exception(String.format("Файл %s не найден!", bookForm.getFile())));
+            val file_save = bookFileService.save(file);
+            book_save.setFile(file_save);
         }
         return save(book_save);
     }

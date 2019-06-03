@@ -19,8 +19,8 @@ public class BookFileService extends AbstractService<BookFile, BookFileRepositor
     public BookFile save(BookFileForm fileForm) {
         val file = BookFile.builder()
                 .id(fileForm.getId())
-                .filename(fileForm.getFile().getOriginalFilename())
-                .size(fileForm.getFile().getSize())
+                .filename(fileForm.getFilename())
+                .size(fileForm.getSize())
                 .build();
         return repository.save(file);
     }

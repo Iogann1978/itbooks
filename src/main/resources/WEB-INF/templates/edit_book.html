@@ -11,37 +11,40 @@
 
         <form th:action="@{/book/save}" th:object="${bookForm}" method="POST" enctype="multipart/form-data">
             <table border="1" width="100%">
-                <tr><th colspan="3">Название книги</th></tr>
-                <tr><td colspan="3"><input type="text" id="title" name="title" autofocus="autofocus" style="width: 97%" th:value="*{title}" /></td></tr>
+                <tr><th colspan="4">Название книги</th></tr>
+                <tr><td colspan="4"><input type="text" id="title" name="title" autofocus="autofocus" style="width: 97%" th:value="*{title}" /></td></tr>
                 <tr>
                     <th>Авторы книги:</th>
-                    <td colspan="2"><input type="text" id="authors" name="authors" style="width: 97%" th:value="*{authors}" /></td>
+                    <td colspan="3"><input type="text" id="authors" name="authors" style="width: 97%" th:value="*{authors}" /></td>
                 </tr>
-                <tr><th>Издательство</th><th>Год издания</th><th>Страниц</th></tr>
+                <tr><th>Издательство</th><th>Файл книги</th><th>Год издания</th><th>Страниц</th></tr>
                 <tr>
                     <td>
                         <select id="publisher" th:field="*{publisher}">
                             <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
                         </select> <br/>
                     </td>
+                    <td>
+                        <select id="file" th:field="*{file}">
+                            <option th:each="file : ${files}" th:value="${file.id}" th:text="${file.filename}">file</option>
+                        </select> <br/>
+                    </td>
                     <td><input type="number" id="year" name="year" th:value="*{year}" /></td>
                     <td><input type="number" id="pages" name="pages" th:value="*{pages}" /></td>
                 </tr>
                 <tr>
-                    <th>Имя html-файла с описанием и имя xml-файла с оглавлением</th>
+                    <th>Имя html-файла с описанием</th>
                     <td><input type="file" id="fileHtml" name="fileHtml" accept="text/html" /></td>
+                    <th>Имя xml-файла с оглавлением</th>
                     <td><input type="file" id="fileXml" name="fileXml" accept="application/xml" /></td>
                 </tr>
+                <tr><th>Тэги</th><th>Оценка</th><th>Состояние прочтения</th><th>Действие</th></tr>
                 <tr>
-                    <td>Тэги</td>
-                    <td colspan="2">
+                    <td>
                         <select id="tags" name="tags" multiple size="2">
                             <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}" th:selected="${bookForm.tags.contains(tag.tag)}">tag</option>
                         </select>
                     </td>
-                </tr>
-                <tr><th>Оценка</th><th>Состояние прочтения</th><th>Действие</th></tr>
-                <tr>
                     <td>
                         <select th:field="*{rate}">
                             <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>
@@ -58,10 +61,6 @@
                     </td>
                 </tr>
             </table>
-        </form>
-        <span th:text="${bookForm.tags}"/>
-        <form th:action="@{/book/save}" th:object="${bookForm}" method="POST">
-
         </form>
     </body>
 </html>

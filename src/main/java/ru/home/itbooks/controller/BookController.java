@@ -75,7 +75,6 @@ public class BookController {
                     .title(b.getTitle())
                     .authors(String.join(";", b.getAuthors().stream().map(a -> a.getName()).toArray(String[]::new)))
                     .tags(String.join(";", b.getTags().stream().map(t -> t.getTag()).toArray(String[]::new)))
-                    .publisher(b.getPublisher().getId())
                     .pages(b.getPages())
                     .year(b.getYear())
                     .rate(b.getRate())
@@ -87,6 +86,9 @@ public class BookController {
             }
             if(b.getFile() != null) {
                 bookForm.setFile(b.getFile().getId());
+            }
+            if(b.getPublisher() != null) {
+                bookForm.setPublisher(b.getPublisher().getId());
             }
             model.addAttribute("bookForm", bookForm);
             model.addAttribute("rates", BookRate.values());

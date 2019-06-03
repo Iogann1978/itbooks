@@ -9,10 +9,6 @@ import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.BookForm;
 import ru.home.itbooks.repository.BookRepository;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.util.*;
-
 @Service
 @Slf4j
 public class BookService extends AbstractService<Book, BookRepository> {
@@ -50,23 +46,13 @@ public class BookService extends AbstractService<Book, BookRepository> {
         val book_save = save(book);
 
         if(bookForm.getFileHtml() != null && !bookForm.getFileHtml().isEmpty()) {
-            try {
-                val desc_new = new Descript();
-                desc_new.setText(bookForm.getFileHtml().getBytes());
-                val desc_save = descriptService.save(desc_new);
-                book_save.setDescript(desc_save);
-            } catch (IOException e) {
-                log.error(e.getMessage());
-                e.printStackTrace();
-            }
+            val desc_new = new Descript();
+            desc_new.setText(bookForm.getFileHtml().getBytes());
+            val desc_save = descriptService.save(desc_new);
+            book_save.setDescript(desc_save);
         }
         if(bookForm.getFileXml() != null && !bookForm.getFileXml().isEmpty()) {
-            try {
-                book_save.setContents(bookForm.getFileXml().getBytes());
-            } catch (IOException e) {
-                log.error(e.getMessage());
-                e.printStackTrace();
-            }
+            book_save.setContents(bookForm.getFileXml().getBytes());
         }
         if(bookForm.getAuthors() != null && !bookForm.getAuthors().isEmpty()) {
             val authors = bookForm.getAuthors().split(";");

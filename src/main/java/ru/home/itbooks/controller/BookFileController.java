@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.home.itbooks.model.form.BookFileForm;
+import ru.home.itbooks.model.form.BookForm;
 import ru.home.itbooks.model.form.TagForm;
 import ru.home.itbooks.service.BookFileService;
 import ru.home.itbooks.service.TagService;
@@ -75,6 +76,32 @@ public class BookFileController {
     @PostMapping("/save")
     public String saveFile(@ModelAttribute("fileForm") BookFileForm fileForm) {
         fileService.save(fileForm);
+        return "redirect:list";
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @GetMapping("/del/{id}")
+    public String delFile(Model model, @PathVariable Long id) {
+        val file = fileService.findById(id);
+        val result = file.filter(f -> f.getBook() == null).map(f -> {
+            val fileForm = BookFileForm.builder()
+                    .id(f.getId())
+                    .filename(f.getFilename())
+                    .size(f.getSize())
+                    .build();
+            model.addAttribute("fileForm", fileForm);
+            return htmls.get("del");
+        }).orElseGet(() -> {
+            model.addAttribute("error", "Файл не найден или нан него ссылается книга!");
+            return htmls.get("error");
+        });
+        return result;
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @PostMapping("/del")
+    public String delFile(@ModelAttribute("fileForm") BookFileForm fileForm) {
+        fileService.deleteById(fileForm.getId());
         return "redirect:list";
     }
 }

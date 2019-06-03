@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Удаление файла</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td><a href="/book/list">Список книг</a></td>
+        <td><a href="/tag/list">Список тэгов</a></td>
+        <td><a href="/author/list">Список авторов</a></td>
+        <td><a href="/publisher/list">Список издателей</a></td>
+    </tr>
+</table>
+
+<form action="#" th:action="@{/file/del}" th:object="${fileForm}" method="POST">
+    <table border="1" width="100%">
+        <tr>
+            <th>Имя файла</th>
+            <td th:text="*{filename}">filename</td>
+        </tr>
+        <tr>
+            <th>Действие</th>
+            <td>
+                <input type="submit" value="Удалить" />
+                <input type="number" hidden="true" th:field="*{id}" />
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

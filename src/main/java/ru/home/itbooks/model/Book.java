@@ -40,6 +40,7 @@ public class Book {
     @Column(length = 100000)
     private byte[] contents;
     @OneToOne
+    @EqualsAndHashCode.Exclude
     private BookFile file;
 
     public void addAuthor(Author author) {

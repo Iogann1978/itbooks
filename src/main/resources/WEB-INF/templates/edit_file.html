@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактирование тэга</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+<table>
+    <tr><td><a href="/book/list">На главную</a></td></tr>
+</table>
+
+<form th:action="@{/file/save}" th:object="${fileForm}" method="POST">
+    <table border="1" width="100%">
+        <tr>
+            <th>Имя файла</th>
+            <td><input type="text" id="filename" name="filename" autofocus="autofocus" width="100%" th:value="*{filename}" /></td>
+        </tr>
+        <tr>
+            <th>Размер файла</th>
+            <td><input type="number" id="size" name="size" width="100%" th:value="*{size}" /></td>
+        </tr>
+        <tr>
+            <th>Действие</th>
+            <td>
+                <input type="submit" value="Изменить" />
+                <input type="number" hidden="true" th:field="*{id}" />
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

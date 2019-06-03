@@ -146,6 +146,7 @@ public class BookController {
         model.addAttribute("states", BookState.values());
         model.addAttribute("tags", tagService.findAll());
         model.addAttribute("publishers", publisherService.findAll());
+        model.addAttribute("files", bookFileService.findAll());
         return htmls.get("add");
     }
 

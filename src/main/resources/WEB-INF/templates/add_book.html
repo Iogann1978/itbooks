@@ -17,6 +17,10 @@
             <select id="publisher" style="width: 50%" th:field="*{publisher}">
                 <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
             </select> <br/>
+            <label for="file">Файл книги:</label>
+            <select id="file" style="width: 50%" th:field="*{file}">
+                <option th:each="file : ${files}" th:value="${file.id}" th:text="${file.filename}">file</option>
+            </select> <br/>
             <label for="authors">Авторы:</label>
             <input type="text" id="authors" style="width: 97%" th:field="*{authors}" /> <br/>
             <label for="fileHtml">Имя html-файла с описанием</label>:

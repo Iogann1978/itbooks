@@ -65,10 +65,7 @@ public class TagController {
     public String editTag(Model model, @PathVariable Long id) {
         val tag = tagService.findById(id);
         val result = tag.map(t -> {
-            val tagForm = TagForm.builder()
-                    .id(t.getId())
-                    .name(t.getTag())
-                    .build();
+            val tagForm = t.toItemForm();
             model.addAttribute("tagForm", tagForm);
             return htmls.get("edit");
         }).orElseGet(() -> {
@@ -99,10 +96,7 @@ public class TagController {
         val tag = tagService.findById(id);
         val result = tag.filter(t -> (t.getBooks() == null || t.getBooks().size() == 0))
                 .map(t -> {
-            val tagForm = TagForm.builder()
-                    .id(t.getId())
-                    .name(t.getTag())
-                    .build();
+            val tagForm = t.toItemForm();
             model.addAttribute("tagForm", tagForm);
             return htmls.get("del");
         }).orElseGet(() -> {

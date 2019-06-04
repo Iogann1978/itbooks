@@ -74,11 +74,7 @@ public class BookFileController {
     public String editFile(Model model, @PathVariable Long id) {
         val file = fileService.findById(id);
         val result = file.map(f -> {
-            val fileForm = BookFileForm.builder()
-                    .id(f.getId())
-                    .filename(f.getFilename())
-                    .size(f.getSize())
-                    .build();
+            val fileForm = f.toItemForm();
             model.addAttribute("fileForm", fileForm);
             return htmls.get("edit");
         }).orElseGet(() -> {
@@ -100,11 +96,7 @@ public class BookFileController {
     public String delFile(Model model, @PathVariable Long id) {
         val file = fileService.findById(id);
         val result = file.filter(f -> f.getBook() == null).map(f -> {
-            val fileForm = BookFileForm.builder()
-                    .id(f.getId())
-                    .filename(f.getFilename())
-                    .size(f.getSize())
-                    .build();
+            val fileForm = f.toItemForm();
             model.addAttribute("fileForm", fileForm);
             return htmls.get("del");
         }).orElseGet(() -> {

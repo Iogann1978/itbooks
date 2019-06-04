@@ -3,7 +3,6 @@ package ru.home.itbooks.controller;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,100 +17,67 @@ import ru.home.itbooks.service.TagService;
 import javax.annotation.security.RolesAllowed;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
 
 @Controller
 @RequestMapping(value = "/book")
 @Slf4j
-public class BookController {
-    private BookService bookService;
+public class BookController extends AbstractController<Book, BookForm, BookService> {
     private TagService tagService;
     private PublisherService publisherService;
     private BookFileService bookFileService;
-    private static final Map<String, String> htmls = new HashMap<String, String>() {
-        {
-            put("view", "book.html");
-            put("list", "books.html");
-            put("edit", "edit_book.html");
-            put("del", "del_book.html");
-            put("add", "add_book.html");
-            put("error", "error.html");
-        }
-    };
 
     @Autowired
     public BookController(BookService bookService,
                           TagService tagService,
                           PublisherService publisherService,
                           BookFileService bookFileService) {
-        this.bookService = bookService;
+        super(bookService);
         this.tagService = tagService;
         this.publisherService = publisherService;
         this.bookFileService = bookFileService;
+        setViewHtml("book.html");
+        setListHtml("books.html");
+        setEditHtml("edit_book.html");
+        setDelHtml("del_book.html");
+        setAddHtml("add_book.html");
+    }
+
+    @Override
+    protected void itemFormModel(Model model, BookForm bookForm) {
+        model.addAttribute("bookForm", bookForm);
+        model.addAttribute("rates", BookRate.values());
+        model.addAttribute("states", BookState.values());
+        model.addAttribute("tags", tagService.findAll());
+        model.addAttribute("publishers", publisherService.findAll());
+        model.addAttribute("files", bookFileService.findAll());
+    }
+
+    @Override
+    protected void itemModel(Model model, Book book) {
+        model.addAttribute("book", book);
+    }
+
+    @Override
+    protected void listModel(Model model, Iterable books) {
+        model.addAttribute("books", books);
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/{id}")
     public String getBook(Model model, @PathVariable Long id) {
-        val book = bookService.findById(id);
-        val result = book.map(b -> {
-            model.addAttribute("book", b);
-            return htmls.get("view");
-        }).orElseGet(() -> {
-            model.addAttribute("error", "Книга не найдена!");
-            return htmls.get("error");
-        });
-        return result;
+        return get("Книга не найдена!", model, id);
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/edit/{id}")
     public String editBook(Model model, @PathVariable Long id) {
-        val book = bookService.findById(id);
-        val result = book.map(b -> {
-            val bookForm = BookForm.builder()
-                    .id(b.getId())
-                    .title(b.getTitle())
-                    .authors(String.join(";", b.getAuthors().stream().map(a -> a.getName()).toArray(String[]::new)))
-                    .tags(String.join(";", b.getTags().stream().map(t -> t.getTag()).toArray(String[]::new)))
-                    .pages(b.getPages())
-                    .year(b.getYear())
-                    .rate(b.getRate())
-                    .state(b.getState())
-                    .fileXml(new MockMultipartFile("fileXml", b.getContents()))
-                    .build();
-            if(b.getDescript() != null) {
-                bookForm.setFileHtml(new MockMultipartFile("fileHtml", b.getDescript().getText()));
-                bookForm.setDescript(b.getDescript().getId());
-            }
-            if(b.getContents() != null) {
-                bookForm.setContents(new String(b.getContents(), StandardCharsets.UTF_8));
-            }
-            if(b.getFile() != null) {
-                bookForm.setFile(b.getFile().getId());
-            }
-            if(b.getPublisher() != null) {
-                bookForm.setPublisher(b.getPublisher().getId());
-            }
-            model.addAttribute("bookForm", bookForm);
-            model.addAttribute("rates", BookRate.values());
-            model.addAttribute("states", BookState.values());
-            model.addAttribute("tags", tagService.findAll());
-            model.addAttribute("publishers", publisherService.findAll());
-            model.addAttribute("files", bookFileService.findAll());
-            return htmls.get("edit");
-        }).orElseGet(() -> {
-            model.addAttribute("error", "Книга не найдена!");
-            return htmls.get("error");
-        });
-        return result;
+        return edit(model, id);
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/descript/{id}")
     public ModelAndView getBookDescript(@PathVariable Long id) {
-        val book = bookService.findById(id);
+        val book = getService().findById(id);
         val view = new BytesView(book.map(b -> b.getDescript()).map(d -> d.getText()).orElse(null));
         return new ModelAndView(view);
     }
@@ -120,7 +86,7 @@ public class BookController {
     @GetMapping("/contents/{id}")
     public ModelAndView getBookContents(@PathVariable Long id) {
         val view = new ModelAndView("contents");
-        bookService.findById(id).ifPresent(b -> {
+        getService().findById(id).ifPresent(b -> {
             if(b.getContents() != null) {
                 val bais = new ByteArrayInputStream(b.getContents());
                 view.addObject("xmlSource", new StreamSource(bais));
@@ -132,58 +98,31 @@ public class BookController {
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/list")
     public String getBooks(Model model) {
-        val count = bookService.count();
-        model.addAttribute("count", count);
-        if(count > 0) {
-            val books = bookService.findAll();
-            model.addAttribute("books", books);
-        }
-        return htmls.get("list");
+        return getList(model);
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/add")
     public String addBook(Model model) {
         val bookForm = new BookForm();
-        model.addAttribute("bookForm", bookForm);
-        model.addAttribute("rates", BookRate.values());
-        model.addAttribute("states", BookState.values());
-        model.addAttribute("tags", tagService.findAll());
-        model.addAttribute("publishers", publisherService.findAll());
-        model.addAttribute("files", bookFileService.findAll());
-        return htmls.get("add");
+        return add(model, bookForm);
     }
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
     public String saveBook(@ModelAttribute("bookForm") BookForm bookForm) {
-        log.info("xml: {} {} {}", bookForm.getFileXml().isEmpty(), bookForm.getContents(), bookForm.getDescript());
-        bookService.save(bookForm);
-        return "redirect:list";
+        return save(bookForm);
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/del/{id}")
     public String delBook(Model model, @PathVariable Long id) {
-        val book = bookService.findById(id);
-        val result = book.map(b -> {
-            val bookForm = BookForm.builder()
-                    .id(b.getId())
-                    .title(b.getTitle())
-                    .build();
-            model.addAttribute("bookForm", bookForm);
-            return htmls.get("del");
-        }).orElseGet(() -> {
-            model.addAttribute("error", "Книга не найдена!");
-            return htmls.get("error");
-        });
-        return result;
+        return del(model, id);
     }
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/del")
     public String delBook(@ModelAttribute("bookForm") BookForm bookForm) {
-        bookService.deleteById(bookForm.getId());
-        return "redirect:list";
+        return del(bookForm);
     }
 }

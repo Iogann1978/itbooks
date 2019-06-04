@@ -2,6 +2,8 @@ package ru.home.itbooks.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import ru.home.itbooks.model.form.AuthorForm;
+import ru.home.itbooks.model.form.ItemForm;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Author {
+public class Author implements Item<AuthorForm> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -27,5 +29,12 @@ public class Author {
             books = new HashSet<>();
         }
         books.add(book);
+    }
+
+    @Override
+    public AuthorForm toItemForm() {
+        return AuthorForm.builder()
+                .id(id).name(name)
+                .build();
     }
 }

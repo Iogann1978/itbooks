@@ -1,6 +1,7 @@
 package ru.home.itbooks.model;
 
 import lombok.*;
+import ru.home.itbooks.model.form.PublisherForm;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Publisher {
+public class Publisher implements Item<PublisherForm> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -25,5 +26,13 @@ public class Publisher {
             books = new HashSet<>();
         }
         books.add(book);
+    }
+
+    @Override
+    public PublisherForm toItemForm() {
+        return PublisherForm.builder()
+                .id(id)
+                .name(name)
+                .build();
     }
 }

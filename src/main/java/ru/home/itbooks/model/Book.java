@@ -1,8 +1,11 @@
 package ru.home.itbooks.model;
 
 import lombok.*;
+import org.springframework.mock.web.MockMultipartFile;
+import ru.home.itbooks.model.form.BookForm;
 
 import javax.persistence.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +14,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Book {
+public class Book implements Item<BookForm> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -53,5 +56,34 @@ public class Book {
             tags = new HashSet<>();
         }
         tags.add(tag);
+    }
+
+    @Override
+    public BookForm toItemForm() {
+        val bookForm = BookForm.builder()
+                .id(id)
+                .title(title)
+                .authors(String.join(";", authors.stream().map(a -> a.getName()).toArray(String[]::new)))
+                .tags(String.join(";", tags.stream().map(t -> t.getTag()).toArray(String[]::new)))
+                .pages(pages)
+                .year(year)
+                .rate(rate)
+                .state(state)
+                .fileXml(new MockMultipartFile("fileXml", contents))
+                .build();
+        if(descript != null) {
+            bookForm.setFileHtml(new MockMultipartFile("fileHtml", descript.getText()));
+            bookForm.setDescript(descript.getId());
+        }
+        if(contents != null) {
+            bookForm.setContents(new String(contents, StandardCharsets.UTF_8));
+        }
+        if(file != null) {
+            bookForm.setFile(file.getId());
+        }
+        if(publisher != null) {
+            bookForm.setPublisher(publisher.getId());
+        }
+        return bookForm;
     }
 }

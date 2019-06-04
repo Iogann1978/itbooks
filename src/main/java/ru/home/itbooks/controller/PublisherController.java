@@ -66,10 +66,7 @@ public class PublisherController {
     public String editPublisher(Model model, @PathVariable Long id) {
         val publisher = publisherService.findById(id);
         val result = publisher.map(p -> {
-            val publisherForm = PublisherForm.builder()
-                    .id(p.getId())
-                    .name(p.getName())
-                    .build();
+            val publisherForm = p.toItemForm();
             model.addAttribute("publisherForm", publisherForm);
             return htmls.get("edit");
         }).orElseGet(() -> {
@@ -100,10 +97,7 @@ public class PublisherController {
         val publisher = publisherService.findById(id);
         val result = publisher.filter(p -> (p.getBooks() == null || p.getBooks().size() == 0))
                 .map(p -> {
-                    val publisherForm = PublisherForm.builder()
-                            .id(p.getId())
-                            .name(p.getName())
-                            .build();
+                    val publisherForm = p.toItemForm();
                     model.addAttribute("publisherForm", publisherForm);
                     return htmls.get("del");
                 }).orElseGet(() -> {

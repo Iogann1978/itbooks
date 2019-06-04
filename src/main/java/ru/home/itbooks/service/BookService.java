@@ -9,6 +9,8 @@ import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.BookForm;
 import ru.home.itbooks.repository.BookRepository;
 
+import java.nio.charset.StandardCharsets;
+
 @Service
 @Slf4j
 public class BookService extends AbstractService<Book, BookRepository> {
@@ -42,7 +44,13 @@ public class BookService extends AbstractService<Book, BookRepository> {
                 .pages(bookForm.getPages())
                 .rate(bookForm.getRate())
                 .state(bookForm.getState())
+                .contents(bookForm.getContents().getBytes(StandardCharsets.UTF_8))
                 .build();
+        if(bookForm.getDescript() != null) {
+            val desc = descriptService.findById(bookForm.getDescript())
+                    .orElseThrow(() -> new Exception(String.format("Описание %s не найдено!", bookForm.getDescript())));
+            book.setDescript(desc);
+        }
         val book_save = save(book);
 
         if(bookForm.getFileHtml() != null && !bookForm.getFileHtml().isEmpty()) {

@@ -18,6 +18,7 @@ import ru.home.itbooks.service.TagService;
 import javax.annotation.security.RolesAllowed;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Controller
@@ -82,6 +83,10 @@ public class BookController {
                     .build();
             if(b.getDescript() != null) {
                 bookForm.setFileHtml(new MockMultipartFile("fileHtml", b.getDescript().getText()));
+                bookForm.setDescript(b.getDescript().getId());
+            }
+            if(b.getContents() != null) {
+                bookForm.setContents(new String(b.getContents(), StandardCharsets.UTF_8));
             }
             if(b.getFile() != null) {
                 bookForm.setFile(b.getFile().getId());
@@ -152,6 +157,7 @@ public class BookController {
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
     public String saveBook(@ModelAttribute("bookForm") BookForm bookForm) {
+        log.info("xml: {} {} {}", bookForm.getFileXml().isEmpty(), bookForm.getContents(), bookForm.getDescript());
         bookService.save(bookForm);
         return "redirect:list";
     }

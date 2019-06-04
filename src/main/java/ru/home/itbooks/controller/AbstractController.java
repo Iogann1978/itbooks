@@ -11,7 +11,7 @@ import java.util.Map;
 
 public abstract class AbstractController<T0 extends Item, T1 extends ItemForm, T2 extends AbstractService> {
     private T2 service;
-    private static final Map<String, String> htmls = new HashMap<String, String>();
+    private final Map<String, String> htmls = new HashMap<String, String>();
 
     public AbstractController(T2 service) {
         this.service = service;

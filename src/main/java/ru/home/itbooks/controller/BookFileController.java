@@ -6,110 +6,82 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.home.itbooks.model.BookFile;
 import ru.home.itbooks.model.form.BookFileForm;
 import ru.home.itbooks.service.BookFileService;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/file")
 @Slf4j
-public class BookFileController {
-    private BookFileService fileService;
-    private static final Map<String, String> htmls = new HashMap<String, String>() {
-        {
-            put("view", "file.html");
-            put("list", "files.html");
-            put("add", "add_file.html");
-            put("edit", "edit_file.html");
-            put("del", "del_file.html");
-            put("error", "error.html");
-        }
-    };
+public class BookFileController extends AbstractController<BookFile, BookFileForm, BookFileService> {
 
     @Autowired
     public BookFileController(BookFileService fileService) {
-        this.fileService = fileService;
+        super(fileService);
+        setViewHtml("file.html");
+        setListHtml("files.html");
+        setAddHtml("add_file.html");
+        setEditHtml("edit_file.html");
+        setDelHtml("del_file.html");
+    }
+
+    @Override
+    protected void itemFormModel(Model model, BookFileForm fileForm) {
+        model.addAttribute("fileForm", fileForm);
+    }
+
+    @Override
+    protected void itemModel(Model model, BookFile file) {
+        model.addAttribute("file", file);
+    }
+
+    @Override
+    protected void listModel(Model model, Iterable files) {
+        model.addAttribute("files", files);
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/{id}")
     public String getFile(Model model, @PathVariable Long id) {
-        log.info("id: {}", id);
-        val file = fileService.findById(id);
-        val result = file.map(f -> {
-            model.addAttribute("file", f);
-            return htmls.get("view");
-        }).orElseGet(() -> {
-            model.addAttribute("error", "Файл не найден!");
-            return htmls.get("error");
-        });
-        return result;
+        return get("Файл не найден!", model, id);
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/list")
     public String getFiles(Model model) {
-        val count = fileService.count();
-        model.addAttribute("count", count);
-        if(count > 0) {
-            val files = fileService.findAll();
-            model.addAttribute("files", files);
-        }
-        return htmls.get("list");
+        return getList(model);
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/add")
     public String addFile(Model model) {
         val fileForm = new BookFileForm();
-        model.addAttribute("fileForm", fileForm);
-        return htmls.get("add");
+        return add(model, fileForm);
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/edit/{id}")
     public String editFile(Model model, @PathVariable Long id) {
-        val file = fileService.findById(id);
-        val result = file.map(f -> {
-            val fileForm = f.toItemForm();
-            model.addAttribute("fileForm", fileForm);
-            return htmls.get("edit");
-        }).orElseGet(() -> {
-            model.addAttribute("error", "Файл не найден!");
-            return htmls.get("error");
-        });
-        return result;
+        return edit(model, id);
     }
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
     public String saveFile(@ModelAttribute("fileForm") BookFileForm fileForm) {
-        fileService.save(fileForm);
-        return "redirect:list";
+        return save(fileForm);
     }
 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/del/{id}")
     public String delFile(Model model, @PathVariable Long id) {
-        val file = fileService.findById(id);
-        val result = file.filter(f -> f.getBook() == null).map(f -> {
-            val fileForm = f.toItemForm();
-            model.addAttribute("fileForm", fileForm);
-            return htmls.get("del");
-        }).orElseGet(() -> {
-            model.addAttribute("error", "Файл не найден или нан него ссылается книга!");
-            return htmls.get("error");
-        });
-        return result;
+        return del(model, id);
     }
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/del")
     public String delFile(@ModelAttribute("fileForm") BookFileForm fileForm) {
-        fileService.deleteById(fileForm.getId());
-        return "redirect:list";
+        return del(fileForm);
     }
 }

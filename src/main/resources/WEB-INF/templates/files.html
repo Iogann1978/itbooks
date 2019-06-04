@@ -32,6 +32,7 @@
             <a id="del" role="button" th:href="@{'/file/del/' + ${file.id}}">Удалить</a>
         </td>
     </tr>
+    <tr><th>Всего файлов</th><td colspan="2" th:text="${count}" /></tr>
 </table>
 </body>
 </html>

@@ -30,6 +30,7 @@
                     <a id="del" role="button" th:href="@{'/tag/del/' + ${tag.id}}">Удалить</a>
                 </td>
             </tr>
+            <tr><th>Всего тэгов</th><td th:text="${count}" /></tr>
         </table>
     </body>
 </html>

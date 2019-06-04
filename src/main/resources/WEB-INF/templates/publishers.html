@@ -30,6 +30,7 @@
             <a id="del" role="button" th:href="@{'/publisher/del/' + ${publisher.id}}">Удалить</a>
         </td>
     </tr>
+    <tr><th>Всего издателей</th><td th:text="${count}" /></tr>
 </table>
 </body>
 </html>

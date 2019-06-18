@@ -24,7 +24,9 @@
     <xsl:template match="item">
         <li>
             <span><xsl:value-of select="title" /></span>
+            &#160;
             <span><xsl:value-of select="@num" /></span>
+            &#160;
             <span><xsl:value-of select="@page" /></span>
             <xsl:for-each select="item">
                 <ul>

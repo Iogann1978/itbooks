@@ -8,7 +8,7 @@ import ru.home.itbooks.model.form.TagForm;
 import ru.home.itbooks.repository.TagRepository;
 
 @Service
-public class TagService extends AbstractService<Tag, TagRepository> {
+public class TagService extends AbstractService<Tag, TagForm, TagRepository> {
     @Autowired
     public TagService(TagRepository repository) {
         super(repository);

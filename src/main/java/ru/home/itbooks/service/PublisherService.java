@@ -10,7 +10,7 @@ import ru.home.itbooks.model.form.TagForm;
 import ru.home.itbooks.repository.PublisherRepository;
 
 @Service
-public class PublisherService extends AbstractService<Publisher, PublisherRepository> {
+public class PublisherService extends AbstractService<Publisher, PublisherForm, PublisherRepository> {
     @Autowired
     public PublisherService(PublisherRepository repository) {
         super(repository);

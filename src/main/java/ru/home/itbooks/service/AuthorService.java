@@ -10,7 +10,7 @@ import ru.home.itbooks.repository.AuthorRepository;
 import java.util.Optional;
 
 @Service
-public class AuthorService extends AbstractService<Author, AuthorRepository> {
+public class AuthorService extends AbstractService<Author, AuthorForm, AuthorRepository> {
     @Autowired
     public AuthorService(AuthorRepository repository) {
         super(repository);

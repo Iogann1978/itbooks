@@ -1,20 +1,22 @@
 package ru.home.itbooks.service;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import ru.home.itbooks.model.form.ItemForm;
+
 import java.util.Optional;
 
-public abstract class AbstractService<T1, T2 extends JpaRepository<T1, Long>> {
+public abstract class AbstractService<T0, T1 extends ItemForm, T2 extends JpaRepository<T0, Long>> {
     protected T2 repository;
 
     public AbstractService(T2 repository) {
         this.repository = repository;
     }
 
-    public Optional<T1> findById(Long id) {
+    public Optional<T0> findById(Long id) {
         return repository.findById(id);
     }
 
-    public Iterable<T1> findAll() {
+    public Iterable<T0> findAll() {
         return repository.findAll();
     }
 
@@ -30,11 +32,13 @@ public abstract class AbstractService<T1, T2 extends JpaRepository<T1, Long>> {
         return repository.count();
     }
 
-    public T1 save(T1 entity) {
+    public T0 save(T0 entity) {
         return repository.save(entity);
     }
 
-    public Iterable<T1> saveAll(Iterable<T1> entities) {
+    public abstract T0 save(T1 itemform);
+
+    public Iterable<T0> saveAll(Iterable<T0> entities) {
         return repository.saveAll(entities);
     }
 }

@@ -1,16 +1,19 @@
 package ru.home.itbooks.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.home.itbooks.model.form.DescriptForm;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Descript {
+public class Descript implements Item<DescriptForm> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -20,6 +23,14 @@ public class Descript {
 
     public String getHtml() {
         return text == null ? null : new String(text);
+    }
+
+    @Override
+    public DescriptForm toItemForm() {
+        return DescriptForm.builder()
+                .id(id)
+                .text(text)
+                .build();
     }
 }
 

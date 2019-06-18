@@ -10,7 +10,7 @@ import ru.home.itbooks.model.form.TagForm;
 import ru.home.itbooks.repository.BookFileRepository;
 
 @Service
-public class BookFileService extends AbstractService<BookFile, BookFileRepository> {
+public class BookFileService extends AbstractService<BookFile, BookFileForm, BookFileRepository> {
     @Autowired
     public BookFileService(BookFileRepository repository) {
         super(repository);

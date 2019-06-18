@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 
 @Service
 @Slf4j
-public class BookService extends AbstractService<Book, BookRepository> {
+public class BookService extends AbstractService<Book, BookForm, BookRepository> {
     private DescriptService descriptService;
     private AuthorService authorService;
     private TagService tagService;
@@ -44,8 +44,10 @@ public class BookService extends AbstractService<Book, BookRepository> {
                 .pages(bookForm.getPages())
                 .rate(bookForm.getRate())
                 .state(bookForm.getState())
-                .contents(bookForm.getContents().getBytes(StandardCharsets.UTF_8))
                 .build();
+        if(bookForm.getContents() != null) {
+            book.setContents(bookForm.getContents().getBytes(StandardCharsets.UTF_8));
+        }
         if(bookForm.getDescript() != null) {
             val desc = descriptService.findById(bookForm.getDescript())
                     .orElseThrow(() -> new Exception(String.format("Описание %s не найдено!", bookForm.getDescript())));

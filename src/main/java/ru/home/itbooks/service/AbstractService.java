@@ -6,7 +6,7 @@ import ru.home.itbooks.model.form.ItemForm;
 import java.util.Optional;
 
 public abstract class AbstractService<T0, T1 extends ItemForm, T2 extends JpaRepository<T0, Long>> {
-    protected T2 repository;
+    private T2 repository;
 
     public AbstractService(T2 repository) {
         this.repository = repository;
@@ -40,5 +40,9 @@ public abstract class AbstractService<T0, T1 extends ItemForm, T2 extends JpaRep
 
     public Iterable<T0> saveAll(Iterable<T0> entities) {
         return repository.saveAll(entities);
+    }
+
+    protected T2 getRepository() {
+        return repository;
     }
 }

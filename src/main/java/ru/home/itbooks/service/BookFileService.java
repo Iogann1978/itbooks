@@ -22,6 +22,6 @@ public class BookFileService extends AbstractService<BookFile, BookFileForm, Boo
                 .filename(fileForm.getFilename())
                 .size(fileForm.getSize())
                 .build();
-        return repository.save(file);
+        return getRepository().save(file);
     }
 }

@@ -20,6 +20,6 @@ public class DescriptService extends AbstractService<Descript, DescriptForm, Des
                 .id(descriptForm.getId())
                 .text(descriptForm.getText())
                 .build();
-        return repository.save(desc);
+        return getRepository().save(desc);
     }
 }

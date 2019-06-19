@@ -18,6 +18,6 @@ public class TagService extends AbstractService<Tag, TagForm, TagRepository> {
         val tag = Tag.builder()
                 .id(tagForm.getId())
                 .tag(tagForm.getName()).build();
-        return repository.save(tag);
+        return getRepository().save(tag);
     }
 }

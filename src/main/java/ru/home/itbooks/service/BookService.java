@@ -11,7 +11,7 @@ import ru.home.itbooks.model.form.FindForm;
 import ru.home.itbooks.repository.BookRepository;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.Collection;
 
 @Service
 @Slf4j
@@ -101,11 +101,30 @@ public class BookService extends AbstractService<Book, BookForm, BookRepository>
         return save(book_save);
     }
 
-    public List<Book> findBook(FindForm findForm, String action) {
-        List<Book> books= null;
+    @SneakyThrows
+    public Collection<Book> findBook(FindForm findForm, String action) {
+        Collection<Book> books= null;
         switch (action) {
             case "state":
-                books = repository.findBooksByState(findForm.getState());
+                books = getRepository().findBooksByState(findForm.getState());
+                break;
+            case "title":
+                books = getRepository().findBooksByTitleContains(findForm.getTitle());
+                break;
+            case "author":
+                val author = authorService.findById(findForm.getAuthorId())
+                        .orElseThrow(() -> new Exception(String.format("Автор %s не найден!", findForm.getAuthorId())));
+                books = author.getBooks();
+                break;
+            case "publisher":
+                val publisher = publisherService.findById(findForm.getPublisherId())
+                        .orElseThrow(() -> new Exception(String.format("Издатель %s не найден!", findForm.getPublisherId())));
+                books = publisher.getBooks();
+                break;
+            case "tag":
+                val tag = tagService.findById(findForm.getTagId())
+                        .orElseThrow(() -> new Exception(String.format("Тэг %s не найден!", findForm.getTagId())));
+                books = tag.getBooks();
                 break;
             default:
                 break;

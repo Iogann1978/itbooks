@@ -20,6 +20,6 @@ public class PublisherService extends AbstractService<Publisher, PublisherForm, 
         val publisher = Publisher.builder()
                 .id(publisherForm.getId())
                 .name(publisherForm.getName()).build();
-        return repository.save(publisher);
+        return getRepository().save(publisher);
     }
 }

@@ -96,6 +96,19 @@ public class BookController extends AbstractController<Book, BookForm, BookServi
     }
 
     @RolesAllowed("USER,ADMIN")
+    @GetMapping("/xml/{id}")
+    public ModelAndView getBookXml(@PathVariable Long id) {
+        val view = new ModelAndView("xml");
+        getService().findById(id).ifPresent(b -> {
+            if(b.getContents() != null) {
+                val bais = new ByteArrayInputStream(b.getContents());
+                view.addObject("xmlSource", new StreamSource(bais));
+            }
+        });
+        return view;
+    }
+
+    @RolesAllowed("USER,ADMIN")
     @GetMapping("/list")
     public String getBooks(Model model) {
         return getList(model);

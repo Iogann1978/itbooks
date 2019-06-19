@@ -17,8 +17,12 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
-    @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    public WebMvcConfig(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Bean
     public ViewResolver viewResolver(){
@@ -51,7 +55,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         viewResolver.setPrefix("classpath:/WEB-INF/xsl/");
         viewResolver.setSuffix(".xslt");
         viewResolver.setViewClass(XsltView.class);
-        viewResolver.setViewNames(new String[] {"contents"});
+        viewResolver.setViewNames(new String[] {"contents", "xml"});
         return viewResolver;
     }
 }

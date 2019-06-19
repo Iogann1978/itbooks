@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import ru.home.itbooks.model.form.DescriptForm;
 
 import javax.persistence.*;
+import java.nio.charset.StandardCharsets;
 
 @Entity
 @Data
@@ -22,7 +23,7 @@ public class Descript implements Item<DescriptForm> {
     private byte[] text;
 
     public String getHtml() {
-        return text == null ? null : new String(text);
+        return text == null ? null : new String(text, StandardCharsets.UTF_8);
     }
 
     @Override

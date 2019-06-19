@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
 
 @Service
 public class AdminService {
@@ -15,12 +14,8 @@ public class AdminService {
         this.em = em;
     }
 
-    public void vacuumLob() {
-        em.createStoredProcedureQuery("SYSTEM_LOBS.DELETE_UNUSED_LOBS")
-                .registerStoredProcedureParameter(0, Long.class, ParameterMode.IN)
-                .setParameter(0, 9223372036854775807L)
-                .execute();
-        em.createStoredProcedureQuery("SYSTEM_LOBS.MERGE_EMPTY_BLOCKS")
-                .execute();
+    public void checkpoint() {
+        //em.createStoredProcedureQuery("CHECKPOINT").execute();
+        em.createStoredProcedureQuery("SYSTEM_LOBS.MERGE_EMPTY_BLOCKS").execute();
     }
 }

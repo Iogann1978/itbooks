@@ -20,8 +20,9 @@ public class AdminController {
     }
 
     @RolesAllowed("ADMIN")
-    @GetMapping("/vacuum")
-    public void vacuum(Model model) {
-        adminService.vacuumLob();
+    @GetMapping("/checkpoint")
+    public String checkpoint() {
+        adminService.checkpoint();
+        return "books.html";
     }
 }

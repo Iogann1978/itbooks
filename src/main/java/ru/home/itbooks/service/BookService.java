@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.BookForm;
+import ru.home.itbooks.model.form.FindForm;
 import ru.home.itbooks.repository.BookRepository;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -97,5 +99,17 @@ public class BookService extends AbstractService<Book, BookForm, BookRepository>
             book_save.setFile(file_save);
         }
         return save(book_save);
+    }
+
+    public List<Book> findBook(FindForm findForm, String action) {
+        List<Book> books= null;
+        switch (action) {
+            case "state":
+                books = repository.findBooksByState(findForm.getState());
+                break;
+            default:
+                break;
+        }
+        return books;
     }
 }

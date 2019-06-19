@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск</title>
+</head>
+<body>
+<form action="#" th:action="@{/book/find}" th:object="${findForm}" method="POST">
+    <table border="1" width="100%">
+        <tr><th>Тип поиска</th><th>Строка поиска</th><th>Действие</th></tr>
+        <tr>
+            <td>Поиск по названию</td>
+            <td>
+                <input type="text" id="title" name="title" th:field="*{title}" autofocus="autofocus" style="width: 97%" />
+            </td>
+            <td><input type="submit" value="Поиск" th:formaction="@{find/title}" /></td>
+        </tr>
+        <tr>
+            <td>Поиск по автору</td>
+            <td>
+                <select style="width: 97%" th:field="*{authorId}">
+                    <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}">author</option>
+                </select>
+            </td>
+            <td><input type="submit" value="Поиск" th:formaction="@{find/author}" /></td>
+        </tr>
+        <tr>
+            <td>Поиск по тэгам</td>
+            <td>
+                <select style="width: 97%" th:field="*{tagId}">
+                    <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}">tag</option>
+                </select>
+            </td>
+            <td><input type="submit" value="Поиск" th:formaction="@{find/tag}" /></td>
+        </tr>
+        <tr>
+            <td>Поиск по издателю</td>
+            <td>
+                <select style="width: 97%" th:field="*{publisherId}">
+                    <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
+                </select>
+            </td>
+            <td><input type="submit" value="Поиск" th:formaction="@{find/publisher}" /></td>
+        </tr>
+        <tr>
+            <td>Поиск по состоянию</td>
+            <td>
+                <select th:field="*{state}">
+                    <option th:each="state : ${states}" th:value="${state}" th:text="${state}">state</option>
+                </select>
+            </td>
+            <td><input type="submit" value="Поиск" th:formaction="@{find/state}" /></td>
+        </tr>
+        <tr>
+            <td>Поиск по описанию</td>
+            <td>
+                <input type="text" id="descript" name="descript" style="width: 97%" th:field="*{descript}" />
+            </td>
+            <td><input type="submit" value="Поиск" th:formaction="@{find/descript}" /></td>
+        </tr>
+        <tr>
+            <td>Поиск по содержанию</td>
+            <td>
+                <input type="text" id="contents" name="contents" style="width: 97%" th:field="*{contents}" />
+            </td>
+            <td><input type="submit" value="Поиск" th:formaction="@{find/contents}" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

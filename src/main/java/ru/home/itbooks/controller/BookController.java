@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.BookForm;
-import ru.home.itbooks.service.BookFileService;
-import ru.home.itbooks.service.BookService;
-import ru.home.itbooks.service.PublisherService;
-import ru.home.itbooks.service.TagService;
+import ru.home.itbooks.model.form.FindForm;
+import ru.home.itbooks.service.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.xml.transform.stream.StreamSource;
@@ -25,16 +23,19 @@ public class BookController extends AbstractController<Book, BookForm, BookServi
     private TagService tagService;
     private PublisherService publisherService;
     private BookFileService bookFileService;
+    private AuthorService authorService;
 
     @Autowired
     public BookController(BookService bookService,
                           TagService tagService,
                           PublisherService publisherService,
-                          BookFileService bookFileService) {
+                          BookFileService bookFileService,
+                          AuthorService authorService) {
         super(bookService);
         this.tagService = tagService;
         this.publisherService = publisherService;
         this.bookFileService = bookFileService;
+        this.authorService = authorService;
         setViewHtml("book.html");
         setListHtml("books.html");
         setEditHtml("edit_book.html");
@@ -138,4 +139,23 @@ public class BookController extends AbstractController<Book, BookForm, BookServi
     public String delBook(@ModelAttribute("bookForm") BookForm bookForm) {
         return del(bookForm);
     }
+
+    @RolesAllowed("USER,ADMIN")
+    @GetMapping("/find")
+    public String findBook(Model model) {
+        model.addAttribute("findForm", new FindForm());
+        model.addAttribute("states", BookState.values());
+        model.addAttribute("tags", tagService.findAll());
+        model.addAttribute("publishers", publisherService.findAll());
+        model.addAttribute("authors", authorService.findAll());
+        return "find.html";
+    }
+
+    @RolesAllowed("USER,ADMIN")
+    @PostMapping("/find/{action}")
+    public String findBook(@ModelAttribute("findForm") FindForm findForm, @PathVariable String action) {
+        getService().findBook(findForm, action).stream().forEach(b -> log.info("{}", b.getTitle()));
+        return "find.html";
+    }
+
 }

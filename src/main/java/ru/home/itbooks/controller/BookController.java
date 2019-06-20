@@ -153,9 +153,11 @@ public class BookController extends AbstractController<Book, BookForm, BookServi
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/find/{action}")
-    public String findBook(@ModelAttribute("findForm") FindForm findForm, @PathVariable String action) {
-        getService().findBook(findForm, action).stream().forEach(b -> log.info("{}", b.getTitle()));
-        return "find.html";
+    public String findBook(Model model, @ModelAttribute("findForm") FindForm findForm, @PathVariable String action) {
+        val books = getService().findBook(findForm, action);
+        model.addAttribute("books", books);
+        model.addAttribute("count", books.size());
+        return "books.html";
     }
 
 }

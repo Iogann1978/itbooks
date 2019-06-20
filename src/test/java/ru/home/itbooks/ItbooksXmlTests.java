@@ -8,12 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.home.itbooks.model.xml.ContentItem;
 import ru.home.itbooks.model.xml.Contents;
+import ru.home.itbooks.service.ContentsService;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -55,18 +53,12 @@ public class ItbooksXmlTests {
         });
 
         val root1 = new Contents(list);
-        val context = JAXBContext.newInstance(Contents.class);
-        val marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        val baos = new ByteArrayOutputStream();
-        marshaller.marshal(root1, baos);
-        String xml = baos.toString();
+        val bytes = ContentsService.toBytes(root1);
+        val xml = new String(bytes, StandardCharsets.UTF_8);
         log.info(xml);
         assertFalse(xml.isEmpty());
 
-        val unmarshaller = context.createUnmarshaller();
-        val bais = new ByteArrayInputStream(baos.toByteArray());
-        val root2 = (Contents) unmarshaller.unmarshal(bais);
+        val root2 = ContentsService.fromBytes(bytes);
         log.info("root1 size: {}", root2.getItem().size());
         assertEquals(root2.getItem().size(), 3);
         assertEquals(root2.getItem().get(0).getItem().size(), 3);

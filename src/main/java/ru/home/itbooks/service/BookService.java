@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.BookForm;
 import ru.home.itbooks.model.form.FindForm;
+import ru.home.itbooks.model.xml.Contents;
 import ru.home.itbooks.repository.BookRepository;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -21,6 +23,7 @@ public class BookService extends AbstractService<Book, BookForm, BookRepository>
     private TagService tagService;
     private PublisherService publisherService;
     private BookFileService bookFileService;
+    private ContentsService contentsService;
 
     @Autowired
     public BookService(BookRepository repository,
@@ -28,13 +31,15 @@ public class BookService extends AbstractService<Book, BookForm, BookRepository>
                        AuthorService authorService,
                        TagService tagService,
                        PublisherService publisherService,
-                       BookFileService bookFileService) {
+                       BookFileService bookFileService,
+                       ContentsService contentsService) {
         super(repository);
         this.descriptService = descriptService;
         this.authorService = authorService;
         this.tagService = tagService;
         this.publisherService = publisherService;
         this.bookFileService = bookFileService;
+        this.contentsService = contentsService;
     }
 
     @SneakyThrows
@@ -103,7 +108,7 @@ public class BookService extends AbstractService<Book, BookForm, BookRepository>
 
     @SneakyThrows
     public Collection<Book> findBook(FindForm findForm, String action) {
-        Collection<Book> books= null;
+        Collection<Book> books = null;
         switch (action) {
             case "state":
                 books = getRepository().findBooksByState(findForm.getState());
@@ -125,6 +130,22 @@ public class BookService extends AbstractService<Book, BookForm, BookRepository>
                 val tag = tagService.findById(findForm.getTagId())
                         .orElseThrow(() -> new Exception(String.format("Тэг %s не найден!", findForm.getTagId())));
                 books = tag.getBooks();
+                break;
+            case "descript":
+                books = descriptService.findByHtml(findForm.getDescript())
+                        .stream().filter(d -> d.getBook() != null)
+                        .map(d -> d.getBook()).collect(Collectors.toList());
+                break;
+            case "contents":
+                books = getRepository().findAll().stream()
+                        .filter(book -> {
+                            if(book.getContents() == null || book.getContents().length == 0) {
+                                return false;
+                            } else {
+                                val root = ContentsService.fromBytes(book.getContents());
+                                return contentsService.containsXml(root, findForm.getContents());
+                            }
+                        }).collect(Collectors.toList());
                 break;
             default:
                 break;

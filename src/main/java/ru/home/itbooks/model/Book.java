@@ -36,6 +36,7 @@ public class Book implements Item<BookForm> {
     @EqualsAndHashCode.Exclude
     private Set<Tag> tags = new HashSet<>();
     @OneToOne
+    @EqualsAndHashCode.Exclude
     private Descript descript;
     @Lob
     @Column(length = 100000)

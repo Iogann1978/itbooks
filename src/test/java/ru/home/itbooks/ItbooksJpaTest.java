@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.service.*;
 
@@ -33,6 +34,7 @@ public class ItbooksJpaTest {
     private PublisherService publisherService;
 
     @Test
+    @Transactional
     public void testBooks() {
         val book1 = Book.builder()
                 .title("Sping Boot 2")
@@ -64,7 +66,7 @@ public class ItbooksJpaTest {
             log.info("tag: {} {}", t.getId(), t.getTag());
         });
 
-        val descript1 = new Descript(null, "<html/>".getBytes());
+        val descript1 = new Descript(null, "<html/>".getBytes(), book1);
         val descript2 = descriptService.save(descript1);
         log.info("descript: {} {}", descript2.getId(), descript2.getText());
         assertNotNull(descript2);
@@ -94,6 +96,7 @@ public class ItbooksJpaTest {
         book1.setAuthors(authorList);
         book1.setTags(tagList);
         book1.setPublisher(publisher2);
+        book1.setDescript(descript2);
         val book2 = bookService.save(book1);
         log.info("book: {} {} {}", book2.getId(), book2.getTitle(), new String(book2.getContents()));
         assertNotNull(book2);

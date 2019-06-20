@@ -1,9 +1,6 @@
 package ru.home.itbooks.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.home.itbooks.model.form.DescriptForm;
 
 import javax.persistence.*;
@@ -21,6 +18,9 @@ public class Descript implements Item<DescriptForm> {
     @Lob
     @Column(length = 100000)
     private byte[] text;
+    @OneToOne(mappedBy="descript", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    private Book book;
 
     public String getHtml() {
         return text == null ? null : new String(text, StandardCharsets.UTF_8);

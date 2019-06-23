@@ -50,7 +50,7 @@ public class BookController extends AbstractController<Book, BookForm, BookServi
         model.addAttribute("states", BookState.values());
         model.addAttribute("tags", tagService.findAll());
         model.addAttribute("publishers", publisherService.findAll());
-        model.addAttribute("files", bookFileService.findAll());
+        model.addAttribute("files", bookFileService.findBookFilesByBookIsNull());
     }
 
     @Override

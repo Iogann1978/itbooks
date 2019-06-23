@@ -9,11 +9,17 @@ import ru.home.itbooks.model.form.BookFileForm;
 import ru.home.itbooks.model.form.TagForm;
 import ru.home.itbooks.repository.BookFileRepository;
 
+import java.util.List;
+
 @Service
 public class BookFileService extends AbstractService<BookFile, BookFileForm, BookFileRepository> {
     @Autowired
     public BookFileService(BookFileRepository repository) {
         super(repository);
+    }
+
+    public List<BookFile> findBookFilesByBookIsNull() {
+        return getRepository().findBookFilesByBookIsNull();
     }
 
     public BookFile save(BookFileForm fileForm) {

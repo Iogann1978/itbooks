@@ -70,7 +70,7 @@ public class TagController extends AbstractController<Tag, TagForm, TagService> 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
     public String saveTag(@ModelAttribute("tagForm") TagForm tagForm) {
-        return saveTag(tagForm);
+        return save(tagForm);
     }
 
     @RolesAllowed("USER,ADMIN")

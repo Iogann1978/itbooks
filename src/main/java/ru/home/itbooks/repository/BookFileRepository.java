@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface BookFileRepository extends JpaRepository<BookFile, Long> {
-    List<BookFile> findBookFilesByBookIsNull();
 }

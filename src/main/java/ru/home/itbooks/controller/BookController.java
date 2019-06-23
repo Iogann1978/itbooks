@@ -15,6 +15,8 @@ import ru.home.itbooks.service.*;
 import javax.annotation.security.RolesAllowed;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Controller
 @RequestMapping(value = "/book")
@@ -50,7 +52,9 @@ public class BookController extends AbstractController<Book, BookForm, BookServi
         model.addAttribute("states", BookState.values());
         model.addAttribute("tags", tagService.findAll());
         model.addAttribute("publishers", publisherService.findAll());
-        model.addAttribute("files", bookFileService.findBookFilesByBookIsNull());
+        val files = StreamSupport.stream(bookFileService.findAll().spliterator(), false)
+                .filter(file -> file.getBook() == null).collect(Collectors.toList());
+        model.addAttribute("files", files);
     }
 
     @Override

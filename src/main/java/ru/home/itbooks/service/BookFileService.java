@@ -18,10 +18,6 @@ public class BookFileService extends AbstractService<BookFile, BookFileForm, Boo
         super(repository);
     }
 
-    public List<BookFile> findBookFilesByBookIsNull() {
-        return getRepository().findBookFilesByBookIsNull();
-    }
-
     public BookFile save(BookFileForm fileForm) {
         val file = BookFile.builder()
                 .id(fileForm.getId())

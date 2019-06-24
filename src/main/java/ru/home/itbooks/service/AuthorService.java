@@ -17,13 +17,15 @@ public class AuthorService extends AbstractService<Author, AuthorForm, AuthorRep
     }
 
     public Optional<Author> findByName(String name) {
-        return getRepository().findAuthorByName(name);
+        return getRepository().findAuthorByNormalizedName(Author.normalizeName(name));
     }
 
     public Author save(AuthorForm authorForm) {
         val author = Author.builder()
                 .id(authorForm.getId())
-                .name(authorForm.getName()).build();
+                .name(authorForm.getName())
+                .normalizedName(Author.normalizeName(authorForm.getName()))
+                .build();
         return getRepository().save(author);
     }
 }

@@ -6,6 +6,7 @@ import ru.home.itbooks.model.form.AuthorForm;
 import ru.home.itbooks.model.form.ItemForm;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,10 +20,18 @@ public class Author implements Item<AuthorForm> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String normalizedName;
     @ManyToMany(mappedBy = "authors")
     @JsonBackReference
     @EqualsAndHashCode.Exclude
     private Set<Book> books = new HashSet<>();
+
+    public Author(Long id, String name, Set<Book> books) {
+        this.id = id;
+        this.name = name;
+        this.normalizedName = normalizeName(name);
+        this.books = books;
+    }
 
     public void addBook(Book book) {
         if(books == null) {
@@ -36,5 +45,20 @@ public class Author implements Item<AuthorForm> {
         return AuthorForm.builder()
                 .id(id).name(name)
                 .build();
+    }
+
+    public static String normalizeName(String name) {
+        val arr = name.split(" ");
+        if(arr.length > 1) {
+            Arrays.sort(arr);
+        }
+        String normName = "";
+        for(int i = 0; i < arr.length; i++) {
+            normName += arr[i].toUpperCase();
+            if(i < arr.length - 1) {
+                normName += " ";
+            }
+        }
+        return normName;
     }
 }

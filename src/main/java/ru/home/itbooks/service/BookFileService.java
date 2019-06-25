@@ -4,9 +4,7 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.BookFile;
-import ru.home.itbooks.model.Tag;
 import ru.home.itbooks.model.form.BookFileForm;
-import ru.home.itbooks.model.form.TagForm;
 import ru.home.itbooks.repository.BookFileRepository;
 
 import java.util.List;
@@ -17,6 +15,8 @@ public class BookFileService extends AbstractService<BookFile, BookFileForm, Boo
     public BookFileService(BookFileRepository repository) {
         super(repository);
     }
+
+    public List<BookFile> getFreeFiles() {return getRepository().getFreeFiles();}
 
     public BookFile save(BookFileForm fileForm) {
         val file = BookFile.builder()

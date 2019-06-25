@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.BookForm;
 import ru.home.itbooks.model.form.FindForm;
-import ru.home.itbooks.model.xml.Contents;
 import ru.home.itbooks.repository.BookRepository;
 
 import java.nio.charset.StandardCharsets;

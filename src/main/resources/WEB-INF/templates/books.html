@@ -26,6 +26,8 @@
                 <th>Страниц</th>
                 <th>Год</th>
                 <th>Состояние</th>
+                <th>Описание</th>
+                <th>Содержание</th>
                 <th>Просмотр</th>
             </tr>
             <tr th:each="book:${books}">
@@ -40,6 +42,8 @@
                 <td th:utext="${book.pages}"/>
                 <td th:utext="${book.year}"/>
                 <td th:utext="${book.state}"/>
+                <td><input type="checkbox" th:checked="${book.descript!=null}" readonly></td>
+                <td><input type="checkbox" th:checked="${book.contents!=null}" readonly></td>
                 <td><a id="choose" role="button" th:href="@{'/book/' + ${book.id}}">Книга</a></td>
             </tr>
             <tr><th>Всего книг</th><td colspan="6" th:text="${count}" /></tr>

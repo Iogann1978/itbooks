@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список авторов</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+<table>
+    <tr>
+        <td><a href="/book/list">Список книг</a></td>
+        <td><a href="/tag/list">Список тэгов</a></td>
+        <td><a href="/publisher/list">Список издателей</a></td>
+        <td><a href="/file/list">Список файлов</a></td>
+        <td><a href="/book/find">Поиск книги</a></td>
+    </tr>
+</table>
+
+<table border="1" width="100%">
+    <tr>
+        <th>Автор</th>
+        <th>Связь с книгами</th>
+        <th>Нормализованное имя</th>
+    </tr>
+    <tr th:each="author:${authors}">
+        <td th:utext="${author.name}"/>
+        <td><input type="checkbox" th:checked="${author.books!=null}" disabled="disabled"></td>
+        <td th:utext="${author.normalizedName}"/>
+    </tr>
+    <tr><th>Всего авторов</th><td colspan="2" th:text="${count}" /></tr>
+</table>
+</body>
+</html>

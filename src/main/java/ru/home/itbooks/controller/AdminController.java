@@ -1,5 +1,6 @@
 package ru.home.itbooks.controller;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,5 +25,16 @@ public class AdminController {
     public String checkpoint() {
         adminService.checkpoint();
         return "books.html";
+    }
+
+    @RolesAllowed("ADMIN")
+    @GetMapping("/auth_norm")
+    public String auth_norm(Model model) {
+        val authors = adminService.getBadAuthors();
+        if(authors != null) {
+            model.addAttribute("authors", authors);
+            model.addAttribute("count", authors.size());
+        }
+        return "admin_authors.html";
     }
 }

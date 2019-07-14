@@ -33,4 +33,15 @@ public class AdminService {
                 .collect(Collectors.toList());
 
     }
+
+    public void author_correct(Long id) {
+        authorRepository.findById(id).ifPresent(author -> {
+            if(author.getBooks() == null) {
+                authorRepository.deleteById(id);
+            } else if(author.getNormalizedName() == null || author.getNormalizedName().isEmpty()) {
+                author.setNormalizedName(Author.normalizeName(author.getName()));
+                authorRepository.save(author);
+            }
+        });
+    }
 }

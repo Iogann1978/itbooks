@@ -9,7 +9,7 @@ import ru.home.itbooks.service.AbstractService;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractController<T0 extends Item, T1 extends ItemForm, T2 extends AbstractService> {
+public abstract class AbstractController<T0 extends Item<T1>, T1 extends ItemForm<T0>, T2 extends AbstractService> {
     private T2 service;
     private final Map<String, String> htmls = new HashMap<String, String>();
 
@@ -52,7 +52,7 @@ public abstract class AbstractController<T0 extends Item, T1 extends ItemForm, T
         val item = service.findById(id);
         if(item.isPresent()) {
             val i = (T0) item.get();
-            val itemForm = (T1) i.toItemForm();
+            val itemForm = i.toItemForm();
             itemFormModel(model, itemForm);
             return htmls.get("edit");
         } else {
@@ -75,7 +75,7 @@ public abstract class AbstractController<T0 extends Item, T1 extends ItemForm, T
         val item = service.findById(id);
         if(item.isPresent()) {
             val i = (T0) item.get();
-            val itemForm = (T1) i.toItemForm();
+            val itemForm = i.toItemForm();
             itemFormModel(model, itemForm);
             return htmls.get("del");
         } else {

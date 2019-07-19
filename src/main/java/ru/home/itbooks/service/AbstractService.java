@@ -6,7 +6,8 @@ import ru.home.itbooks.model.form.ItemForm;
 
 import java.util.Optional;
 
-public abstract class AbstractService<T0, T1 extends ItemForm, T2 extends JpaRepository<T0, Long>> {
+public abstract class AbstractService<T0, T1 extends ItemForm, T2 extends JpaRepository<T0, Long>>
+    implements ItemService<T0, T1, T2> {
     private T2 repository;
 
     public AbstractService(T2 repository) {

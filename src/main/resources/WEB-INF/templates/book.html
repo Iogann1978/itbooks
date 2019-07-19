@@ -26,21 +26,31 @@
                 <td>
                     <ol>
                         <li th:each="author:${book.authors}">
-                            <span th:text="${author.name}">Имя автора</span>
+                            <a role="button" th:href="@{'/author/' + ${author.id}}" th:text="${author.name}">Автор</a>
                         </li>
                     </ol>
                 </td>
             </tr>
             <tr><th>Издательство</th><th>Год издания</th></tr>
-            <tr><td th:text="${book.publisher.name}"></td><td th:text="${book.year}"></td></tr>
+            <tr>
+                <td>
+                    <a role="button" th:href="@{'/publisher/' + ${book.publisher.id}}" th:text="${book.publisher.name}">Автор</a>
+                </td>
+                <td th:text="${book.year}"></td>
+            </tr>
             <tr><th>Имя файла</th><th>Размер файла</th></tr>
-            <tr th:if="${book.file != null}"><td th:text="${book.file.filename}"></td><td th:text="${book.file.size}"></td></tr>
+            <tr th:if="${book.file != null}">
+                <td>
+                    <a role="button" th:href="@{'/file/' + ${book.file.id}}" th:text="${book.file.filename}">Файл</a>
+                </td>
+                <td th:text="${book.file.size}"></td>
+            </tr>
             <tr><th>Оценка</th><th>Состояние прочтения</th></tr>
             <tr><td th:text="${book.rate}"></td><td th:text="${book.state}"></td></tr>
             <tr><th colspan="2">Тэги</th></tr>
             <tr><td colspan="2">
                 <span th:each="tag:${book.tags}">
-                    <span th:text="${tag.tag}">Тэг</span>
+                    <a role="button" th:href="@{'/tag/' + ${tag.id}}" th:text="${tag.tag}">Тэг</a>
                     <span>;</span>
                 </span>
             </td></tr>

@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.BookForm;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class BookService extends AbstractService<Book, BookForm, BookRepository> {
+    private static final Sort sort = new Sort(Sort.Direction.ASC, "title");
     private DescriptService descriptService;
     private AuthorService authorService;
     private TagService tagService;
@@ -103,6 +105,11 @@ public class BookService extends AbstractService<Book, BookForm, BookRepository>
             book_save.setFile(file_save);
         }
         return save(book_save);
+    }
+
+    @Override
+    protected Sort getSort() {
+        return sort;
     }
 
     @SneakyThrows

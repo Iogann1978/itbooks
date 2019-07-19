@@ -2,6 +2,7 @@ package ru.home.itbooks.service;
 
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.Author;
 import ru.home.itbooks.model.form.AuthorForm;
@@ -11,6 +12,8 @@ import java.util.Optional;
 
 @Service
 public class AuthorService extends AbstractService<Author, AuthorForm, AuthorRepository> {
+    private static final Sort sort = new Sort(Sort.Direction.ASC, "name");
+
     @Autowired
     public AuthorService(AuthorRepository repository) {
         super(repository);
@@ -27,5 +30,10 @@ public class AuthorService extends AbstractService<Author, AuthorForm, AuthorRep
                 .normalizedName(Author.normalizeName(authorForm.getName()))
                 .build();
         return getRepository().save(author);
+    }
+
+    @Override
+    protected Sort getSort() {
+        return sort;
     }
 }

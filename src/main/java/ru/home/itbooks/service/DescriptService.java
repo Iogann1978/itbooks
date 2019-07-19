@@ -2,6 +2,7 @@ package ru.home.itbooks.service;
 
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.Descript;
 import ru.home.itbooks.model.form.DescriptForm;
@@ -30,5 +31,10 @@ public class DescriptService extends AbstractService<Descript, DescriptForm, Des
                 .text(descriptForm.getText())
                 .build();
         return getRepository().save(desc);
+    }
+
+    @Override
+    protected Sort getSort() {
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package ru.home.itbooks.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.home.itbooks.model.form.ItemForm;
 
@@ -17,7 +18,7 @@ public abstract class AbstractService<T0, T1 extends ItemForm, T2 extends JpaRep
     }
 
     public Iterable<T0> findAll() {
-        return repository.findAll();
+        return repository.findAll(getSort());
     }
 
     public void deleteById(Long id) {
@@ -45,4 +46,6 @@ public abstract class AbstractService<T0, T1 extends ItemForm, T2 extends JpaRep
     protected T2 getRepository() {
         return repository;
     }
+
+    protected abstract Sort getSort();
 }

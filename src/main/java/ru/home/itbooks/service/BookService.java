@@ -43,16 +43,10 @@ public class BookService extends AbstractService<Book, BookForm, BookRepository>
         this.contentsService = contentsService;
     }
 
+    @Override
     @SneakyThrows
     public Book save(BookForm bookForm) {
-        val book = Book.builder()
-                .id(bookForm.getId())
-                .title(bookForm.getTitle())
-                .year(bookForm.getYear())
-                .pages(bookForm.getPages())
-                .rate(bookForm.getRate())
-                .state(bookForm.getState())
-                .build();
+        val book = bookForm.toItem();
         if(bookForm.getContents() != null) {
             book.setContents(bookForm.getContents().getBytes(StandardCharsets.UTF_8));
         }

@@ -1,6 +1,5 @@
 package ru.home.itbooks.service;
 
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,13 +14,6 @@ public class TagService extends AbstractService<Tag, TagForm, TagRepository> {
     @Autowired
     public TagService(TagRepository repository) {
         super(repository);
-    }
-
-    public Tag save(TagForm tagForm) {
-        val tag = Tag.builder()
-                .id(tagForm.getId())
-                .tag(tagForm.getName()).build();
-        return getRepository().save(tag);
     }
 
     @Override

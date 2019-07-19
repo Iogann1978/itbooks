@@ -3,7 +3,6 @@ package ru.home.itbooks.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import ru.home.itbooks.model.form.AuthorForm;
-import ru.home.itbooks.model.form.ItemForm;
 
 import javax.persistence.*;
 import java.util.Arrays;

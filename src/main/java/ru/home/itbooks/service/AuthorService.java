@@ -1,6 +1,5 @@
 package ru.home.itbooks.service;
 
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -21,15 +20,6 @@ public class AuthorService extends AbstractService<Author, AuthorForm, AuthorRep
 
     public Optional<Author> findByName(String name) {
         return getRepository().findAuthorByNormalizedName(Author.normalizeName(name));
-    }
-
-    public Author save(AuthorForm authorForm) {
-        val author = Author.builder()
-                .id(authorForm.getId())
-                .name(authorForm.getName())
-                .normalizedName(Author.normalizeName(authorForm.getName()))
-                .build();
-        return getRepository().save(author);
     }
 
     @Override

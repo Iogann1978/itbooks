@@ -1,6 +1,5 @@
 package ru.home.itbooks.service;
 
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,15 +21,6 @@ public class DescriptService extends AbstractService<Descript, DescriptForm, Des
         return getRepository().findAll().stream()
                 .filter(d -> (d.getHtml() != null && !d.getHtml().isEmpty() && d.getHtml().contains(html)))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public Descript save(DescriptForm descriptForm) {
-        val desc = Descript.builder()
-                .id(descriptForm.getId())
-                .text(descriptForm.getText())
-                .build();
-        return getRepository().save(desc);
     }
 
     @Override

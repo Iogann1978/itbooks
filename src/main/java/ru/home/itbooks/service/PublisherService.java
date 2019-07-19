@@ -1,6 +1,5 @@
 package ru.home.itbooks.service;
 
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,13 +14,6 @@ public class PublisherService extends AbstractService<Publisher, PublisherForm, 
     @Autowired
     public PublisherService(PublisherRepository repository) {
         super(repository);
-    }
-
-    public Publisher save(PublisherForm publisherForm) {
-        val publisher = Publisher.builder()
-                .id(publisherForm.getId())
-                .name(publisherForm.getName()).build();
-        return getRepository().save(publisher);
     }
 
     @Override

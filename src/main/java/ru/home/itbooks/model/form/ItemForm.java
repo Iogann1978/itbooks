@@ -1,5 +1,8 @@
 package ru.home.itbooks.model.form;
 
-public interface ItemForm {
+import ru.home.itbooks.model.Item;
+
+public interface ItemForm<T extends Item> {
     Long getId();
+    T toItem();
 }

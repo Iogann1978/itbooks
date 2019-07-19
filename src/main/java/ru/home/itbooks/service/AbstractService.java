@@ -38,7 +38,9 @@ public abstract class AbstractService<T0, T1 extends ItemForm, T2 extends JpaRep
         return repository.save(entity);
     }
 
-    public abstract T0 save(T1 itemform);
+    public T0 save(T1 itemform) {
+        return repository.save((T0) itemform.toItem());
+    };
 
     public Iterable<T0> saveAll(Iterable<T0> entities) {
         return repository.saveAll(entities);

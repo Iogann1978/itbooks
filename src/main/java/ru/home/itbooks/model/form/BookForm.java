@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import ru.home.itbooks.model.Book;
 import ru.home.itbooks.model.BookRate;
 import ru.home.itbooks.model.BookState;
 
@@ -12,7 +13,7 @@ import ru.home.itbooks.model.BookState;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookForm implements ItemForm {
+public class BookForm implements ItemForm<Book> {
     private Long id;
     private String title;
     private int pages;
@@ -27,4 +28,16 @@ public class BookForm implements ItemForm {
     private String tags;
     private MultipartFile fileHtml;
     private MultipartFile fileXml;
+
+    @Override
+    public Book toItem() {
+        return Book.builder()
+                .id(id)
+                .title(title)
+                .year(year)
+                .pages(pages)
+                .rate(rate)
+                .state(state)
+                .build();
+    }
 }

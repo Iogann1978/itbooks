@@ -1,6 +1,5 @@
 package ru.home.itbooks.service;
 
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -20,15 +19,6 @@ public class BookFileService extends AbstractService<BookFile, BookFileForm, Boo
     }
 
     public List<BookFile> getFreeFiles() {return getRepository().getFreeFiles();}
-
-    public BookFile save(BookFileForm fileForm) {
-        val file = BookFile.builder()
-                .id(fileForm.getId())
-                .filename(fileForm.getFilename())
-                .size(fileForm.getSize())
-                .build();
-        return getRepository().save(file);
-    }
 
     @Override
     protected Sort getSort() {

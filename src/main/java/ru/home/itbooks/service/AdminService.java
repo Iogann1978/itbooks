@@ -29,7 +29,8 @@ public class AdminService {
 
     public List<Author> getBadAuthors() {
         return authorRepository.findAll().stream()
-                .filter(auth -> (auth.getBooks() == null || auth.getNormalizedName() == null))
+                .filter(auth -> (auth.getBooks() == null || auth.getNormalizedName() == null
+                || (auth.getBooks() != null && auth.getBooks().isEmpty())))
                 .collect(Collectors.toList());
 
     }
@@ -37,6 +38,8 @@ public class AdminService {
     public void author_correct(Long id) {
         authorRepository.findById(id).ifPresent(author -> {
             if(author.getBooks() == null) {
+                authorRepository.deleteById(id);
+            } else if(author.getBooks().isEmpty()) {
                 authorRepository.deleteById(id);
             } else if(author.getNormalizedName() == null || author.getNormalizedName().isEmpty()) {
                 author.setNormalizedName(Author.normalizeName(author.getName()));

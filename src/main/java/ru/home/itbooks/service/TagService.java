@@ -10,7 +10,7 @@ import ru.home.itbooks.repository.TagRepository;
 
 @Service
 public class TagService extends AbstractService<Tag, TagForm, TagRepository> {
-    private static final Sort sort = new Sort(Sort.Direction.ASC, "name");
+    private static final Sort sort = new Sort(Sort.Direction.ASC, "tag");
 
     @Autowired
     public TagService(TagRepository repository) {

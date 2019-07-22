@@ -32,7 +32,6 @@ public class AdminService {
                 .filter(auth -> (auth.getBooks() == null || auth.getNormalizedName() == null
                 || (auth.getBooks() != null && auth.getBooks().isEmpty())))
                 .collect(Collectors.toList());
-
     }
 
     public void author_correct(Long id) {

@@ -14,20 +14,24 @@
 </table>
 
 <table border="1" width="100%">
-    <tr>
-        <th>Имя автора</th>
-        <td colspan="2" th:text="${author.name}">Тэг</td>
-    </tr>
-    <tr>
-        <th>Книги:</th>
-        <td>
-            <ol>
-                <li th:each="book:${author.books}">
-                    <span th:text="${book.title}">Книга</span>
-                </li>
-            </ol>
-        </td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Имя автора</th>
+            <td colspan="2" th:text="${author.name}">Тэг</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Книги:</th>
+            <td>
+                <ol>
+                    <li th:each="book:${author.books}">
+                        <span th:text="${book.title}">Книга</span>
+                    </li>
+                </ol>
+            </td>
+        </tr>
+    </tbody>
 </table>
 </body>
 </html>

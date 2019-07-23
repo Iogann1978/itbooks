@@ -10,24 +10,30 @@
 <div th:insert="menu::items" />
 
 <table border="1" width="100%">
-    <tr>
-        <th>Автор</th>
-        <th>Связь с книгами</th>
-        <th>Нормализованное имя</th>
-        <th>Действие</th>
-    </tr>
-    <tr th:each="author:${authors}">
-        <td th:utext="${author.name}"/>
-        <td><input type="checkbox" th:checked="${author.books!=null && !author.books.isEmpty()}" disabled="disabled"></td>
-        <td th:utext="${author.normalizedName}"/>
-        <td>
-            <a id="correct" role="button" th:href="@{'/admin/author_correct/' + ${author.id}}">Исправить</a>
-        </td>
-    </tr>
-    <tr>
-        <th>Всего авторов</th>
-        <td colspan="3" th:text="${count}" />
-    </tr>
+    <thead>
+        <tr>
+            <th>Автор</th>
+            <th>Связь с книгами</th>
+            <th>Нормализованное имя</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="author:${authors}">
+            <td th:utext="${author.name}"/>
+            <td><input type="checkbox" th:checked="${author.books!=null && !author.books.isEmpty()}" disabled="disabled"></td>
+            <td th:utext="${author.normalizedName}"/>
+            <td>
+                <a id="correct" role="button" th:href="@{'/admin/author_correct/' + ${author.id}}">Исправить</a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Всего авторов</th>
+            <td colspan="3" th:text="${count}" />
+        </tr>
+    </tfoot>
 </table>
 </body>
 </html>

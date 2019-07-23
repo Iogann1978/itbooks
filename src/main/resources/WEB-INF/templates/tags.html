@@ -3,7 +3,8 @@
     <head>
         <title>Список тэгов</title>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
     </head>
 
     <body>
@@ -15,19 +16,25 @@
         </table>
 
         <table border="1" width="100%">
-            <tr>
-                <th>Тэг</th>
-                <th>Действие</th>
-            </tr>
-            <tr th:each="tag:${tags}">
-                <td th:utext="${tag.tag}"/>
-                <td>
-                    <a id="view" role="button" th:href="@{'/tag/' + ${tag.id}}">Просмотр</a>
-                    <a id="edit" role="button" th:href="@{'/tag/edit/' + ${tag.id}}">Изменить</a>
-                    <a id="del" role="button" th:href="@{'/tag/del/' + ${tag.id}}">Удалить</a>
-                </td>
-            </tr>
-            <tr><th>Всего тэгов</th><td th:text="${count}" /></tr>
+            <thead>
+                <tr>
+                    <th>Тэг</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tag:${tags}">
+                    <td th:utext="${tag.tag}"/>
+                    <td>
+                        <a id="view" role="button" th:href="@{'/tag/' + ${tag.id}}">Просмотр</a>
+                        <a id="edit" role="button" th:href="@{'/tag/edit/' + ${tag.id}}">Изменить</a>
+                        <a id="del" role="button" th:href="@{'/tag/del/' + ${tag.id}}">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr><th>Всего тэгов:</th><td th:text="${count}" /></tr>
+            </tfoot>
         </table>
     </body>
 </html>

@@ -3,7 +3,8 @@
     <head>
         <title>Список книг</title>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
     </head>
 
     <body>
@@ -15,34 +16,40 @@
         </table>
 
         <table border="1" width="100%">
-            <tr>
-                <th>Название</th>
-                <th>Авторы</th>
-                <th>Издание</th>
-                <th>Страниц</th>
-                <th>Год</th>
-                <th>Состояние</th>
-                <th>Описание</th>
-                <th>Содержание</th>
-                <th>Просмотр</th>
-            </tr>
-            <tr th:each="book:${books}">
-                <td th:utext="${book.title}"/>
-                <td>
-                    <i th:each="author:${book.authors}">
-                        <span th:text="${author.name}">Имя автора</span>
-                        <span>;</span>
-                    </i>
-                </td>
-                <td th:utext="${book.publisher.name}"/>
-                <td th:utext="${book.pages}"/>
-                <td th:utext="${book.year}"/>
-                <td th:utext="${book.state}"/>
-                <td><input type="checkbox" th:checked="${book.descript!=null}" disabled="disabled"></td>
-                <td><input type="checkbox" th:checked="${book.contents!=null}" disabled="disabled"></td>
-                <td><a id="choose" role="button" th:href="@{'/book/' + ${book.id}}">Книга</a></td>
-            </tr>
-            <tr><th>Всего книг</th><td colspan="8" th:text="${count}" /></tr>
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Авторы</th>
+                    <th>Издание</th>
+                    <th>Страниц</th>
+                    <th>Год</th>
+                    <th>Состояние</th>
+                    <th>Описание</th>
+                    <th>Содержание</th>
+                    <th>Просмотр</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="book:${books}">
+                    <td th:utext="${book.title}"/>
+                    <td>
+                        <i th:each="author:${book.authors}">
+                            <span th:text="${author.name}">Имя автора</span>
+                            <span>;</span>
+                        </i>
+                    </td>
+                    <td th:utext="${book.publisher.name}"/>
+                    <td th:utext="${book.pages}"/>
+                    <td th:utext="${book.year}"/>
+                    <td th:utext="${book.state}"/>
+                    <td><input type="checkbox" th:checked="${book.descript!=null}" disabled="disabled"></td>
+                    <td><input type="checkbox" th:checked="${book.contents!=null}" disabled="disabled"></td>
+                    <td><a id="choose" role="button" th:href="@{'/book/' + ${book.id}}">Книга</a></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr><th>Всего книг:</th><td colspan="8" th:text="${count}" /></tr>
+            </tfoot>
         </table>
     </body>
 </html>

@@ -3,26 +3,33 @@
 <head>
     <title>Список авторов</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
 </head>
 
 <body>
 <div th:insert="menu::items" />
 
 <table border="1" width="100%">
-    <tr>
-        <th>Автор</th>
-        <th>Действие</th>
-    </tr>
-    <tr th:each="author:${authors}">
-        <td th:utext="${author.name}"/>
-        <td>
-            <a id="view" role="button" th:href="@{'/author/' + ${author.id}}">Просмотр</a>
-            <a id="edit" role="button" th:href="@{'/author/edit/' + ${author.id}}">Изменить</a>
-            <a id="del" role="button" th:href="@{'/author/del/' + ${author.id}}">Удалить</a>
-        </td>
-    </tr>
-    <tr><th>Всего авторов</th><td th:text="${count}" /></tr>
+    <thead>
+        <tr>
+            <th>Автор</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="author:${authors}">
+            <td th:utext="${author.name}"/>
+            <td>
+                <a id="view" role="button" th:href="@{'/author/' + ${author.id}}">Просмотр</a>
+                <a id="edit" role="button" th:href="@{'/author/edit/' + ${author.id}}">Изменить</a>
+                <a id="del" role="button" th:href="@{'/author/del/' + ${author.id}}">Удалить</a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr><th>Всего авторов:</th><td th:text="${count}" /></tr>
+    </tfoot>
 </table>
 </body>
 </html>

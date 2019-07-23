@@ -3,7 +3,8 @@
 <head>
     <title>Список тэгов</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
 </head>
 
 <body>
@@ -15,19 +16,25 @@
 </table>
 
 <table border="1" width="100%">
-    <tr>
-        <th>Издатель</th>
-        <th>Действие</th>
-    </tr>
-    <tr th:each="publisher:${publishers}">
-        <td th:utext="${publisher.name}"/>
-        <td>
-            <a id="view" role="button" th:href="@{'/publisher/' + ${publisher.id}}">Просмотр</a>
-            <a id="edit" role="button" th:href="@{'/publisher/edit/' + ${publisher.id}}">Изменить</a>
-            <a id="del" role="button" th:href="@{'/publisher/del/' + ${publisher.id}}">Удалить</a>
-        </td>
-    </tr>
-    <tr><th>Всего издателей</th><td th:text="${count}" /></tr>
+    <thead>
+        <tr>
+            <th>Издатель</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="publisher:${publishers}">
+            <td th:utext="${publisher.name}"/>
+            <td>
+                <a id="view" role="button" th:href="@{'/publisher/' + ${publisher.id}}">Просмотр</a>
+                <a id="edit" role="button" th:href="@{'/publisher/edit/' + ${publisher.id}}">Изменить</a>
+                <a id="del" role="button" th:href="@{'/publisher/del/' + ${publisher.id}}">Удалить</a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr><th>Всего издателей:</th><td th:text="${count}" /></tr>
+    </tfoot>
 </table>
 </body>
 </html>

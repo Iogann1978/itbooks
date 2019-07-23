@@ -3,7 +3,8 @@
 <head>
     <title>Список файлов</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
 </head>
 
 <body>
@@ -15,21 +16,27 @@
 </table>
 
 <table border="1" width="100%">
-    <tr>
-        <th>Имя файла</th>
-        <th>Размер файла</th>
-        <th>Действие</th>
-    </tr>
-    <tr th:each="file:${files}">
-        <td th:utext="${file.filename}"/>
-        <td th:utext="${file.size}"/>
-        <td>
-            <a id="view" role="button" th:href="@{'/file/' + ${file.id}}">Просмотр</a>
-            <a id="edit" role="button" th:href="@{'/file/edit/' + ${file.id}}">Изменить</a>
-            <a id="del" role="button" th:href="@{'/file/del/' + ${file.id}}">Удалить</a>
-        </td>
-    </tr>
-    <tr><th>Всего файлов</th><td colspan="2" th:text="${count}" /></tr>
+    <thead>
+        <tr>
+            <th>Имя файла</th>
+            <th>Размер файла</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="file:${files}">
+            <td th:utext="${file.filename}"/>
+            <td th:utext="${file.size}"/>
+            <td>
+                <a id="view" role="button" th:href="@{'/file/' + ${file.id}}">Просмотр</a>
+                <a id="edit" role="button" th:href="@{'/file/edit/' + ${file.id}}">Изменить</a>
+                <a id="del" role="button" th:href="@{'/file/del/' + ${file.id}}">Удалить</a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr><th>Всего файлов:</th><td colspan="2" th:text="${count}" /></tr>
+    </tfoot>
 </table>
 </body>
 </html>

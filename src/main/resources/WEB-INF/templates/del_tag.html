@@ -5,16 +5,7 @@
     <title>Удаление тэга</title>
 </head>
 <body>
-<table>
-    <tr>
-        <td><a href="/book/list">Список книг</a></td>
-        <td><a href="/tag/list">Список тэгов</a></td>
-        <td><a href="/author/list">Список авторов</a></td>
-        <td><a href="/publisher/list">Список издателей</a></td>
-        <td><a href="/file/list">Список файлов</a></td>
-        <td><a href="/book/find">Поиск книги</a></td>
-    </tr>
-</table>
+<div th:insert="menu::items" />
 
 <form action="#" th:action="@{/tag/del}" th:object="${tagForm}" method="POST">
     <table border="1" width="100%">

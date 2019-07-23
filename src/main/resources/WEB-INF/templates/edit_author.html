@@ -5,9 +5,7 @@
     <meta charset="utf-8" />
 </head>
 <body>
-<table>
-    <tr><td><a href="/author/list">Список авторов</a></td></tr>
-</table>
+<div th:insert="menu::items" />
 
 <form th:action="@{/author/save}" th:object="${authorForm}" method="POST">
     <table border="1" width="100%">

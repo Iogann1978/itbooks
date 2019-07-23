@@ -5,14 +5,9 @@
         <meta charset="utf-8" />
     </head>
     <body>
+        <div th:insert="menu::items" />
         <table>
             <tr>
-                <td><a href="/book/list">На главную</a></td>
-                <td><a href="/tag/list">Список тэгов</a></td>
-                <td><a href="/author/list">Список авторов</a></td>
-                <td><a href="/publisher/list">Список издателей</a></td>
-                <td><a href="/file/list">Список файлов</a></td>
-                <td><a href="/book/find">Поиск книги</a></td>
                 <td><a th:href="@{'/book/edit/' + ${book.id}}">Изменить</a></td>
                 <td><a th:href="@{'/book/del/' + ${book.id}}">Удалить</a></td>
             </tr>

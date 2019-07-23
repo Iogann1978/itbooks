@@ -5,9 +5,7 @@
     <title>Удаление книги</title>
 </head>
 <body>
-    <table>
-        <tr><td><a href="/book/list">На главную</a></td></tr>
-    </table>
+    <div th:insert="menu::items" />
 
     <form action="#" th:action="@{/book/del}" th:object="${bookForm}" method="POST">
         <table border="1" width="100%">

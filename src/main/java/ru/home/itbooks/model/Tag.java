@@ -2,7 +2,6 @@ package ru.home.itbooks.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import ru.home.itbooks.model.form.TagForm;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Tag implements Item<TagForm> {
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -31,10 +30,7 @@ public class Tag implements Item<TagForm> {
     }
 
     @Override
-    public TagForm toItemForm() {
-        return TagForm.builder()
-                .id(id)
-                .name(tag)
-                .build();
+    public String toString() {
+        return tag;
     }
 }

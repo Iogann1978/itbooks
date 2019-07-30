@@ -7,7 +7,7 @@
 <body>
 <div th:insert="menu::items" />
 
-<form action="#" th:action="@{/tag/del}" th:object="${tagForm}" method="POST">
+<form action="#" th:action="@{/tag/del}" th:object="${tag}" method="POST">
     <table border="1" width="100%">
         <tr>
             <th>Название тэга</th>

@@ -7,13 +7,13 @@
     <body>
         <div th:insert="menu::items" />
 
-        <form th:action="@{/book/save}" th:object="${bookForm}" method="POST" enctype="multipart/form-data">
+        <form th:action="@{/book/save}" th:object="${book}" method="POST" enctype="multipart/form-data">
             <table border="1" width="100%">
                 <tr><th colspan="4">Название книги</th></tr>
                 <tr><td colspan="4"><input type="text" id="title" name="title" autofocus="autofocus" style="width: 97%" th:value="*{title}" /></td></tr>
                 <tr>
                     <th>Авторы книги:</th>
-                    <td colspan="3"><input type="text" id="authors" name="authors" style="width: 97%" th:value="*{authors}" /></td>
+                    <td colspan="3"><input type="text" id="authors" name="authors" style="width: 97%" th:value="*{strAuthors()}" /></td>
                 </tr>
                 <tr><th>Издательство</th><th>Файл книги</th><th>Год издания</th><th>Страниц</th></tr>
                 <tr>
@@ -40,7 +40,7 @@
                 <tr>
                     <td>
                         <select id="tags" name="tags" multiple size="2">
-                            <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}" th:selected="${bookForm.tags.contains(tag.tag)}">tag</option>
+                            <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}" th:selected="${book.tags.contains(tag)}">tag</option>
                         </select>
                     </td>
                     <td>

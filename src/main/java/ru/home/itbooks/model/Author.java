@@ -2,7 +2,6 @@ package ru.home.itbooks.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import ru.home.itbooks.model.form.AuthorForm;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -14,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Author implements Item<AuthorForm> {
+public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -39,13 +38,6 @@ public class Author implements Item<AuthorForm> {
         books.add(book);
     }
 
-    @Override
-    public AuthorForm toItemForm() {
-        return AuthorForm.builder()
-                .id(id).name(name)
-                .build();
-    }
-
     public static String normalizeName(String name) {
         val arr = name.split(" ");
         if(arr.length > 1) {
@@ -59,5 +51,10 @@ public class Author implements Item<AuthorForm> {
             }
         }
         return normName;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

@@ -7,7 +7,7 @@
 <body>
     <div th:insert="menu::items" />
 
-    <form action="#" th:action="@{/book/del}" th:object="${bookForm}" method="POST">
+    <form action="#" th:action="@{/book/del}" th:object="${book}" method="POST">
         <table border="1" width="100%">
             <tr>
                 <th>Название книги</th>

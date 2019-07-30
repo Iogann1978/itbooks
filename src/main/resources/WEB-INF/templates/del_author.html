@@ -7,7 +7,7 @@
 <body>
 <div th:insert="menu::items" />
 
-<form action="#" th:action="@{/author/del}" th:object="${authorForm}" method="POST">
+<form action="#" th:action="@{/author/del}" th:object="${author}" method="POST">
     <table border="1" width="100%">
         <tr>
             <th>Имя автора</th>

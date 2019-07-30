@@ -1,49 +1,47 @@
 package ru.home.itbooks.model;
 
 import lombok.*;
-import org.springframework.mock.web.MockMultipartFile;
-import ru.home.itbooks.model.form.BookForm;
 
 import javax.persistence.*;
-import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Book implements Item<BookForm> {
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String title;
-    private int pages;
+    protected Long id;
+    protected String title;
+    protected int pages;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "BOOK_AUTHOR", joinColumns = {@JoinColumn(name = "BOOK_ID")}, inverseJoinColumns = {@JoinColumn(name = "AUTHOR_ID")})
     @EqualsAndHashCode.Exclude
-    private Set<Author> authors = new HashSet<>();
+    protected Set<Author> authors = new HashSet<>();
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "BOOK_ID")
     @EqualsAndHashCode.Exclude
-    private Publisher publisher;
-    private BookRate rate;
-    private int year;
-    private BookState state;
+    protected Publisher publisher;
+    protected BookRate rate;
+    protected int year;
+    protected BookState state;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "BOOK_TAG", joinColumns = {@JoinColumn(name = "BOOK_ID")}, inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
     @EqualsAndHashCode.Exclude
-    private Set<Tag> tags = new HashSet<>();
+    protected Set<Tag> tags = new HashSet<>();
     @OneToOne
     @EqualsAndHashCode.Exclude
-    private Descript descript;
+    protected Descript descript;
     @Lob
     @Column(length = 100000)
-    private byte[] contents;
+    protected byte[] contents;
     @OneToOne
     @EqualsAndHashCode.Exclude
-    private BookFile file;
+    protected BookFile file;
 
     public void addAuthor(Author author) {
         if(authors == null) {
@@ -59,32 +57,7 @@ public class Book implements Item<BookForm> {
         tags.add(tag);
     }
 
-    @Override
-    public BookForm toItemForm() {
-        val bookForm = BookForm.builder()
-                .id(id)
-                .title(title)
-                .authors(String.join(";", authors.stream().map(a -> a.getName()).toArray(String[]::new)))
-                .tags(String.join(";", tags.stream().map(t -> t.getTag()).toArray(String[]::new)))
-                .pages(pages)
-                .year(year)
-                .rate(rate)
-                .state(state)
-                .fileXml(new MockMultipartFile("fileXml", contents))
-                .build();
-        if(descript != null) {
-            bookForm.setFileHtml(new MockMultipartFile("fileHtml", descript.getText()));
-            bookForm.setDescript(descript.getId());
-        }
-        if(contents != null) {
-            bookForm.setContents(new String(contents, StandardCharsets.UTF_8));
-        }
-        if(file != null) {
-            bookForm.setFile(file.getId());
-        }
-        if(publisher != null) {
-            bookForm.setPublisher(publisher.getId());
-        }
-        return bookForm;
+    public String strAuthors() {
+        return authors.stream().map(Author::getName).collect(Collectors.joining(","));
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.home.itbooks.model.Tag;
-import ru.home.itbooks.model.form.TagForm;
 import ru.home.itbooks.service.TagService;
 
 import javax.annotation.security.RolesAllowed;
@@ -15,7 +14,7 @@ import javax.annotation.security.RolesAllowed;
 @Controller
 @RequestMapping(value = "/tag")
 @Slf4j
-public class TagController extends AbstractController<Tag, TagForm, TagService> {
+public class TagController extends AbstractController<Tag, TagService> {
 
     @Autowired
     public TagController(TagService tagService) {
@@ -25,11 +24,6 @@ public class TagController extends AbstractController<Tag, TagForm, TagService> 
         setAddHtml("add_tag.html");
         setEditHtml("edit_tag.html");
         setDelHtml("del_tag.html");
-    }
-
-    @Override
-    protected void itemFormModel(Model model, TagForm tagForm) {
-        model.addAttribute("tagForm", tagForm);
     }
 
     @Override
@@ -63,14 +57,14 @@ public class TagController extends AbstractController<Tag, TagForm, TagService> 
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/add")
     public String addTag(Model model) {
-        val tagForm = new TagForm();
-        return add(model, tagForm);
+        val tag = new Tag();
+        return add(model, tag);
     }
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
-    public String saveTag(@ModelAttribute("tagForm") TagForm tagForm) {
-        return save(tagForm);
+    public String saveTag(@ModelAttribute("tag") Tag tag) {
+        return save(tag);
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -81,7 +75,7 @@ public class TagController extends AbstractController<Tag, TagForm, TagService> 
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/del")
-    public String delTag(@ModelAttribute("tagForm") TagForm tagForm) {
-        return del(tagForm);
+    public String delTag(@ModelAttribute("tag") Tag tag) {
+        return del(tag.getId());
     }
 }

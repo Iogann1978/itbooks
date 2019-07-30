@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.home.itbooks.model.Author;
-import ru.home.itbooks.model.form.AuthorForm;
 import ru.home.itbooks.service.AuthorService;
 
 import javax.annotation.security.RolesAllowed;
@@ -14,7 +13,7 @@ import javax.annotation.security.RolesAllowed;
 @Controller
 @RequestMapping(value = "/author")
 @Slf4j
-public class AuthorController extends AbstractController<Author, AuthorForm, AuthorService> {
+public class AuthorController extends AbstractController<Author, AuthorService> {
 
     @Autowired
     public AuthorController(AuthorService authorService) {
@@ -23,11 +22,6 @@ public class AuthorController extends AbstractController<Author, AuthorForm, Aut
         setListHtml("authors.html");
         setEditHtml("edit_author.html");
         setDelHtml("del_author.html");
-    }
-
-    @Override
-    protected void itemFormModel(Model model, AuthorForm authorForm) {
-        model.addAttribute("authorForm", authorForm);
     }
 
     @Override
@@ -60,8 +54,8 @@ public class AuthorController extends AbstractController<Author, AuthorForm, Aut
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
-    public String saveAuthor(@ModelAttribute("authorForm") AuthorForm authorForm) {
-        return save(authorForm);
+    public String saveAuthor(@ModelAttribute("author") Author author) {
+        return save(author);
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -72,7 +66,7 @@ public class AuthorController extends AbstractController<Author, AuthorForm, Aut
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/del")
-    public String delAuthor(@ModelAttribute("authorForm") AuthorForm authorForm) {
-        return del(authorForm);
+    public String delAuthor(@ModelAttribute("author") Author author) {
+        return del(author.getId());
     }
 }

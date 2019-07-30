@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.home.itbooks.model.Publisher;
-import ru.home.itbooks.model.form.PublisherForm;
 import ru.home.itbooks.service.PublisherService;
 
 import javax.annotation.security.RolesAllowed;
@@ -15,7 +14,7 @@ import javax.annotation.security.RolesAllowed;
 @Controller
 @RequestMapping(value = "/publisher")
 @Slf4j
-public class PublisherController extends AbstractController<Publisher, PublisherForm, PublisherService> {
+public class PublisherController extends AbstractController<Publisher, PublisherService> {
 
     @Autowired
     public PublisherController(PublisherService publisherService) {
@@ -25,11 +24,6 @@ public class PublisherController extends AbstractController<Publisher, Publisher
         setAddHtml("add_publisher.html");
         setEditHtml("edit_publisher.html");
         setDelHtml("del_publisher.html");
-    }
-
-    @Override
-    protected void itemFormModel(Model model, PublisherForm publisherForm) {
-        model.addAttribute("publisherForm", publisherForm);
     }
 
     @Override
@@ -63,14 +57,14 @@ public class PublisherController extends AbstractController<Publisher, Publisher
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/add")
     public String addPublisher(Model model) {
-        val publisherForm = new PublisherForm();
-        return add(model, publisherForm);
+        val publisher = new Publisher();
+        return add(model, publisher);
     }
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
-    public String savePublisher(@ModelAttribute("publisherForm") PublisherForm publisherForm) {
-        return save(publisherForm);
+    public String savePublisher(@ModelAttribute("publisher") Publisher publisher) {
+        return save(publisher);
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -81,7 +75,7 @@ public class PublisherController extends AbstractController<Publisher, Publisher
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/del")
-    public String delPublisher(@ModelAttribute("publisherForm") PublisherForm publisherForm) {
-        return del(publisherForm);
+    public String delPublisher(@ModelAttribute("publisher") Publisher publisher) {
+        return del(publisher.getId());
     }
 }

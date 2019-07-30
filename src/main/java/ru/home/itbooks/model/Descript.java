@@ -1,7 +1,6 @@
 package ru.home.itbooks.model;
 
 import lombok.*;
-import ru.home.itbooks.model.form.DescriptForm;
 
 import javax.persistence.*;
 import java.nio.charset.StandardCharsets;
@@ -11,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Descript implements Item<DescriptForm> {
+public class Descript {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,12 +25,5 @@ public class Descript implements Item<DescriptForm> {
         return text == null ? null : new String(text, StandardCharsets.UTF_8);
     }
 
-    @Override
-    public DescriptForm toItemForm() {
-        return DescriptForm.builder()
-                .id(id)
-                .text(text)
-                .build();
-    }
 }
 

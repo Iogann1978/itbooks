@@ -6,7 +6,7 @@
     </head>
     <body>
         <h1>Добавление книги</h1>
-        <form action="#" th:action="@{/book/save}" th:object="${bookForm}" method="POST" enctype="multipart/form-data">
+        <form action="#" th:action="@{/book/save}" th:object="${book}" method="POST" enctype="multipart/form-data">
             <label for="title">Название:</label>
             <input type="text" id="title" style="width: 97%" th:field="*{title}" autofocus="autofocus" /> <br/>
             <label for="pages">Страниц:</label>

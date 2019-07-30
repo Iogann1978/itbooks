@@ -7,7 +7,7 @@
 <body>
 <div th:insert="menu::items" />
 
-<form th:action="@{/file/save}" th:object="${fileForm}" method="POST">
+<form th:action="@{/file/save}" th:object="${file}" method="POST">
     <table border="1" width="100%">
         <tr>
             <th>Имя файла</th>

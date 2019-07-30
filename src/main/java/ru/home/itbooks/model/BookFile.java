@@ -1,7 +1,6 @@
 package ru.home.itbooks.model;
 
 import lombok.*;
-import ru.home.itbooks.model.form.BookFileForm;
 
 import javax.persistence.*;
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookFile implements Item<BookFileForm> {
+public class BookFile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,11 +20,7 @@ public class BookFile implements Item<BookFileForm> {
     private Book book;
 
     @Override
-    public BookFileForm toItemForm() {
-        return BookFileForm.builder()
-                .id(id)
-                .filename(filename)
-                .size(size)
-                .build();
+    public String toString() {
+        return filename;
     }
 }

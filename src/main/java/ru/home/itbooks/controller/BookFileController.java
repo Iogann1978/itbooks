@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.home.itbooks.model.BookFile;
-import ru.home.itbooks.model.form.BookFileForm;
 import ru.home.itbooks.service.BookFileService;
 
 import javax.annotation.security.RolesAllowed;
@@ -15,7 +14,7 @@ import javax.annotation.security.RolesAllowed;
 @Controller
 @RequestMapping(value = "/file")
 @Slf4j
-public class BookFileController extends AbstractController<BookFile, BookFileForm, BookFileService> {
+public class BookFileController extends AbstractController<BookFile, BookFileService> {
 
     @Autowired
     public BookFileController(BookFileService fileService) {
@@ -25,11 +24,6 @@ public class BookFileController extends AbstractController<BookFile, BookFileFor
         setAddHtml("add_file.html");
         setEditHtml("edit_file.html");
         setDelHtml("del_file.html");
-    }
-
-    @Override
-    protected void itemFormModel(Model model, BookFileForm fileForm) {
-        model.addAttribute("fileForm", fileForm);
     }
 
     @Override
@@ -57,8 +51,8 @@ public class BookFileController extends AbstractController<BookFile, BookFileFor
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/add")
     public String addFile(Model model) {
-        val fileForm = new BookFileForm();
-        return add(model, fileForm);
+        val bookFile = new BookFile();
+        return add(model, bookFile);
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -69,8 +63,8 @@ public class BookFileController extends AbstractController<BookFile, BookFileFor
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
-    public String saveFile(@ModelAttribute("fileForm") BookFileForm fileForm) {
-        return save(fileForm);
+    public String saveFile(@ModelAttribute("bookFile") BookFile bookFile) {
+        return save(bookFile);
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -81,7 +75,7 @@ public class BookFileController extends AbstractController<BookFile, BookFileFor
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/del")
-    public String delFile(@ModelAttribute("fileForm") BookFileForm fileForm) {
-        return del(fileForm);
+    public String delFile(@ModelAttribute("bookFile") BookFile bookFile) {
+        return del(bookFile.getId());
     }
 }

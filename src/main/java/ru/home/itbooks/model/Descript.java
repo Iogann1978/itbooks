@@ -24,6 +24,5 @@ public class Descript {
     public String getHtml() {
         return text == null ? null : new String(text, StandardCharsets.UTF_8);
     }
-
 }
 

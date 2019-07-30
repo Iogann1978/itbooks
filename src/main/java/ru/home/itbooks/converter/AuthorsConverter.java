@@ -20,7 +20,8 @@ public class AuthorsConverter implements Converter<String, Set<Author>> {
         if(s != null && !s.isEmpty()) {
             val authors = s.split(",");
             for(val author : authors) {
-                val auth = authorService.findByName(author).orElse(Author.builder().name(author).build());
+                val normName = Author.normalizeName(author);
+                val auth = authorService.findByName(normName).orElse(Author.builder().name(author).normalizedName(normName).build());
                 listAuthors.add(auth);
             }
         }

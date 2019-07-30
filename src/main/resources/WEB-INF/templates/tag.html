@@ -23,7 +23,7 @@
         <td>
             <ol>
                 <li th:each="book:${tag.books}">
-                    <span th:text="${book.title}">Книга</span>
+                    <a th:href="@{'/book/' + ${book.id}}" th:text="${book.title}">Книга</a>
                 </li>
             </ol>
         </td>

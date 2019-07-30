@@ -18,12 +18,12 @@
                 <tr><th>Издательство</th><th>Файл книги</th><th>Год издания</th><th>Страниц</th></tr>
                 <tr>
                     <td>
-                        <select id="publisher" th:field="*{publisher}">
+                        <select id="publisher" th:field="*{publisher.id}">
                             <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
                         </select> <br/>
                     </td>
                     <td>
-                        <select id="file" th:field="*{file}">
+                        <select id="file" th:field="*{file.id}">
                             <option th:each="file : ${files}" th:value="${file.id}" th:text="${file.filename}">file</option>
                         </select> <br/>
                     </td>

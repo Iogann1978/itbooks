@@ -18,9 +18,4 @@ public class BookFile {
     @OneToOne(mappedBy="file", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     private Book book;
-
-    @Override
-    public String toString() {
-        return filename;
-    }
 }

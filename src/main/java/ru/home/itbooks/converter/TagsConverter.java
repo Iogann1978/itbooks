@@ -1,6 +1,7 @@
 package ru.home.itbooks.converter;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -12,12 +13,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
+@Slf4j
 public class TagsConverter implements Converter<String, Set<Tag>> {
     private TagService tagService;
 
     @Override
     @SneakyThrows
     public Set<Tag> convert(String s) {
+        log.debug("TagsConverter");
         Set<Tag> listTags = new HashSet<>();
         if(s != null && !s.isEmpty()) {
             val tags = s.split(",");

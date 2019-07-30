@@ -27,7 +27,7 @@ public abstract class AbstractController<T0, T1 extends ItemService<T0>> {
     protected String get(String text_error, Model model, Long id) {
         val item = service.findById(id);
         if(item.isPresent()) {
-            itemModel(model, (T0) item.get());
+            itemModel(model, item.get());
             return htmls.get("view");
         } else {
             model.addAttribute("error", text_error);

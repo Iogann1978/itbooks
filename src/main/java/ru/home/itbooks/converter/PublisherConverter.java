@@ -1,6 +1,7 @@
 package ru.home.itbooks.converter;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -8,12 +9,14 @@ import ru.home.itbooks.model.Publisher;
 import ru.home.itbooks.service.PublisherService;
 
 @Component
+@Slf4j
 public class PublisherConverter implements Converter<Long, Publisher> {
     private PublisherService publisherService;
 
     @Override
     @SneakyThrows
     public Publisher convert(Long aLong) {
+        log.debug("PublisherConverter");
         Publisher pub = null;
         if(aLong != null) {
             pub = publisherService.findById(aLong)

@@ -1,5 +1,6 @@
 package ru.home.itbooks.converter;
 
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -11,11 +12,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
+@Slf4j
 public class AuthorsConverter implements Converter<String, Set<Author>> {
     private AuthorService authorService;
 
     @Override
     public Set<Author> convert(String s) {
+        log.debug("AuthorsConverter");
         Set<Author> listAuthors = new HashSet<>();
         if(s != null && !s.isEmpty()) {
             val authors = s.split(",");

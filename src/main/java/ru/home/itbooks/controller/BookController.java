@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ru.home.itbooks.model.*;
 import ru.home.itbooks.model.form.FindForm;
@@ -121,18 +120,14 @@ public class BookController extends AbstractController<Book, BookService> {
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
     @SneakyThrows
-    public String saveNewBook(@ModelAttribute("book") Book book,
-                              @RequestParam("fileHtml") MultipartFile fileHtml,
-                              @RequestParam("fileXml") MultipartFile fileXml) {
-        if(fileHtml != null && !fileHtml.isEmpty()) {
-            val desc = new Descript();
-            desc.setText(fileHtml.getBytes());
-            book.setDescript(desc);
-        }
-        if(fileXml != null && !fileXml.isEmpty()) {
-            book.setContents(fileXml.getBytes());
-        }
-        return save(book);
+    public String saveBook(@ModelAttribute("book") Book book,
+                              @RequestParam("fileHtml") Descript desc,
+                              @RequestParam("fileXml") byte[] contents) {
+        log.debug("fileHtml: {}", desc);
+        log.debug("fileXml: {}", contents);
+        log.debug("book: {}", book);
+        getService().save(book, desc, contents);
+        return "redirect:list";
     }
 
     @RolesAllowed("USER,ADMIN")

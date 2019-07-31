@@ -10,17 +10,17 @@ import ru.home.itbooks.service.BookFileService;
 
 @Component
 @Slf4j
-public class BookFileConverter implements Converter<Long, BookFile> {
+public class BookFileConverter implements Converter<String, BookFile> {
     private BookFileService bookFileService;
 
     @Override
     @SneakyThrows
-    public BookFile convert(Long aLong) {
+    public BookFile convert(String id) {
         log.debug("BookFileConverter");
         BookFile file = null;
-        if(aLong != null) {
-            file = bookFileService.findById(aLong)
-                    .orElseThrow(() -> new Exception(String.format("Файл %s не найден!", aLong)));
+        if(id != null && !id.isEmpty()) {
+            file = bookFileService.findById(Long.valueOf(id))
+                    .orElseThrow(() -> new Exception(String.format("Файл %s не найден!", id)));
         }
         return file;
     }

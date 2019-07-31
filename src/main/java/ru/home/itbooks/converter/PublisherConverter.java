@@ -10,17 +10,17 @@ import ru.home.itbooks.service.PublisherService;
 
 @Component
 @Slf4j
-public class PublisherConverter implements Converter<Long, Publisher> {
+public class PublisherConverter implements Converter<String, Publisher> {
     private PublisherService publisherService;
 
     @Override
     @SneakyThrows
-    public Publisher convert(Long aLong) {
+    public Publisher convert(String id) {
         log.debug("PublisherConverter");
         Publisher pub = null;
-        if(aLong != null) {
-            pub = publisherService.findById(aLong)
-                    .orElseThrow(() -> new Exception(String.format("Издатель %s не найден!", aLong)));
+        if(id != null && !id.isEmpty()) {
+            pub = publisherService.findById(Long.valueOf(id))
+                    .orElseThrow(() -> new Exception(String.format("Издатель %s не найден!", id)));
         }
         return pub;
     }

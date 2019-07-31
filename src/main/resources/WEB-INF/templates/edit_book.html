@@ -4,6 +4,7 @@
         <title>Book page</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
+        <link rel="stylesheet" type="text/css" media="all" href="/css/select.css" th:href="@{/css/select.css}" />
     </head>
     <body>
         <div th:insert="menu::items" />
@@ -19,13 +20,13 @@
                 <tr><th>Издательство</th><th>Файл книги</th><th>Год издания</th><th>Страниц</th></tr>
                 <tr>
                     <td>
-                        <select id="publisher" th:field="*{publisher.id}">
-                            <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
+                        <select id="publisher" name="publisher">
+                            <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}" th:selected="${publisher.id==book.publisher.id}">publisher</option>
                         </select> <br/>
                     </td>
                     <td>
-                        <select id="file" th:field="*{file.id}">
-                            <option th:each="file : ${files}" th:value="${file.id}" th:text="${file.filename}">file</option>
+                        <select id="file" name="file">
+                            <option th:each="file : ${files}" th:value="${file.id}" th:text="${file.filename}" th:selected="${file.id==book.file.id}">file</option>
                         </select> <br/>
                     </td>
                     <td><input type="number" id="year" name="year" th:value="*{year}" /></td>

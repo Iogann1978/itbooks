@@ -14,11 +14,11 @@
             <label for="year">Год издания:</label>
             <input type="number" id="year" th:field="*{year}" /> <br/>
             <label for="publisher">Издатель:</label>
-            <select id="publisher" style="width: 50%" th:field="*{publisher}">
+            <select id="publisher" name="publisher" style="width: 50%">
                 <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
             </select> <br/>
             <label for="file">Файл книги:</label>
-            <select id="file" style="width: 50%" th:field="*{file}">
+            <select id="file" name="file" style="width: 50%">
                 <option th:each="file : ${files}" th:value="${file.id}" th:text="${file.filename}">file</option>
             </select> <br/>
             <label for="authors">Авторы:</label>
@@ -36,7 +36,7 @@
                 <option th:each="state : ${states}" th:value="${state}" th:text="${state}">state</option>
             </select> <br/>
             <label for="tags">Тэги:</label>
-            <select id="tags" multiple th:field="*{tags}" size="2">
+            <select id="tags" name="tags" multiple size="2">
                 <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}">tag</option>
             </select> <br/>
             <input type="submit" value="Добавить" />

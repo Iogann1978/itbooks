@@ -49,7 +49,6 @@ public class BookController extends AbstractController<Book, BookService> {
         model.addAttribute("states", BookState.values());
         model.addAttribute("tags", tagService.findAll());
         model.addAttribute("publishers", publisherService.findAll());
-        model.addAttribute("files", bookFileService.getFreeFiles());
         model.addAttribute("book", book);
     }
 
@@ -67,6 +66,8 @@ public class BookController extends AbstractController<Book, BookService> {
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/edit/{id}")
     public String editBook(Model model, @PathVariable Long id) {
+        //При редактировании книги нужно отобразить имеющиеся все файлы
+        model.addAttribute("files", bookFileService.findAll());
         return edit(model, id);
     }
 
@@ -114,6 +115,8 @@ public class BookController extends AbstractController<Book, BookService> {
     @GetMapping("/add")
     public String addBook(Model model) {
         val book = new Book();
+        //При добавлении книги нужно отобразить только непривязанные файлы
+        model.addAttribute("files", bookFileService.getFreeFiles());
         return add(model, book);
     }
 
@@ -123,9 +126,6 @@ public class BookController extends AbstractController<Book, BookService> {
     public String saveBook(@ModelAttribute("book") Book book,
                               @RequestParam("fileHtml") Descript desc,
                               @RequestParam("fileXml") byte[] contents) {
-        log.debug("fileHtml: {}", desc);
-        log.debug("fileXml: {}", contents);
-        log.debug("book: {}", book);
         getService().save(book, desc, contents);
         return "redirect:list";
     }

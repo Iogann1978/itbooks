@@ -34,10 +34,7 @@
                 <tr th:each="book:${books}">
                     <td th:utext="${book.title}"/>
                     <td>
-                        <i th:each="author:${book.authors}">
-                            <span th:text="${author.name}">Имя автора</span>
-                            <span>;</span>
-                        </i>
+                        <i><span th:text="${book.strAuthors()}">Авторы</span></i>
                     </td>
                     <td th:utext="${book.publisher.name}"/>
                     <td th:utext="${book.pages}"/>

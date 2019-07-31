@@ -1,0 +1,19 @@
+/* непросмотренная ссылка */
+a:link {
+    color: red;
+}
+
+/* просмотренная ссылка */
+a:visited {
+    color: green;
+}
+
+/* наведение мыши на ссылку */
+a:hover {
+    color: hotpink;
+}
+
+/* активная ссылка */
+a:active {
+    color: blue;
+}

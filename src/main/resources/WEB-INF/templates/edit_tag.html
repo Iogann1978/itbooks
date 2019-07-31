@@ -3,6 +3,7 @@
 <head>
     <title>Редактирование тэга</title>
     <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
 </head>
 <body>
 <div th:insert="menu::items" />
@@ -11,7 +12,7 @@
     <table border="1" width="100%">
         <tr>
             <th>Название тэга</th>
-            <td><input type="text" id="name" name="name" autofocus="autofocus" width="100%" th:value="*{name}" /></td>
+            <td><input type="text" id="name" name="name" autofocus="autofocus" width="100%" th:value="*{tag}" /></td>
         </tr>
         <tr>
             <th>Действие</th>

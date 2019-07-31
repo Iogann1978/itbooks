@@ -40,8 +40,8 @@
                     <td th:utext="${book.pages}"/>
                     <td th:utext="${book.year}"/>
                     <td th:utext="${book.state}"/>
-                    <td><input type="checkbox" th:checked="${book.descript!=null}" disabled="disabled"></td>
-                    <td><input type="checkbox" th:checked="${book.contents!=null && book.contents.length > 0} " disabled="disabled"></td>
+                    <td><input type="checkbox" th:checked="${book.descript!=null && book.descript.text!=null && book.descript.text.length>0}" disabled="disabled"></td>
+                    <td><input type="checkbox" th:checked="${book.contents!=null && book.contents.length>0} " disabled="disabled"></td>
                     <td><a id="choose" role="button" th:href="@{'/book/' + ${book.id}}">Книга</a></td>
                 </tr>
             </tbody>

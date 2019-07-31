@@ -33,13 +33,13 @@ public class Book {
     @JoinTable(name = "BOOK_TAG", joinColumns = {@JoinColumn(name = "BOOK_ID")}, inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
     @EqualsAndHashCode.Exclude
     protected Set<Tag> tags = new HashSet<>();
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     protected Descript descript;
     @Lob
     @Column(length = 100000)
     protected byte[] contents;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     protected BookFile file;
 

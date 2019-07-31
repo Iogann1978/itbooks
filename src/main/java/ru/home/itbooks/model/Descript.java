@@ -17,7 +17,7 @@ public class Descript {
     @Lob
     @Column(length = 100000)
     private byte[] text;
-    @OneToOne(mappedBy="descript", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy="descript")
     @EqualsAndHashCode.Exclude
     private Book book;
 

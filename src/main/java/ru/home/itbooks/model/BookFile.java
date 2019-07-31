@@ -15,7 +15,7 @@ public class BookFile {
     private Long id;
     private String filename;
     private Long size;
-    @OneToOne(mappedBy="file", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy="file")
     @EqualsAndHashCode.Exclude
     private Book book;
 }

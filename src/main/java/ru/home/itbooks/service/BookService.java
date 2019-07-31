@@ -94,17 +94,17 @@ public class BookService extends AbstractService<Book, BookRepository> {
     }
 
     public Book save(Book book, Descript desc, byte[] contents) {
-        val book_save = save(book);
+        //val book_save = save(book);
         if(desc != null && desc.getText() != null && desc.getText().length > 0) {
             if(desc.getId() == null) {
                 desc = descriptService.save(desc);
-                desc.setBook(book_save);
+                desc.setBook(book);
             }
-            book_save.setDescript(desc);
+            book.setDescript(desc);
         }
         if(contents != null && contents.length > 0) {
-            book_save.setContents(contents);
+            book.setContents(contents);
         }
-        return save(book_save);
+        return save(book);
     }
 }

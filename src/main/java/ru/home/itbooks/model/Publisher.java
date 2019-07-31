@@ -16,7 +16,7 @@ public class Publisher {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "publisher")
     @EqualsAndHashCode.Exclude
     private Set<Book> books = new HashSet<>();
 
@@ -34,10 +34,4 @@ public class Publisher {
                 ", name='" + name + '\'' +
                 '}';
     }
-/*
-    @Override
-    public String toString() {
-        return name;
-    }
- */
 }

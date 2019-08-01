@@ -12,11 +12,11 @@ import ru.home.itbooks.service.AuthorService;
 public class AuthorsConverter extends AbstractStringSetConverter<Author, AuthorService> {
     @Autowired
     public AuthorsConverter(AuthorService authorService) {
-        super(authorService, "Автор");
+        super(authorService);
     }
 
     @Override
-    public Author getNewItem(String s) {
+    public Author getItem(String s) {
         val normName = Author.normalizeName(s);
         val auth = getService().findByName(normName).orElse(Author.builder().name(s).normalizedName(normName).build());
         return auth;

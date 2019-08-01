@@ -13,7 +13,7 @@ public class TagConverter extends AbstractStringIdConverter<Tag, TagService> {
     }
 
     @Override
-    public Tag getNewItem(String s) {
+    public Tag getItem(String s) {
         return Tag.builder().tag(s).build();
     }
 }

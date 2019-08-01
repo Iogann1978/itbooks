@@ -14,7 +14,7 @@ public class BookFileConverter extends AbstractStringIdConverter<BookFile, BookF
     }
 
     @Override
-    public BookFile getNewItem(String s) {
+    public BookFile getItem(String s) {
         return null;
     }
 }

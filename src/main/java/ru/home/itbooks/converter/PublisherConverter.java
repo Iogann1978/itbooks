@@ -13,7 +13,7 @@ public class PublisherConverter extends AbstractStringIdConverter<Publisher, Pub
     }
 
     @Override
-    public Publisher getNewItem(String s) {
+    public Publisher getItem(String s) {
         return Publisher.builder().name(s).build();
     }
 }

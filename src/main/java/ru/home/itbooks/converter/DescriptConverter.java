@@ -13,7 +13,7 @@ public class DescriptConverter extends AbstractStringIdConverter<Descript, Descr
     }
 
     @Override
-    public Descript getNewItem(String s) {
+    public Descript getItem(String s) {
         return null;
     }
 }

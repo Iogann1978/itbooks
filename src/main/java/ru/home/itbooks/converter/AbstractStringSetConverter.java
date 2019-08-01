@@ -11,24 +11,22 @@ import java.util.Set;
 
 @Slf4j
 public abstract class AbstractStringSetConverter <T0, T1 extends ItemService<T0>>
-        implements ItemStringIdConverter<T0>, Converter<String, Set<T0>> {
+        implements ItemConverter<T0, String>, Converter<String, Set<T0>> {
     private T1 service;
-    private String itemName;
 
-    public AbstractStringSetConverter(T1 service, String  itemName) {
+    public AbstractStringSetConverter(T1 service) {
         this.service = service;
-        this.itemName = itemName;
     }
 
     @Override
     @SneakyThrows
     public Set<T0> convert(String s) {
-        log.debug("{}: {}", getClass().getSimpleName(), s);
+        log.debug("{}: {}", service.getClass().getSimpleName(), s);
         Set<T0> list = new HashSet<>();
         if(s != null && !s.isEmpty()) {
             val items = s.split(",");
             for(val item : items) {
-                list.add(getNewItem(item));
+                list.add(getItem(item));
             }
         }
         return list;

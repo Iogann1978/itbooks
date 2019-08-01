@@ -9,25 +9,24 @@ import ru.home.itbooks.service.ItemService;
 public abstract class AbstractStringIdConverter<T0, T1 extends ItemService<T0>>
         implements ItemStringIdConverter<T0>, Converter<String, T0> {
     private T1 service;
-    private String className, itemName;
+    private String itemName;
 
-    public AbstractStringIdConverter(T1 service, String className, String  itemName) {
+    public AbstractStringIdConverter(T1 service, String  itemName) {
         this.service = service;
-        this.className = className;
         this.itemName = itemName;
     }
 
     @Override
     @SneakyThrows
     public T0 convert(String s) {
-        log.debug("{}: {}", className, s);
+        log.debug("{}: {}", getClass().getSimpleName(), s);
         T0 item = null;
         if(s != null && !s.isEmpty()) {
             if(s.matches("\\d+")) {
                 item = service.findById(Long.valueOf(s))
                         .orElseThrow(() -> new Exception(String.format("%s %s не найден!", itemName, s)));
             } else {
-                item = getNewItem();
+                item = getNewItem(s);
             }
         }
         return item;

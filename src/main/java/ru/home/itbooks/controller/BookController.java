@@ -1,5 +1,6 @@
 package ru.home.itbooks.controller;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.home.itbooks.model.*;
-import ru.home.itbooks.model.form.BookForm;
 import ru.home.itbooks.model.form.FindForm;
 import ru.home.itbooks.service.*;
 
@@ -19,7 +19,7 @@ import java.io.ByteArrayInputStream;
 @Controller
 @RequestMapping(value = "/book")
 @Slf4j
-public class BookController extends AbstractController<Book, BookForm, BookService> {
+public class BookController extends AbstractController<Book, BookService> {
     private TagService tagService;
     private PublisherService publisherService;
     private BookFileService bookFileService;
@@ -44,17 +44,18 @@ public class BookController extends AbstractController<Book, BookForm, BookServi
     }
 
     @Override
-    protected void itemFormModel(Model model, BookForm bookForm) {
-        model.addAttribute("bookForm", bookForm);
+    protected void itemModel(Model model, Book book) {
         model.addAttribute("rates", BookRate.values());
         model.addAttribute("states", BookState.values());
         model.addAttribute("tags", tagService.findAll());
         model.addAttribute("publishers", publisherService.findAll());
-        model.addAttribute("files", bookFileService.getFreeFiles());
-    }
-
-    @Override
-    protected void itemModel(Model model, Book book) {
+        if(book.getFile() == null) {
+            model.addAttribute("files", bookFileService.getFreeFiles());
+        } else {
+            val list = bookFileService.getFreeFiles();
+            list.add(book.getFile());
+            model.addAttribute("files", list);
+        }
         model.addAttribute("book", book);
     }
 
@@ -118,14 +119,18 @@ public class BookController extends AbstractController<Book, BookForm, BookServi
     @RolesAllowed("USER,ADMIN")
     @GetMapping("/add")
     public String addBook(Model model) {
-        val bookForm = new BookForm();
-        return add(model, bookForm);
+        val book = new Book();
+        return add(model, book);
     }
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/save")
-    public String saveBook(@ModelAttribute("bookForm") BookForm bookForm) {
-        return save(bookForm);
+    @SneakyThrows
+    public String saveBook(@ModelAttribute("book") Book book,
+                              @RequestParam("fileHtml") Descript desc,
+                              @RequestParam("fileXml") byte[] contents) {
+        getService().save(book, desc, contents);
+        return "redirect:list";
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -136,8 +141,8 @@ public class BookController extends AbstractController<Book, BookForm, BookServi
 
     @RolesAllowed("USER,ADMIN")
     @PostMapping("/del")
-    public String delBook(@ModelAttribute("bookForm") BookForm bookForm) {
-        return del(bookForm);
+    public String delBook(@ModelAttribute("bookForm") Book book) {
+        return del(book.getId());
     }
 
     @RolesAllowed("USER,ADMIN")
@@ -159,5 +164,4 @@ public class BookController extends AbstractController<Book, BookForm, BookServi
         model.addAttribute("count", books.size());
         return "books.html";
     }
-
 }

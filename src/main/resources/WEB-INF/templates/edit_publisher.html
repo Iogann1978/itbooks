@@ -3,11 +3,12 @@
 <head>
     <title>Редактирование издателя</title>
     <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
 </head>
 <body>
 <div th:insert="menu::items" />
 
-<form th:action="@{/publisher/save}" th:object="${publisherForm}" method="POST">
+<form th:action="@{/publisher/save}" th:object="${publisher}" method="POST">
     <table border="1" width="100%">
         <tr>
             <th>Издатель</th>

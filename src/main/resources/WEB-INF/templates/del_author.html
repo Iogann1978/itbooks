@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Удаление автора</title>
+    <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
 </head>
 <body>
 <div th:insert="menu::items" />
 
-<form action="#" th:action="@{/author/del}" th:object="${authorForm}" method="POST">
+<form action="#" th:action="@{/author/del}" th:object="${author}" method="POST">
     <table border="1" width="100%">
         <tr>
             <th>Имя автора</th>

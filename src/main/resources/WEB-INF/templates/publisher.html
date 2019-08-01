@@ -3,6 +3,8 @@
 <head>
     <title>Тэг</title>
     <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/anchor.css" th:href="@{/css/anchor.css}" />
 </head>
 <body>
 <div th:insert="menu::items" />
@@ -23,7 +25,7 @@
         <td>
             <ol>
                 <li th:each="book:${publisher.books}">
-                    <span th:text="${book.title}">Книга</span>
+                    <a th:href="@{'/book/' + ${book.id}}" th:text="${book.title}">Книга</a>
                 </li>
             </ol>
         </td>

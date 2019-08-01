@@ -2,16 +2,14 @@ package ru.home.itbooks.service;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.home.itbooks.model.Item;
-import ru.home.itbooks.model.form.ItemForm;
 
 import java.util.Optional;
 
-public abstract class AbstractService<T0 extends Item<T1>, T1 extends ItemForm<T0>, T2 extends JpaRepository<T0, Long>>
-    implements ItemService<T0, T1> {
-    private T2 repository;
+public abstract class AbstractService<T0, T1 extends JpaRepository<T0, Long>>
+    implements ItemService<T0> {
+    private T1 repository;
 
-    public AbstractService(T2 repository) {
+    public AbstractService(T1 repository) {
         this.repository = repository;
     }
 
@@ -39,15 +37,11 @@ public abstract class AbstractService<T0 extends Item<T1>, T1 extends ItemForm<T
         return repository.save(entity);
     }
 
-    public T0 save(T1 itemForm) {
-        return repository.save(itemForm.toItem());
-    };
-
     public Iterable<T0> saveAll(Iterable<T0> entities) {
         return repository.saveAll(entities);
     }
 
-    protected T2 getRepository() {
+    protected T1 getRepository() {
         return repository;
     }
 

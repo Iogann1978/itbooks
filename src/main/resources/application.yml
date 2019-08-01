@@ -1,3 +1,8 @@
+logging:
+  level:
+    root: INFO
+    ru.home.itbooks: DEBUG
+
 spring:
   profiles:
     active: prod

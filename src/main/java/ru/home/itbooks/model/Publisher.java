@@ -1,9 +1,9 @@
 package ru.home.itbooks.model;
 
 import lombok.*;
-import ru.home.itbooks.model.form.PublisherForm;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,12 +12,13 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Publisher implements Item<PublisherForm> {
+public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String name;
-    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "publisher")
     @EqualsAndHashCode.Exclude
     private Set<Book> books = new HashSet<>();
 
@@ -26,13 +27,5 @@ public class Publisher implements Item<PublisherForm> {
             books = new HashSet<>();
         }
         books.add(book);
-    }
-
-    @Override
-    public PublisherForm toItemForm() {
-        return PublisherForm.builder()
-                .id(id)
-                .name(name)
-                .build();
     }
 }

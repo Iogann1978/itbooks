@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Удаление файла</title>
+    <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
 </head>
 <body>
 <div th:insert="menu::items" />
 
-<form action="#" th:action="@{/file/del}" th:object="${fileForm}" method="POST">
+<form action="#" th:action="@{/file/del}" th:object="${file}" method="POST">
     <table border="1" width="100%">
         <tr>
             <th>Имя файла</th>

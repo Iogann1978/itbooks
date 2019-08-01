@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Добавление издателя</h1>
-<form action="#" th:action="@{/publisher/save}" th:object="${publisherForm}" method="POST">
+<form action="#" th:action="@{/publisher/save}" th:object="${publisher}" method="POST">
     <label for="publisher">Название:</label>
     <input type="text" id="publisher" th:field="*{name}" autofocus="autofocus" /> <br/>
     <input type="submit" value="Добавить" />

@@ -1,31 +1,23 @@
 package ru.home.itbooks.model;
 
 import lombok.*;
-import ru.home.itbooks.model.form.BookFileForm;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookFile implements Item<BookFileForm> {
+public class BookFile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String filename;
     private Long size;
-    @OneToOne(mappedBy="file", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy="file")
     @EqualsAndHashCode.Exclude
     private Book book;
-
-    @Override
-    public BookFileForm toItemForm() {
-        return BookFileForm.builder()
-                .id(id)
-                .filename(filename)
-                .size(size)
-                .build();
-    }
 }

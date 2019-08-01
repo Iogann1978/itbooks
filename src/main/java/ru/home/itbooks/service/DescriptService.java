@@ -4,14 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.home.itbooks.model.Descript;
-import ru.home.itbooks.model.form.DescriptForm;
 import ru.home.itbooks.repository.DescriptRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class DescriptService extends AbstractService<Descript, DescriptForm, DescriptRepository> {
+public class DescriptService extends AbstractService<Descript, DescriptRepository> {
     @Autowired
     public DescriptService(DescriptRepository repository) {
         super(repository);

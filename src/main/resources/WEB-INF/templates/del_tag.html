@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Удаление тэга</title>
+    <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
 </head>
 <body>
 <div th:insert="menu::items" />
 
-<form action="#" th:action="@{/tag/del}" th:object="${tagForm}" method="POST">
+<form action="#" th:action="@{/tag/del}" th:object="${tag}" method="POST">
     <table border="1" width="100%">
         <tr>
             <th>Название тэга</th>
-            <td th:text="*{name}">name</td>
+            <td th:text="*{tag}">name</td>
         </tr>
         <tr>
             <th>Действие</th>

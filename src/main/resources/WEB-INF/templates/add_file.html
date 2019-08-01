@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Добавление файла</h1>
-<form action="#" th:action="@{/file/save}" th:object="${fileForm}" method="POST">
+<form action="#" th:action="@{/file/save}" th:object="${file}" method="POST">
     <label for="filename">Имя файла книги</label>:
     <input type="file" id="filename" name="filename" onchange="get_size()" /> <br/>
     <label for="size">Размер файла книги</label>:

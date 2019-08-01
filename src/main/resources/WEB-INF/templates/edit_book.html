@@ -58,7 +58,7 @@
                     <td>
                         <input type="submit" value="Изменить" />
                         <input type="number" hidden="true" th:field="*{id}" />
-                        <input type="number" id="descript" name="descript" hidden="true" th:value="*{descript.id}" />
+                        <input type="number" id="descript" name="descript" hidden="true" th:value="*{getDescriptId()}" />
                         <input type="text" hidden="true" th:field="*{contents}" />
                     </td>
                 </tr>

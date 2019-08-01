@@ -8,7 +8,7 @@
         <h1>Добавление тэга</h1>
         <form action="#" th:action="@{/tag/save}" th:object="${tag}" method="POST">
             <label for="tag">Название:</label>
-            <input type="text" id="tag" th:field="*{tag}" autofocus="autofocus" /> <br/>
+            <input type="text" id="tag" name="tag" th:value="*{tag}" autofocus="autofocus" /> <br/>
             <input type="submit" value="Добавить" />
         </form>
     </body>

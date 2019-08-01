@@ -9,28 +9,25 @@ import org.springframework.stereotype.Component;
 import ru.home.itbooks.model.Tag;
 import ru.home.itbooks.service.TagService;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Component
 @Slf4j
-public class TagsConverter implements Converter<String, Set<Tag>> {
+public class TagConverter implements Converter<String, Tag> {
     private TagService tagService;
 
     @Override
     @SneakyThrows
-    public Set<Tag> convert(String s) {
-        log.debug("TagsConverter: {]", s);
-        Set<Tag> listTags = new HashSet<>();
+    public Tag convert(String s) {
+        log.debug("TagConverter: {}", s);
+        Tag tag = null;
         if(s != null && !s.isEmpty()) {
-            val tags = s.split(",");
-            for(val tag : tags) {
-                val tg = tagService.findById(Long.parseLong(tag))
-                        .orElseThrow(() -> new Exception(String.format("Тэг %s не найден!", tag)));
-                listTags.add(tg);
+            if(s.matches("\\d+")) {
+                tag = tagService.findById(Long.valueOf(s))
+                        .orElseThrow(() -> new Exception(String.format("Тэг %s не найден!", s)));
+            } else {
+                tag = Tag.builder().tag(s).build();
             }
         }
-        return listTags;
+        return tag;
     }
 
     @Autowired

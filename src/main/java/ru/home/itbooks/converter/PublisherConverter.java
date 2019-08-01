@@ -15,12 +15,16 @@ public class PublisherConverter implements Converter<String, Publisher> {
 
     @Override
     @SneakyThrows
-    public Publisher convert(String id) {
-        log.debug("PublisherConverter");
+    public Publisher convert(String s) {
+        log.debug("PublisherConverter: {}", s);
         Publisher pub = null;
-        if(id != null && !id.isEmpty()) {
-            pub = publisherService.findById(Long.valueOf(id))
-                    .orElseThrow(() -> new Exception(String.format("Издатель %s не найден!", id)));
+        if(s != null && !s.isEmpty()) {
+            if(s.matches("\\d+")) {
+                pub = publisherService.findById(Long.valueOf(s))
+                        .orElseThrow(() -> new Exception(String.format("Издатель %s не найден!", s)));
+            } else {
+                pub = Publisher.builder().name(s).build();
+            }
         }
         return pub;
     }

@@ -16,7 +16,7 @@ public class BookFileConverter implements Converter<String, BookFile> {
     @Override
     @SneakyThrows
     public BookFile convert(String id) {
-        log.debug("BookFileConverter");
+        log.debug("BookFileConverter: {}", id);
         BookFile file = null;
         if(id != null && !id.isEmpty()) {
             file = bookFileService.findById(Long.valueOf(id))

@@ -25,6 +25,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private BookFileConverter bookFileConverter;
     private DescriptConverter descriptConverter;
     private PublisherConverter publisherConverter;
+    private TagConverter tagConverter;
     private TagsConverter tagsConverter;
 
     @Autowired
@@ -33,12 +34,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         BookFileConverter bookFileConverter,
                         DescriptConverter descriptConverter,
                         PublisherConverter publisherConverter,
+                        TagConverter tagConverter,
                         TagsConverter tagsConverter) {
         this.applicationContext = applicationContext;
         this.authorsConverter = authorsConverter;
         this.bookFileConverter = bookFileConverter;
         this.descriptConverter = descriptConverter;
         this.publisherConverter = publisherConverter;
+        this.tagConverter = tagConverter;
         this.tagsConverter = tagsConverter;
     }
 
@@ -89,6 +92,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addConverter(bookFileConverter);
         registry.addConverter(descriptConverter);
         registry.addConverter(publisherConverter);
+        registry.addConverter(tagConverter);
         registry.addConverter(tagsConverter);
         registry.addConverter(new FileHtmlConverter());
         registry.addConverter(new FileXmlConverter());

@@ -18,7 +18,7 @@ public class AuthorsConverter implements Converter<String, Set<Author>> {
 
     @Override
     public Set<Author> convert(String s) {
-        log.debug("AuthorsConverter");
+        log.debug("AuthorsConverter: {}", s);
         Set<Author> listAuthors = new HashSet<>();
         if(s != null && !s.isEmpty()) {
             val authors = s.split(",");

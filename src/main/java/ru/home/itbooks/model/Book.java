@@ -25,7 +25,7 @@ public class Book {
     @EqualsAndHashCode.Exclude
     protected Set<Author> authors = new HashSet<>();
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "BOOK_ID")
+    @JoinColumn(name = "PUBLISHER_ID")
     @EqualsAndHashCode.Exclude
     protected Publisher publisher;
     protected BookRate rate;
@@ -61,5 +61,8 @@ public class Book {
 
     public String strAuthors() {
         return authors.stream().map(Author::getName).collect(Collectors.joining(","));
+    }
+    public Long getDescriptId() {
+        return descript != null ? descript.getId() : null;
     }
 }

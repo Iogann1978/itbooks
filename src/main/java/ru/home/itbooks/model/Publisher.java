@@ -28,12 +28,4 @@ public class Publisher {
         }
         books.add(book);
     }
-
-    @Override
-    public String toString() {
-        return "Publisher{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

@@ -16,7 +16,7 @@ public class DescriptConverter implements Converter<String, Descript> {
     @Override
     @SneakyThrows
     public Descript convert(String id) {
-        log.debug("DescriptConverter");
+        log.debug("DescriptConverter: {}", id);
         Descript desc = null;
         if(id != null && !id.isEmpty()) {
             desc = descriptService.findById(Long.valueOf(id))

@@ -3,6 +3,7 @@ package ru.home.itbooks.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String name;
     @OneToMany(mappedBy = "publisher")
     @EqualsAndHashCode.Exclude

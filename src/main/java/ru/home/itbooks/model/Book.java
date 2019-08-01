@@ -3,6 +3,7 @@ package ru.home.itbooks.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
+    @NotNull
     protected String title;
     protected int pages;
     @ManyToMany(cascade = CascadeType.ALL)

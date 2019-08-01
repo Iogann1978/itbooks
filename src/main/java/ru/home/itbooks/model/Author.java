@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +18,7 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String name;
     private String normalizedName;
     @ManyToMany(mappedBy = "authors")

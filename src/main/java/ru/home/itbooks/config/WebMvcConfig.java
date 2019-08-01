@@ -23,7 +23,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private ApplicationContext applicationContext;
     private AuthorsConverter authorsConverter;
     private BookFileConverter bookFileConverter;
-    private ContentsConverter contentsConverter;
     private DescriptConverter descriptConverter;
     private PublisherConverter publisherConverter;
     private TagsConverter tagsConverter;
@@ -32,14 +31,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public WebMvcConfig(ApplicationContext applicationContext,
                         AuthorsConverter authorsConverter,
                         BookFileConverter bookFileConverter,
-                        ContentsConverter contentsConverter,
                         DescriptConverter descriptConverter,
                         PublisherConverter publisherConverter,
                         TagsConverter tagsConverter) {
         this.applicationContext = applicationContext;
         this.authorsConverter = authorsConverter;
         this.bookFileConverter = bookFileConverter;
-        this.contentsConverter = contentsConverter;
         this.descriptConverter = descriptConverter;
         this.publisherConverter = publisherConverter;
         this.tagsConverter = tagsConverter;
@@ -90,9 +87,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(authorsConverter);
         registry.addConverter(bookFileConverter);
-        registry.addConverter(contentsConverter);
         registry.addConverter(descriptConverter);
         registry.addConverter(publisherConverter);
         registry.addConverter(tagsConverter);
+        registry.addConverter(new FileHtmlConverter());
+        registry.addConverter(new FileXmlConverter());
     }
 }

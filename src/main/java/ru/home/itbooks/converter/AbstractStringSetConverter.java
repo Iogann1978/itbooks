@@ -21,7 +21,7 @@ public abstract class AbstractStringSetConverter <T0, T1 extends ItemService<T0>
     @Override
     @SneakyThrows
     public Set<T0> convert(String s) {
-        log.debug("{}: {}", service.getClass().getSimpleName(), s);
+        log.debug("{}: {}", getClass().getSimpleName(), s);
         Set<T0> list = new HashSet<>();
         if(s != null && !s.isEmpty()) {
             val items = s.split(",");

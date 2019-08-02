@@ -19,7 +19,7 @@ public abstract class AbstractStringIdConverter<T0, T1 extends ItemService<T0>>
     @Override
     @SneakyThrows
     public T0 convert(String s) {
-        log.debug("{}: {}", service.getClass().getSimpleName(), s);
+        log.debug("{}: {}", getClass().getSimpleName(), s);
         T0 item = null;
         if(s != null && !s.isEmpty()) {
             if(s.matches("\\d+")) {

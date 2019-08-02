@@ -11,7 +11,7 @@ public abstract class AbstractMultipartFileConverter<T>
     @Override
     @SneakyThrows
     public T convert(MultipartFile multipartFile) {
-        log.debug("FileHtmlConverter");
+        log.debug(getClass().getSimpleName());
         if(multipartFile != null && !multipartFile.isEmpty()) {
             return getItem(multipartFile);
         } else {

@@ -21,7 +21,6 @@ public class BookService extends AbstractService<Book, BookRepository> {
     private AuthorService authorService;
     private TagService tagService;
     private PublisherService publisherService;
-    private BookFileService bookFileService;
     private ContentsService contentsService;
 
     @Autowired
@@ -30,14 +29,12 @@ public class BookService extends AbstractService<Book, BookRepository> {
                        AuthorService authorService,
                        TagService tagService,
                        PublisherService publisherService,
-                       BookFileService bookFileService,
                        ContentsService contentsService) {
         super(repository);
         this.descriptService = descriptService;
         this.authorService = authorService;
         this.tagService = tagService;
         this.publisherService = publisherService;
-        this.bookFileService = bookFileService;
         this.contentsService = contentsService;
     }
 

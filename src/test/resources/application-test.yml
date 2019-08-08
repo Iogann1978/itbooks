@@ -1,6 +1,11 @@
 spring:
   profiles: test
 
+logging:
+  level:
+    root: INFO
+    ru.home.itbooks: DEBUG
+
   datasource:
     url: jdbc:hsqldb:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;hsqldb.lob_compressed=true
     username: sa

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class DescriptService extends AbstractService<Descript, DescriptRepository> {
+    private static final Sort sort = new Sort(Sort.Direction.ASC, "id");
     @Autowired
     public DescriptService(DescriptRepository repository) {
         super(repository);
@@ -24,6 +25,6 @@ public class DescriptService extends AbstractService<Descript, DescriptRepositor
 
     @Override
     protected Sort getSort() {
-        return null;
+        return sort;
     }
 }

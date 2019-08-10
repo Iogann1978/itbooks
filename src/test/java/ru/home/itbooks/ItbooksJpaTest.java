@@ -2,14 +2,23 @@ package ru.home.itbooks;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import ru.home.itbooks.config.JpaConfig;
+import ru.home.itbooks.converter.AuthorsConverter;
+import ru.home.itbooks.converter.BookFileConverter;
+import ru.home.itbooks.converter.DescriptConverter;
+import ru.home.itbooks.converter.PublisherConverter;
 import ru.home.itbooks.model.*;
+import ru.home.itbooks.repository.*;
 import ru.home.itbooks.service.*;
 
 import java.util.ArrayList;
@@ -18,20 +27,44 @@ import java.util.HashSet;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@ActiveProfiles("test")
+@ContextConfiguration(classes = { ItbooksApplication.class, JpaConfig.class })
+@DataJpaTest
 @Slf4j
 public class ItbooksJpaTest {
     @Autowired
+    private PublisherRepository publisherRepository;
+    @Autowired
+    private BookFileRepository bookFileRepository;
+    @Autowired
+    private DescriptRepository descriptRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
+    @Autowired
+    private BookRepository bookRepository;
+    @Autowired
+    private TagRepository tagRepository;
+
     private BookService bookService;
-    @Autowired
     private TagService tagService;
-    @Autowired
     private DescriptService descriptService;
-    @Autowired
     private AuthorService authorService;
-    @Autowired
     private PublisherService publisherService;
+    private BookFileService bookFileService;
+
+    @Before
+    public void setUp() {
+        publisherService = new PublisherService(publisherRepository);
+        bookFileService = new BookFileService(bookFileRepository);
+        descriptService = new DescriptService(descriptRepository);
+        authorService = new AuthorService(authorRepository);
+        tagService = new TagService(tagRepository);
+        bookService = new BookService(bookRepository,
+                descriptService,
+                authorService,
+                tagService,
+                publisherService,
+                new ContentsService());
+    }
 
     @Test
     @Transactional

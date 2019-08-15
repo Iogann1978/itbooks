@@ -26,7 +26,7 @@ public abstract class AbstractStringSetConverter <T0, T1 extends ItemService<T0>
         if(s != null && !s.isEmpty()) {
             val items = s.split(",");
             for(val item : items) {
-                list.add(getItem(item));
+                list.add(getItem(item.trim()));
             }
         }
         return list;

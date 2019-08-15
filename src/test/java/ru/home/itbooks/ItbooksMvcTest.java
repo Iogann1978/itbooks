@@ -1,5 +1,6 @@
 package ru.home.itbooks;
 
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +8,8 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.support.ConversionServiceFactoryBean;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -17,6 +20,7 @@ import ru.home.itbooks.config.WebMvcConfig;
 import ru.home.itbooks.controller.BookController;
 import ru.home.itbooks.converter.*;
 import ru.home.itbooks.model.*;
+import ru.home.itbooks.model.form.FindForm;
 import ru.home.itbooks.service.*;
 
 import java.nio.charset.StandardCharsets;
@@ -30,10 +34,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(SpringRunner.class)
-//@ContextConfiguration(classes = {ItbooksApplication.class, WebMvcConfig.class})
-@WebMvcTest(controllers = {BookController.class})
+//@ContextConfiguration(classes = {WebMvcConfig.class})
+//@WebMvcTest(controllers = {BookController.class})
 public class ItbooksMvcTest {
-    @Autowired
     private MockMvc mockMvc;
 
     @Mock
@@ -46,12 +49,20 @@ public class ItbooksMvcTest {
     private AuthorService authorService;
     @Mock
     private DescriptService descriptService;
+    @Mock
+    private BookService bookService;
 
     private Set<Tag> tags;
     private Set<Publisher> publishers;
     private List<BookFile> files;
     private Set<Author> authors;
+    private Publisher publisher;
     private Descript descript;
+    private Book book;
+    private byte[] contents;
+
+    private FindForm findForm;
+    private String findAction = "title";
 
     private PublisherConverter publisherConverter;
     private BookFileConverter bookFileConverter;
@@ -61,6 +72,8 @@ public class ItbooksMvcTest {
     private TagConverter tagConverter;
     private FileHtmlConverter fileHtmlConverter;
     private  FileXmlConverter fileXmlConverter;
+
+    private BookController bookController;
 
     @Before
     public void setUp() {
@@ -85,9 +98,10 @@ public class ItbooksMvcTest {
                 when(tagService.findById(tag.getId()))
                         .thenReturn(Optional.of(tag)));
 
+        publisher = Publisher.builder().id(4L).name("Publisher1").build();
         publishers = new HashSet<Publisher>() {
             {
-                add(Publisher.builder().id(4L).name("Publisher1").build());
+                add(publisher);
                 add(Publisher.builder().id(5L).name("Publisher2").build());
                 add(Publisher.builder().id(6L).name("Publisher3").build());
             }
@@ -120,6 +134,48 @@ public class ItbooksMvcTest {
                 .text("<html></html>".getBytes(StandardCharsets.UTF_8)).build();
         when(descriptService.findById(descript.getId()))
                 .thenReturn(Optional.of(descript));
+
+        contents = "<contents></contents>".getBytes(StandardCharsets.UTF_8);
+        book = Book.builder()
+                .id(10L)
+                .title("book1")
+                .authors(authors)
+                .tags(tags)
+                .descript(descript)
+                .publisher(publisher)
+                .file(files.get(0))
+                .pages(7)
+                .rate(BookRate.INDIFFERENT)
+                .state(BookState.STUDIED)
+                .contents(contents)
+                .build();
+        authors.stream().forEach(auth -> auth.addBook(book));
+        tags.stream().forEach(tag -> tag.addBook(book));
+        publishers.stream().forEach(publisher -> publisher.addBook(book));
+        when(bookService.findById(book.getId())).thenReturn(Optional.of(book));
+        when(bookService.save(book, descript, contents)).thenReturn(book);
+
+        findForm = FindForm.builder().title(book.getTitle()).build();
+        when(bookService.findBook(findForm, findAction)).thenReturn(Arrays.asList(book));
+
+        bookController = new BookController(bookService,
+                tagService,
+                publisherService,
+                bookFileService,
+                authorService);
+
+        val fcs = new FormattingConversionService();
+        fcs.addConverter(publisherConverter);
+        fcs.addConverter(bookFileConverter);
+        fcs.addConverter(descriptConverter);
+        fcs.addConverter(authorsConverter);
+        fcs.addConverter(tagsConverter);
+        fcs.addConverter(tagConverter);
+        fcs.addConverter(fileHtmlConverter);
+        fcs.addConverter(fileXmlConverter);
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(bookController)
+                .setConversionService(fcs).build();
     }
 
     @Test

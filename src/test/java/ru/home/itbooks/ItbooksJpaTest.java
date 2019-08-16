@@ -58,6 +58,7 @@ public class ItbooksJpaTest {
         descriptService = new DescriptService(descriptRepository);
         authorService = new AuthorService(authorRepository);
         tagService = new TagService(tagRepository);
+        bookFileService = new BookFileService(bookFileRepository);
         bookService = new BookService(bookRepository,
                 descriptService,
                 authorService,

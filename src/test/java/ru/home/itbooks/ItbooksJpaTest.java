@@ -127,10 +127,16 @@ public class ItbooksJpaTest {
         assertNotNull(publisher2);
         assertNotNull(publisher2.getId());
 
+        val file1 = new BookFile(null, "file1", 739L, book1);
+        val file2 = bookFileService.save(file1);
+        assertNotNull(file2);
+        assertNotNull(file2.getId());
+
         book1.setAuthors(authorList);
         book1.setTags(tagList);
         book1.setPublisher(publisher2);
         book1.setDescript(descript2);
+        book1.setFile(file1);
         val book2 = bookService.save(book1);
         log.info("book: {} {} {}", book2.getId(), book2.getTitle(), new String(book2.getContents()));
         assertNotNull(book2);

@@ -4,8 +4,7 @@ import lombok.val;
 import org.springframework.ui.Model;
 import ru.home.itbooks.service.ItemService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
 public abstract class AbstractController<T0, T1 extends ItemService<T0>> {
     enum Views {
@@ -13,7 +12,7 @@ public abstract class AbstractController<T0, T1 extends ItemService<T0>> {
     }
 
     private T1 service;
-    private final Map<Views, String> htmls = new HashMap<>();
+    private final EnumMap<Views, String> htmls = new EnumMap<>(Views.class);
 
     public AbstractController(T1 service) {
         this.service = service;

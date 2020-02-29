@@ -3,6 +3,7 @@ package ru.home.itbooks.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ru.home.itbooks.model.Author;
 import ru.home.itbooks.repository.AuthorRepository;
 
@@ -40,7 +41,7 @@ public class AdminService {
                 authorRepository.deleteById(id);
             } else if(author.getBooks().isEmpty()) {
                 authorRepository.deleteById(id);
-            } else if(author.getNormalizedName() == null || author.getNormalizedName().isEmpty()) {
+            } else if(StringUtils.isEmpty(author.getNormalizedName())) {
                 author.setNormalizedName(Author.normalizeName(author.getName()));
                 authorRepository.save(author);
             }

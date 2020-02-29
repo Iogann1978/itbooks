@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.util.StringUtils;
 import ru.home.itbooks.service.ItemService;
 
 import java.util.HashSet;
@@ -23,7 +24,7 @@ public abstract class AbstractStringSetConverter <T0, T1 extends ItemService<T0>
     public Set<T0> convert(String s) {
         log.debug("{}: {}", getClass().getSimpleName(), s);
         Set<T0> list = new HashSet<>();
-        if(s != null && !s.isEmpty()) {
+        if(!StringUtils.isEmpty(s)) {
             val items = s.split(",");
             for(val item : items) {
                 list.add(getItem(item.trim()));

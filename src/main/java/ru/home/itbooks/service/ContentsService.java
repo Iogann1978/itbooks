@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import ru.home.itbooks.model.xml.ContentItem;
 import ru.home.itbooks.model.xml.Contents;
 
@@ -49,7 +50,7 @@ public class ContentsService {
 
     public boolean containsXml(Contents root, String xml) {
         boolean flag = false;
-        if(root == null || root.getItem() == null || root.getItem().isEmpty() || xml.isEmpty()) {
+        if(root == null || CollectionUtils.isEmpty(root.getItem()) || xml.isEmpty()) {
             return flag;
         }
         for(val item : root.getItem()) {
@@ -62,7 +63,7 @@ public class ContentsService {
         if(item.getTitle().contains(xml)) {
             return true;
         }
-        if(item.getItem() != null && !item.getItem().isEmpty()) {
+        if(!CollectionUtils.isEmpty(item.getItem())) {
             for(val titem : item.getItem()) {
                 if(checkItem(titem, xml)) {
                     return true;

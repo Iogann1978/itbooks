@@ -15,11 +15,13 @@ import java.util.Map;
 @NoArgsConstructor
 public class BytesView implements View {
 
+    private static final String contentType = "text/html";
     private byte[] html;
 
     @Override
-    public void render(Map<String, ?> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        val out = httpServletResponse.getOutputStream();
+    public void render(Map<String, ?> map, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        response.setContentType(contentType);
+        val out = response.getOutputStream();
         if(html != null) {
             out.write(html);
         }
@@ -27,6 +29,6 @@ public class BytesView implements View {
 
     @Override
     public String getContentType() {
-        return "text/html";
+        return contentType;
     }
 }

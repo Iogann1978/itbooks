@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+    <div id="selectTag" class="modal" role="dialog">
+        <select id="tags" name="tags" multiple size="2">
+            <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}" th:selected="${book.tags.contains(tag)}">tag</option>
+        </select>
+    </div>
+</html>

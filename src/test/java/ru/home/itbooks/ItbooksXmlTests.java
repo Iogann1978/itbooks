@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.home.itbooks.model.xml.ContentItem;
@@ -20,6 +21,9 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Slf4j
 public class ItbooksXmlTests {
+
+    @Autowired
+    private ContentsService contentsService;
 
     @Test
     public void bookContentsTest() throws JAXBException {
@@ -53,16 +57,16 @@ public class ItbooksXmlTests {
         });
 
         val root1 = new Contents(list);
-        val bytes = ContentsService.toBytes(root1);
+        val bytes = contentsService.toBytes(root1);
         val xml = new String(bytes, StandardCharsets.UTF_8);
         log.info(xml);
         assertFalse(xml.isEmpty());
 
-        val root2 = ContentsService.fromBytes(bytes);
+        val root2 = contentsService.fromBytes(bytes);
         log.info("root1 size: {}", root2.getItem().size());
-        assertEquals(root2.getItem().size(), 3);
-        assertEquals(root2.getItem().get(0).getItem().size(), 3);
-        assertEquals(root2.getItem().get(1).getItem().size(), 2);
-        assertEquals(root2.getItem().get(2).getItem().size(), 1);
+        assertEquals(3, root2.getItem().size());
+        assertEquals(3, root2.getItem().get(0).getItem().size());
+        assertEquals(2, root2.getItem().get(1).getItem().size());
+        assertEquals(1, root2.getItem().get(2).getItem().size());
     }
 }

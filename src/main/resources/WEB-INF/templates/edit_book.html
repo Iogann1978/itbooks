@@ -3,8 +3,13 @@
     <head>
         <title>Book page</title>
         <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" type="text/css" media="all" href="/css/table.css" th:href="@{/css/table.css}" />
         <link rel="stylesheet" type="text/css" media="all" href="/css/select.css" th:href="@{/css/select.css}" />
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.min.css}" />
+        <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.min.js}"></script>
     </head>
     <body>
         <div th:insert="menu::items" />
@@ -41,9 +46,27 @@
                 <tr><th>Тэги</th><th>Оценка</th><th>Состояние прочтения</th><th>Действие</th></tr>
                 <tr>
                     <td>
-                        <select id="tags" name="tags" multiple size="2">
-                            <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}" th:selected="${book.tags.contains(tag)}">tag</option>
-                        </select>
+                        <div class="container">
+                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#selectTags">Изменить</button>
+                            <div id="selectTags" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Выберите тэги</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <select id="tags" name="tags" class="form-control" multiple="multiple">
+                                                <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}" th:selected="${book.tags.contains(tag)}">tag</option>
+                                            </select>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                     <td>
                         <select th:field="*{rate}">

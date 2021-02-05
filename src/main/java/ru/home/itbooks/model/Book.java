@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,6 +64,6 @@ public class Book {
         return authors.stream().map(Author::getName).collect(Collectors.joining(","));
     }
     public Long getDescriptId() {
-        return descript != null ? descript.getId() : null;
+        return Optional.ofNullable(descript).map(Descript::getId).orElse(null);
     }
 }

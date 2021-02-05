@@ -3,13 +3,24 @@
 <head>
     <title>Добавление тэга</title>
     <meta charset=utf-8>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" />
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.min.js}"></script>
 </head>
     <body>
         <h1>Добавление тэга</h1>
         <form action="#" th:action="@{/tag/save}" th:object="${tag}" method="POST">
-            <label for="tag">Название:</label>
-            <input type="text" id="tag" name="tag" th:value="*{tag}" autofocus="autofocus" /> <br/>
-            <input type="submit" value="Добавить" />
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="tag">Название:</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" th:value="*{tag}" autofocus="autofocus" />
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Добавить" />
         </form>
     </body>
 </html>

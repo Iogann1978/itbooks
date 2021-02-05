@@ -3,16 +3,29 @@
 <head>
     <title>Добавление файла</title>
     <meta charset=utf-8>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" />
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<h1>Добавление файла</h1>
-<form action="#" th:action="@{/file/save}" th:object="${file}" method="POST">
-    <label for="filename">Имя файла книги</label>:
-    <input type="file" id="filename" name="filename" onchange="get_size()" /> <br/>
-    <label for="size">Размер файла книги</label>:
-    <input type="number" id="size" th:field="*{size}" /> <br/>
-    <input type="submit" value="Добавить" />
-</form>
+    <h1>Добавление файла</h1>
+    <form action="#" th:action="@{/file/save}" th:object="${file}" method="POST">
+        <div class="form-group">
+            <div class="form-group">
+                <label for="filename">Имя файла книги</label>
+                <input type="file" class="form-control-file" id="filename" name="filename" onchange="get_size()" />
+            </div>
+            <div class="form-group row">
+                <label for="size" class="col-sm-2 col-form-label">Размер файла книги</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="size" th:field="*{size}" />
+                </div>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Добавить" />
+    </form>
 </body>
 
 <script>

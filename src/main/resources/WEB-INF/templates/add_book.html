@@ -23,7 +23,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="publisher">Издатель</label>
                     </div>
-                    <select class="custom-select" id="publisher">
+                    <select class="custom-select" id="publisher" th:field="*{publisher}">
                         <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
                     </select>
                 </div>
@@ -31,7 +31,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="file">Файл книги</label>
                     </div>
-                    <select class="custom-select" id="file">
+                    <select class="custom-select" id="file" th:field="*{file}">
                         <option th:each="file : ${files}" th:value="${file.id}" th:text="${file.filename}">file</option>
                     </select>
                 </div>
@@ -49,7 +49,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="rate">Оценка</label>
                     </div>
-                    <select class="custom-select" id="rate">
+                    <select class="custom-select" id="rate" th:field="*{rate}">
                         <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>
                     </select>
                 </div>
@@ -57,7 +57,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="state">Статус</label>
                     </div>
-                    <select class="custom-select" id="state">
+                    <select class="custom-select" id="state" th:field="*{state}">
                         <option th:each="state : ${states}" th:value="${state}" th:text="${state}">state</option>
                     </select>
                 </div>

@@ -15,10 +15,17 @@
             <div class="form-group">
                 <label for="title">Название:</label>
                 <input type="text" id="title" class="form-control" style="width: 97%" th:field="*{title}" autofocus="autofocus" /> <br/>
-                <label for="pages">Страниц:</label>
-                <input type="number" id="pages" class="form-control" th:field="*{pages}" /> <br/>
-                <label for="year">Год издания:</label>
-                <input type="number" id="year" class="form-control" th:field="*{year}" /> <br/>
+                <div class="row align-items-center">
+                    <div class="col">
+                        <label for="pages">Страниц:</label>
+                        <input type="number" id="pages" class="form-control" th:field="*{pages}" />
+                    </div>
+                    <div class="col">
+                        <label for="year">Год издания:</label>
+                        <input type="number" id="year" class="form-control" th:field="*{year}" />
+                    </div>
+                </div>
+                <br/>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="publisher">Издатель</label>
@@ -41,25 +48,34 @@
                     </div>
                     <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" th:field="*{authors}" />
                 </div>
-                <label for="fileHtml">Имя html-файла с описанием</label>:
-                <input type="file" id="fileHtml" class="form-control" name="fileHtml" accept="text/html" /> <br/>
-                <label for="fileXml">Имя xml-файла с оглавлением</label>:
-                <input type="file" id="fileXml" class="form-control" name="fileXml" accept="application/xml" /> <br/>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="rate">Оценка</label>
+                <div class="row align-items-center">
+                    <div class="col">
+                        <label for="fileHtml">Имя html-файла с описанием</label>:
+                        <input type="file" id="fileHtml" class="form-control" name="fileHtml" accept="text/html" />
                     </div>
-                    <select class="custom-select" id="rate" th:field="*{rate}">
-                        <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>
-                    </select>
+                    <div class="col">
+                        <label for="fileXml">Имя xml-файла с оглавлением</label>:
+                        <input type="file" id="fileXml" class="form-control" name="fileXml" accept="application/xml" />
+                    </div>
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="state">Статус</label>
+                <br/>
+                <div class="row align-items-center">
+                    <div class="input-group mb-3 col">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="rate">Оценка</label>
+                        </div>
+                        <select class="custom-select" id="rate" th:field="*{rate}">
+                            <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>
+                        </select>
                     </div>
-                    <select class="custom-select" id="state" th:field="*{state}">
-                        <option th:each="state : ${states}" th:value="${state}" th:text="${state}">state</option>
-                    </select>
+                    <div class="input-group mb-3 col">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="state">Статус</label>
+                        </div>
+                        <select class="custom-select" id="state" th:field="*{state}">
+                            <option th:each="state : ${states}" th:value="${state}" th:text="${state}">state</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">

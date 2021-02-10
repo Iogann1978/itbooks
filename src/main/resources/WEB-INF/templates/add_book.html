@@ -3,43 +3,108 @@
     <head>
         <title>Добавление книги</title>
         <meta charset=utf-8>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" />
+        <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.min.js}"></script>
     </head>
     <body>
         <h1>Добавление книги</h1>
         <form action="#" th:action="@{/book/save}" th:object="${book}" method="POST" enctype="multipart/form-data">
-            <label for="title">Название:</label>
-            <input type="text" id="title" style="width: 97%" th:field="*{title}" autofocus="autofocus" /> <br/>
-            <label for="pages">Страниц:</label>
-            <input type="number" id="pages" th:field="*{pages}" /> <br/>
-            <label for="year">Год издания:</label>
-            <input type="number" id="year" th:field="*{year}" /> <br/>
-            <label for="publisher">Издатель:</label>
-            <select id="publisher" name="publisher" style="width: 50%">
-                <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
-            </select> <br/>
-            <label for="file">Файл книги:</label>
-            <select id="file" name="file" style="width: 50%">
-                <option th:each="file : ${files}" th:value="${file.id}" th:text="${file.filename}">file</option>
-            </select> <br/>
-            <label for="authors">Авторы:</label>
-            <input type="text" id="authors" style="width: 97%" th:field="*{authors}" /> <br/>
-            <label for="fileHtml">Имя html-файла с описанием</label>:
-            <input type="file" id="fileHtml" name="fileHtml" accept="text/html" /> <br/>
-            <label for="fileXml">Имя xml-файла с оглавлением</label>:
-            <input type="file" id="fileXml" name="fileXml" accept="application/xml" /> <br/>
-            <label for="rate">Оценка:</label>
-            <select id="rate" th:field="*{rate}">
-                <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>
-            </select> <br/>
-            <label for="state">Статус:</label>
-            <select id="state" th:field="*{state}">
-                <option th:each="state : ${states}" th:value="${state}" th:text="${state}">state</option>
-            </select> <br/>
-            <label for="tags">Тэги:</label>
-            <select id="tags" name="tags" multiple size="2">
-                <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}">tag</option>
-            </select> <br/>
-            <input type="submit" value="Добавить" />
+            <div class="form-group">
+                <label for="title">Название:</label>
+                <input type="text" id="title" class="form-control" style="width: 97%" th:field="*{title}" autofocus="autofocus" /> <br/>
+                <div class="row align-items-center">
+                    <div class="col">
+                        <label for="pages">Страниц:</label>
+                        <input type="number" id="pages" class="form-control" th:field="*{pages}" />
+                    </div>
+                    <div class="col">
+                        <label for="year">Год издания:</label>
+                        <input type="number" id="year" class="form-control" th:field="*{year}" />
+                    </div>
+                </div>
+                <br/>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="publisher">Издатель</label>
+                    </div>
+                    <select class="custom-select" id="publisher" th:field="*{publisher}">
+                        <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}">publisher</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="file">Файл книги</label>
+                    </div>
+                    <select class="custom-select" id="file" th:field="*{file}">
+                        <option th:each="file : ${files}" th:value="${file.id}" th:text="${file.filename}">file</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="authors">Авторы:</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" th:field="*{authors}" />
+                </div>
+                <div class="row align-items-center">
+                    <div class="col">
+                        <label for="fileHtml">Имя html-файла с описанием</label>:
+                        <input type="file" id="fileHtml" class="form-control" name="fileHtml" accept="text/html" />
+                    </div>
+                    <div class="col">
+                        <label for="fileXml">Имя xml-файла с оглавлением</label>:
+                        <input type="file" id="fileXml" class="form-control" name="fileXml" accept="application/xml" />
+                    </div>
+                </div>
+                <br/>
+                <div class="row align-items-center">
+                    <div class="input-group mb-3 col">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="rate">Оценка</label>
+                        </div>
+                        <select class="custom-select" id="rate" th:field="*{rate}">
+                            <option th:each="rate : ${rates}" th:value="${rate}" th:text="${rate}">rate</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3 col">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="state">Статус</label>
+                        </div>
+                        <select class="custom-select" id="state" th:field="*{state}">
+                            <option th:each="state : ${states}" th:value="${state}" th:text="${state}">state</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="tags_btn">Тэги</label>
+                    </div>
+                    <div class="container" id="tags_btn">
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#selectTags">Открыть</button>
+                        <div id="selectTags" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Выберите тэги</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <select id="tags" name="tags" class="form-control" multiple="multiple">
+                                            <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.tag}" th:selected="${book.tags.contains(tag)}">tag</option>
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Добавить" />
         </form>
     </body>
 </html>

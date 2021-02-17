@@ -16,7 +16,6 @@ spring:
     hibernate.ddl-auto: update
     properties.hibernate.dialect: org.hibernate.dialect.HSQLDialect
 
-
   thymeleaf:
     check-template-location: true
     prefix: classpath:/WEB-INF/templates/

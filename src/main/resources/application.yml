@@ -27,8 +27,8 @@ spring:
   servlet:
     context-path: /
     multipart:
-      max-file-size: 128KB
-      max-request-size: 128KB
+      max-file-size: 256KB
+      max-request-size: 256KB
 
 server:
   port: 8081
